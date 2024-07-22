@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="base.jsp" />
 <style>
 /* button {
@@ -16,7 +15,7 @@
 	<div class='container-fluid'>
 		<a class="navbar-brand" href="{% url 'ncs:drillViewS' %}">과제수행</a>
 			<a class="navbar-brand" href="{% url 'board:list' %}">자유게시판</a>&nbsp;&nbsp;
-		<a class="navbar-brand" href='{% url 'ncs:personal' %}'>{{request.session.name}}</a>&nbsp;&nbsp;
+		<a class="navbar-brand" href='{% url 'ncs:personal' %}'><%=sessionScope.name %></a>&nbsp;&nbsp;
 		<a class="navbar-brand" href='{% url 'ncs:logout' %}'>로그아웃</a>
 		<input type="hidden" id="member_id" value="{{request.session.member_id}}">
 	</div>
