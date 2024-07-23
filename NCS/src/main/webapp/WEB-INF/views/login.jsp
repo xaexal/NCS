@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="base.jsp" />
-<link rel="stylesheet" href="{% static 'member.css' %}">
+<link rel="stylesheet" href="member.css">
 <header></header>
 <section class='login-form'>
 	<h1 style='font-size:54px;color:aqua;'>{{title}}</h1>
 	<h1>로그인</h1>
 	<label id=lblMsg style="color:red;">{{msg}}</label>
-	<form action="{% url 'ncs:checkuser' %}" id=frmLogin method="post">
-		{% csrf_token %}
+	<form action="/checkuser" id=frmLogin method="post">
 		<div class='int-area'>
 			<input type="text" name="mobile" id="mobile" autocomplete=off required>
 			<label for=mobile>모바일번호</label>
