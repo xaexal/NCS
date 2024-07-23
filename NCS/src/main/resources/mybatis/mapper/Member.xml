@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoile.app.DAO._Member">
+<select id="checkUser" resultType="com.etoile.app.DAO._Member">
+	select mid,mobile,name,passcode,gender,birthday,school,level,login_tm,logout_tm,email,
+		   absence, ipaddr, address, active, created, updated
+	  from ncs_member where mobile=#{param1} and passcode=#{param2}
+</select>
+<update id="saveLoginTime">
+	update ncs_member set login_tm=current_timestamp where mobile=#{param1}
+</update>
+</mapper>
