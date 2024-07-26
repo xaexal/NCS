@@ -1,0 +1,154 @@
+var gInterval=null;
+let p_info={};
+
+$(document)
+.ready(function(){
+	
+	$('#selCourse').trigger('change');
+	return false;
+})
+.on('change','#selCourse',function(){
+	if($(this).find('option').length<1) {
+		alert('등록된 과정이 아직 없습니다.');
+		document.location=url_coursePage;
+		return false;	
+	}
+	let ar=($(this).val()).split(',');
+//	console.log(ar)
+	$('#cid').val(ar[0]);
+	$('#tblSeat').empty();
+	outstr='<tr>';
+	for(let i=parseInt(ar[1])-1; i>-1; i--){
+		outstr+='<td class=student valign=top><table width=100% height=100% id=tbls'+(i+1)+'></table></td>';
+		if(i%parseInt(ar[2])==0){
+			outstr+='</tr><tr>';
+		}
+	}
+	outstr+='</tr>';
+//	console.log(outstr);
+	$('#tblSeat').append(outstr);
+
+	dayCount($('#cid').val(),$('#lblDays'));
+		
+	// 해당과정의 재학생명단 가져오기
+	$.post(url_studentPresent,{cid:$('#cid').val()},function(data){
+//		console.log(data);
+		if(data['result']=='-1'){
+			alert(data['msg']); return false;
+		}
+		$.each(data['present'],function(ndx,student){
+			outstr=`<tr height=20px><td class=palm sid=${student['sid']}>${student['member__name']}</td>`+
+					'<td aligh=right style="font-size:12px">&nbsp;</td></tr>'+
+					`<tr><td colspan=2 align=center class="working" id=${student['sid']}>작업중</td></tr>`;
+			$('#tbls'+student['seq']).append(outstr);
+			p_info[student['sid']]=
+				{'name':student['member__name'],'seq':student['seq'],
+				 'school':(student['member__school']==undefined?'최종학력':student['member__school']),
+				 'address':(student['member__address']==undefined?'주소':student['member__address']),
+				 'birth':(student['member__birthday']==undefined?'생년월일':student['member__birthday']),
+				 'mobile':(student['member__mobile']==undefined?'모바일번호':student['member__mobile'])};
+		});
+		console.log(p_info)
+	},'json');
+	getDrillList();
+})
+.on('click','#selDrill option',function(){
+	if(gInterval) clearInterval(gInterval);
+
+	title=$(this).text();
+	if(title=='-') {
+		$('#selDrill').val('');
+		return false;
+	}
+	//$('#txtDrill').val(title);
+	
+	
+//	$('table[id^=tbls]').each(function(){
+//		$(this).find('tr:eq(1) td:eq(0)').removeClass().addClass('working');
+//	});
+	getDrillStatus();
+	let dt=new Date();
+//	if(dt.getHours()>9 && dt.getHours()<18){
+		gInterval=setInterval(getDrillStatus,5000);
+//	}
+	return false;
+})
+.on('click','table[id^=tbls] td',function(){
+//	console.log('td click')
+	if($(this).index()!=0 || $(this).parent().index()!=1) return false;
+//	if(bDebug) console.log($('#selDrill').val());
+	if($('#selDrill').val()==null) {
+		alert('과제를 선택해야 상태를 변경할 수 있습니다.');
+		return false;	
+	}
+	thisSeat=$(this);
+	let oParam={sid:thisSeat.prop('id'),drill_id:$('#selDrill').val()};
+//	console.log(oParam);
+	$.post(url_changeDrillStatus,oParam,function(data){
+//		console.log(data)
+		if(data['result']!='0') return false;
+		thisSeat.removeClass().text(data['newStatus']);
+		switch(thisSeat.text()){
+		case '작업중': thisSeat.addClass('working'); break;
+		case '확인중': thisSeat.addClass('checking'); break;
+		case '완료':	 thisSeat.addClass('done');
+		}
+	},'json');
+	return false;
+})
+.on('click','.palm',function(e,u){
+	let sid=$(this).attr('sid')
+	if(sid=='') return false;
+	$('#p_info').html(p_info[sid]['mobile']+'<br>'+p_info[sid]['birth']+'<br>'+p_info[sid]['school']).show();
+	$('#p_info').css({left:e.clientX+30,top:e.clientY-30});
+	return false;
+})
+.on('mousemove','.palm',function(e,u){
+	$('#p_info').css({left:e.clientX+30,top:e.clientY-30});
+	return false;
+})
+.on('mouseout','.palm',function(){
+	$('#p_info').empty().hide();
+	return false;
+})
+
+/*
+작업중 <-> 완료 
+확인요청 -> 완료
+*/
+
+function getDrillList(){
+//	console.log('cid='+$('#cid').val());
+	$.post(url_getDrillList,{cid:$('#cid').val()},function(data){
+//		console.log(data)
+		$('#selDrill').empty();
+		$.each(data['rec'],function(k,rec){
+			let pstr=`<option value="${rec['drill_id']}">${rec['drill__name']}</option>`;
+//			console.log(pstr)
+			$('#selDrill').prepend(pstr);
+		});
+	},'json');
+}
+
+function getDrillStatus(){
+	if($('#selDrill').val()=='') return false;
+
+	let arStudent=[];
+	$.post(url_getDrillStatus,{drill_id:$('#selDrill').val(),cid:$('#cid').val()},function(data){
+//		console.log(data)
+		$.each(data['rec'],function(ndx,rec){
+			arStudent.push(parseInt(rec['student_id']));
+			if($('#'+rec['student_id']).text()==rec['status']) return true;
+//			console.log(rec)
+			switch(rec['status']){
+//			case '작업중': $('#'+rec['student_id']).removeClass().addClass('working').text(rec['status']); break;
+			case '확인중': $('#'+rec['student_id']).removeClass().addClass('checking').text(rec['status']); break;
+			case '완료':	 $('#'+rec['student_id']).removeClass().addClass('done').text(rec['status'])
+			}
+		});
+//		console.log(arStudent)
+		$.each(p_info,(k,v)=>{
+			if(!arStudent.includes(parseInt(k))) $('#'+k).removeClass().addClass('working').text('작업중');
+		})
+	},'json');
+}
