@@ -3,19 +3,15 @@ package com.etoile.app.controller;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
-@Controller
-@RequestMapping("/common")
+@RestController
 public class Common {
-	@PostMapping("/countHoliday")
-	@ResponseBody
+	@PostMapping("/common/countHoliday")
 	public String countHoliday(HttpServletRequest req) {
 		JSONObject result = new JSONObject();
 		result.put("errcode",Errata.error);
