@@ -1,7 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etoile.app.DAO._Course">
+<!--  오늘이후 끝나는 모든 강의목록 -->
+<select id="courseListAll" resultType="com.etoile.app.DTO.Course">
 	select *
 	  from ncs_course
-	  where period1 >= curdate()
+	  where period2 >= curdate()
+</select>
+<!-- 등록하지 않는 강의목록만 -->
+<select id="courseListunUnenrolled" resultType="com.etoile.app.DTO.Course">
+	select *
+	  from ncs_course
+	 where cid not in (select course_id from ncs_student where member_id=#{param1})
+	   and period2 >= curdate()
+</select>
+<select id="courseListApplied" resultType="com.etoile.app.DTO.Course">
+	select * from ncs_course
+	 where cid in (select course_id from ncs_student
+	 				where member_id=#{param1} and status='신청')
+</select>
+<select id="courseListPresent" resultType="com.etoile.app.DTO.Course">
+	select * from ncs_course
+	 where cid in (select course_id from ncs_student
+	 				where member_id=#{param1} and status='수강중')
+</select>
+<select id="courseListComplete" resultType="com.etoile.app.DTO.Course">
+	select * from ncs_course
+	 where cid in (select course_id from ncs_student
+	 				where member_id=#{param1} and status='수료') 
+</select>
+<insert id="addCourse">
+<choose>
+<when test="param8 == null or param8 == ''">
+	insert into ncs_course 
+	   set title=#{param1},period1=#{param2},period2=#{param3},seat_cnt=#{param4},
+	   	   col_cnt=#{param5},alive=#{param6},orgname=#{param7}
+</when>
+<when test="param8 != null and param8 != ''">
+	update ncs_course
+	   set title=#{param1},period1=#{param2},period2=#{param3},seat_cnt=#{param4},
+	   	   col_cnt=#{param5},alive=#{param6},orgname=#{param7},updated=current_timestamp
+	 where cid=#{param8}
+</when>
+</choose>
+</insert>	 				
 </mapper>
