@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import org.apache.coyote.RequestGroupInfo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,30 @@ public class CourseController {
 	}
 	@PostMapping("/addCourse")
 	public String addCourse(HttpServletRequest req) {
-		
+		String cid = req.getParameter("cid");
+		int result=0;
+		if(cid == null || !cid.equals("")) {
+			result=_crs.insertCourse(req.getParameter("title"), req.getParameter("period1"), 
+					req.getParameter("period2"), Integer.parseInt(req.getParameter("seat_cnt")), 
+					Integer.parseInt(req.getParameter("col_cnt")), req.getParameter("alive"), 
+					req.getParameter("orgname"));
+		} else {
+			result=_crs.updateCourse(req.getParameter("title"), req.getParameter("period1"), 
+					req.getParameter("period2"), Integer.parseInt(req.getParameter("seat_cnt")), 
+					Integer.parseInt(req.getParameter("col_cnt")), req.getParameter("alive"), 
+					req.getParameter("orgname"),Integer.parseInt(cid));
+		}
+		return ""+result;
+	}
+	@PostMapping("/delCourse")
+	public String delCourse(HttpServletRequest req) {
+		int result=0;
+		String cid = req.getParameter("cid");
+		if(cid==null || !cid.equals("")) {
+			
+		} else {
+			result=_crs.deleteCourse(Integer.parseInt(cid));
+		}
+		return ""+result;
 	}
 }

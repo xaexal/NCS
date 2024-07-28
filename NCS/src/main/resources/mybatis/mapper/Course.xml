@@ -30,19 +30,18 @@
 	 where cid in (select course_id from ncs_student
 	 				where member_id=#{param1} and status='수료') 
 </select>
-<insert id="addCourse">
-<choose>
-<when test="param8 == null or param8 == ''">
+<insert id="insertCourse">
 	insert into ncs_course 
 	   set title=#{param1},period1=#{param2},period2=#{param3},seat_cnt=#{param4},
 	   	   col_cnt=#{param5},alive=#{param6},orgname=#{param7}
-</when>
-<when test="param8 != null and param8 != ''">
+</insert>
+<update id="updateCourse">
 	update ncs_course
 	   set title=#{param1},period1=#{param2},period2=#{param3},seat_cnt=#{param4},
 	   	   col_cnt=#{param5},alive=#{param6},orgname=#{param7},updated=current_timestamp
 	 where cid=#{param8}
-</when>
-</choose>
-</insert>	 				
+</update>
+<delete id="deleteCourse">
+	delete from ncs_course where cid=#{param1}
+</delete>
 </mapper>
