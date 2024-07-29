@@ -8,7 +8,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etoile.app.DAO._Course;
@@ -20,9 +19,9 @@ import jakarta.servlet.http.HttpServletRequest;
 public class CourseController {
 	@Autowired _Course _crs;
 	
-	@PostMapping({"/courseListAll","/courseListApplied","/courseListUnenrolled",
-				  "/courseListPresent","/courseListComplete"})
-	public String courseList(HttpServletRequest req) {
+	@PostMapping({"/courseAll","/courseApplied","/courseUnenrolled",
+				  "/coursePresent","/courseComplete"})
+	public String course(HttpServletRequest req) {
         ArrayList<Course> alCourse = null;
 		String requestURI = req.getRequestURI();
 		if(requestURI.endsWith("All")){
@@ -32,9 +31,9 @@ public class CourseController {
 	        System.out.println(formattedDate);
 	        String mid = req.getParameter("member_id");
 	        if(mid == null || mid.equals("")) { 
-	        	alCourse = _crs.courseListAll();
+	        	alCourse = _crs.courseAll();
 	        } else {
-	        	alCourse = _crs.courseListUnenrolled(Integer.parseInt(mid));
+	        	alCourse = _crs.courseUnenrolled(Integer.parseInt(mid));
 	        }
 		} else {
 			String mid = req.getParameter("member_id");
@@ -43,11 +42,11 @@ public class CourseController {
 			System.out.println("mid ["+member_id+"]");
 			
 			if(requestURI.endsWith("Applied")) {
-				alCourse = _crs.courseListApplied(member_id);
+				alCourse = _crs.courseApplied(member_id);
 			} else if(requestURI.endsWith("Present")) {
-				alCourse = _crs.courseListPresent(member_id);
+				alCourse = _crs.coursePresent(member_id);
 			} else if(requestURI.endsWith("Complete")) {
-				alCourse = _crs.courseListComplete(member_id);
+				alCourse = _crs.courseComplete(member_id);
 			}
 		}
     	System.out.println("alCourse size="+alCourse.size());
@@ -97,5 +96,40 @@ public class CourseController {
 			result=_crs.deleteCourse(Integer.parseInt(cid));
 		}
 		return ""+result;
+	}
+	@PostMapping("/getCourse")
+	public String getCourse(HttpServletRequest req) {
+		String cid = req.getParameter("cid");
+		if(cid==null || cid.equals("")) return "";
+		
+		Course x = _crs.getCourse(Integer.parseInt(cid));
+		JSONObject jo = new JSONObject();
+		jo.put("cid", x.getCid());
+		jo.put("title", x.getTitle());
+		jo.put("orgname", x.getOrgname());
+		jo.put("period1", x.getPeriod1());
+		jo.put("period2", x.getPeriod2());
+		jo.put("days", x.getDays());
+		jo.put("endtime", x.getEndtime());
+		jo.put("alive", x.getAlive());
+		jo.put("seat_cnt", x.getSeat_cnt());
+		jo.put("col_cnt", x.getCol_cnt());
+		jo.put("created", x.getCreated());
+		jo.put("updated", x.getUpdated());
+		return jo.toJSONString();
+	}
+	@PostMapping({"/add2Present","/del4Present"})
+	public String add2Present(HttpServletRequest req) {
+		String sid = req.getParameter("sid"); // 학생ID
+		if(sid==null || sid.equals("")) return "-1";
+		String requestURI = req.getRequestURI();
+		String status="";
+		if(requestURI.startsWith("add"))
+			status="수강중";
+		else if(requestURI.startsWith("del"))
+			status="신청";
+		int n = _crs.update2Present(Integer.parseInt(sid),status);
+		
+		return ""+n;
 	}
 }
