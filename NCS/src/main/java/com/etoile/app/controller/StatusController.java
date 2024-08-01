@@ -20,7 +20,7 @@ public class StatusController {
 	@Autowired _Status _ds;
 	
 	@PostMapping("/list")
-	public String getDrillStatus(HttpServletRequest req) {
+	public String doList(HttpServletRequest req) {
 		try {
 			int drill_id = Integer.parseInt(req.getParameter("did"));
 			int cid = Integer.parseInt(req.getParameter("cid"));
@@ -40,8 +40,8 @@ public class StatusController {
 		}
 		
 	}
-	@PostMapping("/getDrillStatus4Student")
-	public String getDrillStatus4Student(HttpServletRequest req) {
+	@PostMapping("/get")
+	public String get(HttpServletRequest req) {
 		try {
 			int student_id = Integer.parseInt(req.getParameter("sid"));
 			ArrayList<Status> arStatus = _ds.getDrillStatus4Stduent(student_id);

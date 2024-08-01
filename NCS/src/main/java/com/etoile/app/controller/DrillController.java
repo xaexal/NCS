@@ -64,11 +64,11 @@ public class DrillController {
 			return "";
 		}
 	}
-	@PostMapping("/getDrill")
+	@PostMapping("/get")
 	public String getDrill(HttpServletRequest req) {
 		try {
 			int did = Integer.parseInt(req.getParameter("did"));
-			Drill x = drl.getDrill(did);
+			Drill x = drl.get(did);
 			JSONObject jo = new JSONObject();
     		jo.put("did", x.getDid());
     		jo.put("dtype_id", x.getDtype_id());
@@ -82,25 +82,25 @@ public class DrillController {
 			return "";
 		}
 	}
-	@PostMapping("/delDrill")
+	@PostMapping("/delete")
 	public String deleteDrill(HttpServletRequest req) {
 		try {
 			int did = Integer.parseInt(req.getParameter("did"));
-			int n = drl.deleteDrill(did);
+			int n = drl.delete(did);
 			return ""+n;
 		} catch(Exception e) {
 			return "";
 		}
 	}
-	@PostMapping("/addDrill")
+	@PostMapping("/add")
 	public String addDrill(HttpServletRequest req) {
 		String did = req.getParameter("did");
 		int n=0;
 		if(did==null || did.equals("")) {
-			n = drl.insertDrill(req.getParameter("name"),req.getParameter("comment"),
+			n = drl.insert(req.getParameter("name"),req.getParameter("comment"),
 						Integer.parseInt(req.getParameter("dtype_id")));
 		} else {
-			n = drl.updateDrill(req.getParameter("name"),req.getParameter("comment"),
+			n = drl.update(req.getParameter("name"),req.getParameter("comment"),
 						Integer.parseInt(req.getParameter("dtype_id")),
 						Integer.parseInt(did));
 		}

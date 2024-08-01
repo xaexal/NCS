@@ -32,9 +32,9 @@ public class CourseController {
 	        System.out.println(formattedDate);
 	        String mid = req.getParameter("member_id");
 	        if(mid == null || mid.equals("")) { 
-	        	alCourse = _crs.courseAll();
+	        	alCourse = _crs.list();
 	        } else {
-	        	alCourse = _crs.courseUnenrolled(Integer.parseInt(mid));
+	        	alCourse = _crs.unenrolled(Integer.parseInt(mid));
 	        }
 		} else {
 			String mid = req.getParameter("member_id");
@@ -43,11 +43,11 @@ public class CourseController {
 			System.out.println("mid ["+member_id+"]");
 			
 			if(requestURI.endsWith("applied")) {
-				alCourse = _crs.courseApplied(member_id);
+				alCourse = _crs.applied(member_id);
 			} else if(requestURI.endsWith("present")) {
-				alCourse = _crs.coursePresent(member_id);
+				alCourse = _crs.present(member_id);
 			} else if(requestURI.endsWith("complete")) {
-				alCourse = _crs.courseComplete(member_id);
+				alCourse = _crs.complete(member_id);
 			}
 		}
     	System.out.println("alCourse size="+alCourse.size());
@@ -75,12 +75,12 @@ public class CourseController {
 		String cid = req.getParameter("cid");
 		int result=0;
 		if(cid == null || !cid.equals("")) {
-			result=_crs.insertCourse(req.getParameter("title"), req.getParameter("period1"), 
+			result=_crs.insert(req.getParameter("title"), req.getParameter("period1"), 
 					req.getParameter("period2"), Integer.parseInt(req.getParameter("seat_cnt")), 
 					Integer.parseInt(req.getParameter("col_cnt")), req.getParameter("alive"), 
 					req.getParameter("orgname"));
 		} else {
-			result=_crs.updateCourse(req.getParameter("title"), req.getParameter("period1"), 
+			result=_crs.update(req.getParameter("title"), req.getParameter("period1"), 
 					req.getParameter("period2"), Integer.parseInt(req.getParameter("seat_cnt")), 
 					Integer.parseInt(req.getParameter("col_cnt")), req.getParameter("alive"), 
 					req.getParameter("orgname"),Integer.parseInt(cid));
@@ -94,7 +94,7 @@ public class CourseController {
 		if(cid==null || !cid.equals("")) {
 			
 		} else {
-			result=_crs.deleteCourse(Integer.parseInt(cid));
+			result=_crs.delete(Integer.parseInt(cid));
 		}
 		return ""+result;
 	}
@@ -103,7 +103,7 @@ public class CourseController {
 		String cid = req.getParameter("cid");
 		if(cid==null || cid.equals("")) return "";
 		
-		Course x = _crs.getCourse(Integer.parseInt(cid));
+		Course x = _crs.get(Integer.parseInt(cid));
 		JSONObject jo = new JSONObject();
 		jo.put("cid", x.getCid());
 		jo.put("title", x.getTitle());

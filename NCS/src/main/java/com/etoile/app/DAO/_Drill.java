@@ -8,11 +8,10 @@ import com.etoile.app.DTO.Drill;
 
 @Mapper
 public interface _Drill {
-	ArrayList<Drill> drillAll(int cid);
+	ArrayList<Drill> list(int cid);
+	Drill get(int did);
 	ArrayList<Drill> drillAdded(int cid);
-	int insertDrill(String name, String comment, int dtype_id);
-	int updateDrill(String name, String comment, int dtype_id, int did);
-	int deleteDrill(int did);
-	Drill getDrill(int did);
-	
+	int insert(String name, String comment, int dtype_id);
+	int update(String name, String comment, int dtype_id, int did);
+	int delete(int did);
 }

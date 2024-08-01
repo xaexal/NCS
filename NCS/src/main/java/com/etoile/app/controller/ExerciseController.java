@@ -20,10 +20,10 @@ public class ExerciseController {
 	@Autowired _Exercise _dl;
 	
 	@PostMapping("/list")
-	public String getDrillList(HttpServletRequest req) {
+	public String doList(HttpServletRequest req) {
 		try {
 			int cid = Integer.parseInt(req.getParameter("cid"));
-			ArrayList<Exercise> arExercise = _dl.drillListAll(cid);
+			ArrayList<Exercise> arExercise = _dl.list(cid);
 			System.out.println("arExercise size="+arExercise.size());
 			JSONArray ja = new JSONArray();
 			arExercise.forEach(x->{
@@ -43,12 +43,12 @@ public class ExerciseController {
 			return "";
 		}
 	}
-	@PostMapping("/addExercise")
-	public String addExercise() {
+	@PostMapping("/add")
+	public String doAdd() {
 		
 	}
-	@PostMapping("/delExercise")
-	public String delExercise() {
+	@PostMapping("/delete")
+	public String doDelete() {
 		
 	}
 }
