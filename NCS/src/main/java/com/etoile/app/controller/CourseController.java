@@ -3,11 +3,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import org.apache.coyote.RequestGroupInfo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etoile.app.DAO._Course;
@@ -16,15 +16,16 @@ import com.etoile.app.DTO.Course;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
+@RequestMapping("/course")
 public class CourseController {
 	@Autowired _Course _crs;
 	
-	@PostMapping({"/courseAll","/courseApplied","/courseUnenrolled",
-				  "/coursePresent","/courseComplete"})
+	@PostMapping({"/list","/applied","/unenrolled",
+				  "/present","/complete"})
 	public String course(HttpServletRequest req) {
         ArrayList<Course> alCourse = null;
 		String requestURI = req.getRequestURI();
-		if(requestURI.endsWith("All")){
+		if(requestURI.endsWith("list")){
 			LocalDate today = LocalDate.now();
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	        String formattedDate = today.format(formatter);
@@ -41,11 +42,11 @@ public class CourseController {
 			if(mid != null && !mid.equals("")) member_id=Integer.parseInt(mid);
 			System.out.println("mid ["+member_id+"]");
 			
-			if(requestURI.endsWith("Applied")) {
+			if(requestURI.endsWith("applied")) {
 				alCourse = _crs.courseApplied(member_id);
-			} else if(requestURI.endsWith("Present")) {
+			} else if(requestURI.endsWith("present")) {
 				alCourse = _crs.coursePresent(member_id);
-			} else if(requestURI.endsWith("Complete")) {
+			} else if(requestURI.endsWith("complete")) {
 				alCourse = _crs.courseComplete(member_id);
 			}
 		}
@@ -69,7 +70,7 @@ public class CourseController {
     	});
         return ja.toJSONString();
 	}
-	@PostMapping("/addCourse")
+	@PostMapping("/add")
 	public String addCourse(HttpServletRequest req) {
 		String cid = req.getParameter("cid");
 		int result=0;
@@ -86,7 +87,7 @@ public class CourseController {
 		}
 		return ""+result;
 	}
-	@PostMapping("/delCourse")
+	@PostMapping("/delete")
 	public String delCourse(HttpServletRequest req) {
 		int result=0;
 		String cid = req.getParameter("cid");
@@ -97,7 +98,7 @@ public class CourseController {
 		}
 		return ""+result;
 	}
-	@PostMapping("/getCourse")
+	@PostMapping("/get")
 	public String getCourse(HttpServletRequest req) {
 		String cid = req.getParameter("cid");
 		if(cid==null || cid.equals("")) return "";

@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etoile.app.DAO._Drill;
@@ -14,10 +15,11 @@ import com.etoile.app.DTO.Drill;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
+@RequestMapping("/drill")
 public class DrillController {
 	@Autowired _Drill drl;
 	
-	@PostMapping("/drillAll")
+	@PostMapping("/list")
 	public String drillAll(HttpServletRequest req) {
 		String cid = req.getParameter("cid");
 		if(cid == null ||  cid.equals("")) return "";
@@ -80,7 +82,7 @@ public class DrillController {
 			return "";
 		}
 	}
-	@PostMapping("/deleteDrill")
+	@PostMapping("/delDrill")
 	public String deleteDrill(HttpServletRequest req) {
 		try {
 			int did = Integer.parseInt(req.getParameter("did"));

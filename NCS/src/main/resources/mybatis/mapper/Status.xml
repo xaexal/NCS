@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoile.app.DAO._Status">
+<select id="drillStatusAll" resultType="com.etoile.app.DTO.DrillStatus">
+	select * from ncs_status
+	 where drill_id=#{param1} and
+	 	   student_id in (select sid from ncs_student where course_id=#{param2})
+</select>
+<select id="getDrillStatus4Student" resultType="com.etoile.app.DTO.Status">
+	select * from ncs_status
+	 where student_id=#{param1}
+</select>
+<update id="changeDrillStatus">
+</update> 
+</mapper>
