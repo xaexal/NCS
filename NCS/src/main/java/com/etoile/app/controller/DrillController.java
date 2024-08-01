@@ -24,7 +24,7 @@ public class DrillController {
 		String cid = req.getParameter("cid");
 		if(cid == null ||  cid.equals("")) return "";
 		
-		ArrayList<Drill> alDrill = drl.drillAll(Integer.parseInt(cid));
+		ArrayList<Drill> alDrill = drl.list(Integer.parseInt(cid));
 		System.out.println("Drill size="+alDrill.size());
 		
 		JSONArray ja = new JSONArray();
