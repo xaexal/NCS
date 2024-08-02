@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Exercise {
-	int dlid;
+	int eid;
 	int did;
 	int dtype_id;
 	String name;

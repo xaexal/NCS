@@ -17,18 +17,18 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/exercise")
 public class ExerciseController {
-	@Autowired _Exercise _dl;
+	@Autowired _Exercise _exr;
 	
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req) {
 		try {
 			int cid = Integer.parseInt(req.getParameter("cid"));
-			ArrayList<Exercise> arExercise = _dl.list(cid);
+			ArrayList<Exercise> arExercise = _exr.list(cid);
 			System.out.println("arExercise size="+arExercise.size());
 			JSONArray ja = new JSONArray();
 			arExercise.forEach(x->{
 				JSONObject jo = new JSONObject();
-				jo.put("dlid", x.getDlid());
+				jo.put("eid", x.getEid());
 				jo.put("did", x.getDid());
 				jo.put("dtype_id", x.getDtype_id());
 				jo.put("name", x.getName());
@@ -44,11 +44,34 @@ public class ExerciseController {
 		}
 	}
 	@PostMapping("/add")
-	public String doAdd() {
-		
+	public String doAdd(HttpServletRequest req) {
+		try {
+			int n=0;
+			String eid=req.getParameter("eid");
+			if(eid==null || eid.equals("")) {
+				n = _exr.insert(Integer.parseInt(req.getParameter("cid")), 
+							Integer.parseInt(req.getParameter("did")));
+			} else {
+				n = _exr.update(Integer.parseInt(req.getParameter("cid")), 
+							Integer.parseInt(req.getParameter("did")),
+							Integer.parseInt(eid));
+			}
+			return ""+n;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return "";
+		}
 	}
 	@PostMapping("/delete")
-	public String doDelete() {
+	public String doDelete(HttpServletRequest req) {
+		try {
+			int cid = Integer.parseInt(req.getParameter("cid"));
+			int n = _exr.delete(cid);
+			return ""+n;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "";
+		}
 		
 	}
 }

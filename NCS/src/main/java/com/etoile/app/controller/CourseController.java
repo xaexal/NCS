@@ -22,7 +22,7 @@ public class CourseController {
 	
 	@PostMapping({"/list","/applied","/unenrolled",
 				  "/present","/complete"})
-	public String course(HttpServletRequest req) {
+	public String doList(HttpServletRequest req) {
         ArrayList<Course> alCourse = null;
 		String requestURI = req.getRequestURI();
 		if(requestURI.endsWith("list")){
@@ -71,7 +71,7 @@ public class CourseController {
         return ja.toJSONString();
 	}
 	@PostMapping("/add")
-	public String addCourse(HttpServletRequest req) {
+	public String doAdd(HttpServletRequest req) {
 		String cid = req.getParameter("cid");
 		int result=0;
 		if(cid == null || !cid.equals("")) {
@@ -88,7 +88,7 @@ public class CourseController {
 		return ""+result;
 	}
 	@PostMapping("/delete")
-	public String delCourse(HttpServletRequest req) {
+	public String doDelete(HttpServletRequest req) {
 		int result=0;
 		String cid = req.getParameter("cid");
 		if(cid==null || !cid.equals("")) {
@@ -99,7 +99,7 @@ public class CourseController {
 		return ""+result;
 	}
 	@PostMapping("/get")
-	public String getCourse(HttpServletRequest req) {
+	public String get(HttpServletRequest req) {
 		String cid = req.getParameter("cid");
 		if(cid==null || cid.equals("")) return "";
 		

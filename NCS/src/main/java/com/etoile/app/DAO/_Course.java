@@ -3,19 +3,24 @@ package com.etoile.app.DAO;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.etoile.app.DTO.Course;
 
 @Mapper
 public interface _Course {
 	ArrayList<Course> list();
-	Course get(int cid);
-	ArrayList<Course> unenrolled(int member_id);
-	ArrayList<Course> applied(int member_id);
-	ArrayList<Course> present(int member_id);
-	ArrayList<Course> complete(int member_id);
-	int insert(String title, String period1, String period2, int seat_cnt, int col_cnt, String alive, String orgname);
-	int update(String title, String period1, String period2, int seat_cnt, int col_cnt, String alive, String orgname, int cid);
-	int delete(int cid);
-	int update2Present(int sid,String status);
+	Course get(@Param("cid") int cid);
+	ArrayList<Course> unenrolled(@Param("mid") int member_id);
+	ArrayList<Course> applied(@Param("mid") int member_id);
+	ArrayList<Course> present(@Param("mid") int member_id);
+	ArrayList<Course> complete(@Param("mid") int member_id);
+	int insert(@Param("title") String title, @Param("period1") String period1, @Param("period2") String period2, 
+			   @Param("seat_cnt") int seat_cnt, @Param("col_cnt") int col_cnt, @Param("alive") String alive, 
+			   @Param("orgname") String orgname);
+	int update(@Param("title") String title, @Param("period1") String period1, @Param("period2") String period2, 
+			   @Param("seat_cnt") int seat_cnt, @Param("col_cnt") int col_cnt, @Param("alive") String alive, 
+			   @Param("orgname") String orgname, @Param("cid") int cid);
+	int delete(@Param("cid") int cid);
+	int update2Present(@Param("sid") int sid,@Param("status") String status);
 }

@@ -12,6 +12,7 @@ public interface _Exercise {
 	ArrayList<Exercise> list(@Param("cid") int cid); // getDrillList였음
 	Exercise get(int eid);
 	int insert(@Param("cid") int cid, @Param("did") int did);
-	int delete(@Param("cid") int cid, @Param("did") int did);
+	int update(@Param("cid") int cid, @Param("did") int did,@Param("eid") int eid);
+	int delete(@Param("edi") int eid);
 	
 }
