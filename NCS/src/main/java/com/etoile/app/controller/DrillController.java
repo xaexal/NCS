@@ -21,24 +21,28 @@ public class DrillController {
 	
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req) {
-		String cid = req.getParameter("cid");
-		if(cid == null ||  cid.equals("")) return "";
-		
-		ArrayList<Drill> alDrill = _drl.list(Integer.parseInt(cid));
-		System.out.println("Drill size="+alDrill.size());
-		
-		JSONArray ja = new JSONArray();
-		alDrill.forEach(x->{
-    		JSONObject jo = new JSONObject();
-    		jo.put("did", x.getDid());
-    		jo.put("dtype_id", x.getDtype_id());
-    		jo.put("name", x.getName());
-    		jo.put("comment", x.getComment());
-    		jo.put("created", x.getCreated());
-    		jo.put("updated", x.getUpdated());
-    		ja.add(jo);
-    	});
-		return ja.toJSONString();
+		try {
+			int cid = Integer.parseInt(req.getParameter("cid"));
+			
+			ArrayList<Drill> alDrill = _drl.list(cid);
+			System.out.println("Drill size="+alDrill.size());
+			
+			JSONArray ja = new JSONArray();
+			alDrill.forEach(x->{
+	    		JSONObject jo = new JSONObject();
+	    		jo.put("did", x.getDid());
+	    		jo.put("dtype_id", x.getDtype_id());
+	    		jo.put("name", x.getName());
+	    		jo.put("comment", x.getComment());
+	    		jo.put("created", x.getCreated());
+	    		jo.put("updated", x.getUpdated());
+	    		ja.add(jo);
+	    	});
+			return ja.toJSONString();
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return "";
+		}
 	}
 	@PostMapping("/get")
 	public String get(HttpServletRequest req) {

@@ -3,9 +3,9 @@
 <link rel="stylesheet" href="member.css">
 <header></header>
 <section class='login-form'>
-	<h1 style='font-size:54px;color:aqua;'>{{title}}</h1>
+	<h1 style='font-size:54px;color:aqua;'>${title}</h1>
 	<h1>로그인</h1>
-	<label id=lblMsg style="color:red;">{{msg}}</label>
+	<label id=lblMsg style="color:red;">${msg}</label>
 	<form action="/checkuser" id=frmLogin method="post">
 		<div class='int-area'>
 			<input type="text" name="mobile" id="mobile" autocomplete=off required>

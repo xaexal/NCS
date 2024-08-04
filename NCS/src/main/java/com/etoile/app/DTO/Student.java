@@ -5,6 +5,10 @@ import lombok.Data;
 @Data
 public class Student {
 	int sid;
+	String name;
+	String gender;
+	String mobile;
+	String birthday;
 	int seq;
 	String active;
 	int course_id;
