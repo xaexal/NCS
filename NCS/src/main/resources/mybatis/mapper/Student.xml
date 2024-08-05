@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etoile.app.DAO._Student">
-<select id="list" resultType="com.etoile.app.ETO.Student">
-	select a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.active,a.member_id
-	  from ncs_student a left outer join ncs_member b on a.member_id=b.m_id
+<select id="list" resultType="com.etoile.app.DTO.Student">
+	select a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.active,a.member_id,
+		   b.school,b.address
+	  from ncs_student a left outer join ncs_member b on a.member_id=b.mid
 	 where a.course_id=#{cid}
 	 order by b.name
 </select>
-<select id="get" resultType="com.etoile.app.ETO.Student">
-	select a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.active,a.member_id
+<select id="get" resultType="com.etoile.app.DTO.Student">
+	select a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.active,a.member_id,
+		   b.school,b.address
 	  from ncs_student a left outer join ncs_member b on a.member_id=b.m_id
 	 where a.sid=#{sid}
 </select>

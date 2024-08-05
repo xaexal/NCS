@@ -13,6 +13,7 @@ import com.etoile.app.DAO._Status;
 import com.etoile.app.DTO.Status;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/status")
@@ -22,9 +23,11 @@ public class StatusController {
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req) {
 		try {
-			int drill_id = Integer.parseInt(req.getParameter("did"));
+			int drill_id = Integer.parseInt(req.getParameter("drill_id"));
 			int cid = Integer.parseInt(req.getParameter("cid"));
-			ArrayList<Status> arStatus = _ds.drillStatusAll(drill_id,cid);
+			System.out.println("drill_id ["+drill_id+"] cid ["+cid+"]");
+			
+			ArrayList<Status> arStatus = _ds.list(drill_id,cid);
 			System.out.println("arStatus size ["+arStatus.size()+"]");
 			JSONArray ja = new JSONArray();
 			arStatus.forEach(x->{
@@ -44,7 +47,7 @@ public class StatusController {
 	public String get(HttpServletRequest req) {
 		try {
 			int student_id = Integer.parseInt(req.getParameter("sid"));
-			ArrayList<Status> arStatus = _ds.getDrillStatus4Stduent(student_id);
+			ArrayList<Status> arStatus = _ds.get(student_id);
 			System.out.println("arStatus size ["+arStatus.size()+"]");
 			JSONArray ja = new JSONArray();
 			arStatus.forEach(x->{
@@ -57,6 +60,27 @@ public class StatusController {
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return "";
+		}
+	}
+	@PostMapping("/update")
+	public String doUpdate(HttpServletRequest req,HttpSession s) {
+		try {
+			int sid = Integer.parseInt(req.getParameter("sid"));
+			int did = Integer.parseInt(req.getParameter("did"));
+			String status="확인중";
+			int n = _ds.count(did,sid);
+			if(n==0) {
+				if(s.getAttribute("level").equals("0")) {
+					status="완료";
+				}
+				_ds.insert(did, sid, status);
+			} else {
+				
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			
 		}
 	}
 }

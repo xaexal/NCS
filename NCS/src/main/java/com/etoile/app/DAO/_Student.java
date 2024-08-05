@@ -2,10 +2,12 @@ package com.etoile.app.DAO;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.etoile.app.DTO.Student;
 
+@Mapper
 public interface _Student {
 	ArrayList<Student> list(@Param("cid") int cid);
 	Student get(@Param("sid") int sid);

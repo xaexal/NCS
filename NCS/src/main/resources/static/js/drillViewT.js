@@ -3,7 +3,6 @@ let p_info={};
 
 $(document)
 .ready(function(){
-	
 	$('#selCourse').trigger('change');
 	return false;
 })
@@ -14,7 +13,7 @@ $(document)
 		return false;	
 	}
 	let ar=($(this).val()).split(',');
-//	console.log(ar)
+	console.log(ar)
 	$('#cid').val(ar[0]);
 	$('#tblSeat').empty();
 	outstr='<tr>';
@@ -28,29 +27,29 @@ $(document)
 //	console.log(outstr);
 	$('#tblSeat').append(outstr);
 
-	dayCount($('#cid').val(),$('#lblDays'));
+//	dayCount($('#cid').val(),$('#lblDays'));
 		
 	// 해당과정의 재학생명단 가져오기
-	$.post(url_studentPresent,{cid:$('#cid').val()},function(data){
-//		console.log(data);
+	$.post(url_studentList,{cid:$('#cid').val()},function(data){
+		console.log(data);
 		if(data['result']=='-1'){
 			alert(data['msg']); return false;
 		}
-		$.each(data['present'],function(ndx,student){
-			outstr=`<tr height=20px><td class=palm sid=${student['sid']}>${student['member__name']}</td>`+
+		$.each(data,function(ndx,student){
+			outstr=`<tr height=20px><td class=palm sid=${student['sid']}>${student['name']}</td>`+
 					'<td aligh=right style="font-size:12px">&nbsp;</td></tr>'+
 					`<tr><td colspan=2 align=center class="working" id=${student['sid']}>작업중</td></tr>`;
 			$('#tbls'+student['seq']).append(outstr);
 			p_info[student['sid']]=
-				{'name':student['member__name'],'seq':student['seq'],
-				 'school':(student['member__school']==undefined?'최종학력':student['member__school']),
-				 'address':(student['member__address']==undefined?'주소':student['member__address']),
-				 'birth':(student['member__birthday']==undefined?'생년월일':student['member__birthday']),
-				 'mobile':(student['member__mobile']==undefined?'모바일번호':student['member__mobile'])};
+				{'name':student['name'],'seq':student['seq'],
+				 'school':(student['school']==undefined?'최종학력':student['school']),
+				 'address':(student['address']==undefined?'주소':student['address']),
+				 'birth':(student['birthday']==undefined?'생년월일':student['birthday']),
+				 'mobile':(student['mobile']==undefined?'모바일번호':student['mobile'])};
 		});
 		console.log(p_info)
 	},'json');
-	getDrillList();
+	exerciseList();
 })
 .on('click','#selDrill option',function(){
 	if(gInterval) clearInterval(gInterval);
@@ -66,10 +65,10 @@ $(document)
 //	$('table[id^=tbls]').each(function(){
 //		$(this).find('tr:eq(1) td:eq(0)').removeClass().addClass('working');
 //	});
-	getDrillStatus();
+	exerciseStatus();
 	let dt=new Date();
 //	if(dt.getHours()>9 && dt.getHours()<18){
-		gInterval=setInterval(getDrillStatus,5000);
+//		gInterval=setInterval(exerciseStatus,5000);
 //	}
 	return false;
 })
@@ -84,7 +83,7 @@ $(document)
 	thisSeat=$(this);
 	let oParam={sid:thisSeat.prop('id'),drill_id:$('#selDrill').val()};
 //	console.log(oParam);
-	$.post(url_changeDrillStatus,oParam,function(data){
+	$.post(url_statusUpdate,oParam,function(data){
 //		console.log(data)
 		if(data['result']!='0') return false;
 		thisSeat.removeClass().text(data['newStatus']);
@@ -117,26 +116,26 @@ $(document)
 확인요청 -> 완료
 */
 
-function getDrillList(){
+function exerciseList(){
 //	console.log('cid='+$('#cid').val());
-	$.post(url_getDrillList,{cid:$('#cid').val()},function(data){
-//		console.log(data)
+	$.post(url_exerciseList,{cid:$('#cid').val()},function(data){
+		console.log(data)
 		$('#selDrill').empty();
-		$.each(data['rec'],function(k,rec){
-			let pstr=`<option value="${rec['drill_id']}">${rec['drill__name']}</option>`;
+		$.each(data,function(k,rec){
+			let pstr=`<option value="${rec['did']}">${rec['name']}</option>`;
 //			console.log(pstr)
 			$('#selDrill').prepend(pstr);
 		});
 	},'json');
 }
 
-function getDrillStatus(){
+function exerciseStatus(){
 	if($('#selDrill').val()=='') return false;
 
 	let arStudent=[];
-	$.post(url_getDrillStatus,{drill_id:$('#selDrill').val(),cid:$('#cid').val()},function(data){
-//		console.log(data)
-		$.each(data['rec'],function(ndx,rec){
+	$.post(url_exerciseStatus,{drill_id:$('#selDrill').val(),cid:$('#cid').val()},function(data){
+		console.log(data)
+		$.each(data,function(ndx,rec){
 			arStudent.push(parseInt(rec['student_id']));
 			if($('#'+rec['student_id']).text()==rec['status']) return true;
 //			console.log(rec)

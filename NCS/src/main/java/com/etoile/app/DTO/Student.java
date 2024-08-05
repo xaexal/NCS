@@ -9,6 +9,8 @@ public class Student {
 	String gender;
 	String mobile;
 	String birthday;
+	String school;
+	String address;
 	int seq;
 	String active;
 	int course_id;

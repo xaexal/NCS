@@ -2,15 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etoile.app.DAO._Status">
-<select id="drillStatusAll" resultType="com.etoile.app.DTO.DrillStatus">
+<select id="list" resultType="com.etoile.app.DTO.Status">
 	select * from ncs_status
-	 where drill_id=#{param1} and
-	 	   student_id in (select sid from ncs_student where course_id=#{param2})
+	 where drill_id=#{drill_id} and
+	 	   student_id in (select sid from ncs_student where course_id=#{cid})
 </select>
-<select id="getDrillStatus4Student" resultType="com.etoile.app.DTO.Status">
+<select id="get" resultType="com.etoile.app.DTO.Status">
 	select * from ncs_status
-	 where student_id=#{param1}
+	 where student_id=#{sid} and drill_id=#{drill_id}
 </select>
-<update id="changeDrillStatus">
+<select id="count" resultType="_int">
+	select count(*) from ncs_status 
+	 where student_id=#{sid} and drill_id=#{drill_id}
+</select>
+<insert id="insert">
+	insert into ncs_status set drill_id=#{drill_id},student_id=#{sid},status=#{status}
+</insert>
+<update id="update">
+	update ncs_status set status=''
+	 where student_id=#{sid} and drill_id=#{drill_id}
 </update> 
 </mapper>

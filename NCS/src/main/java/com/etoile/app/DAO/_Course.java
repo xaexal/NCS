@@ -22,5 +22,4 @@ public interface _Course {
 			   @Param("seat_cnt") int seat_cnt, @Param("col_cnt") int col_cnt, @Param("alive") String alive, 
 			   @Param("orgname") String orgname, @Param("cid") int cid);
 	int delete(@Param("cid") int cid);
-	int update2Present(@Param("sid") int sid,@Param("status") String status);
 }

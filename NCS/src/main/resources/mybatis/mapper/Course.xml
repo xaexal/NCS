@@ -6,7 +6,7 @@
 <select id="list" resultType="com.etoile.app.DTO.Course">
 	select *
 	  from ncs_course
-	  where period2 >= curdate()
+	 order by period2 desc
 </select>
 <!-- 등록하지 않는 강의목록만 -->
 <select id="unenrolled" resultType="com.etoile.app.DTO.Course">
@@ -47,7 +47,4 @@
 <select id="get" resultType="com.etoile.app.DTO.Course">
 	select * from ncs_course where cid=#{cid}
 </select>	
-<update id="update">
-	update ncs_student set status=#{status} where sid=#{sid}
-</update>
 </mapper>

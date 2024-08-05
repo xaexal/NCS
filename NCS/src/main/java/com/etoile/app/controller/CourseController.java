@@ -119,18 +119,18 @@ public class CourseController {
 		jo.put("updated", x.getUpdated());
 		return jo.toJSONString();
 	}
-	@PostMapping({"/add2Present","/del4Present"})
-	public String add2Present(HttpServletRequest req) {
-		String sid = req.getParameter("sid"); // 학생ID
-		if(sid==null || sid.equals("")) return "-1";
-		String requestURI = req.getRequestURI();
-		String status="";
-		if(requestURI.startsWith("add"))
-			status="수강중";
-		else if(requestURI.startsWith("del"))
-			status="신청";
-		int n = _crs.update2Present(Integer.parseInt(sid),status);
-		
-		return ""+n;
-	}
+//	@PostMapping({"/add2Present","/del4Present"})
+//	public String add2Present(HttpServletRequest req) {
+//		String sid = req.getParameter("sid"); // 학생ID
+//		if(sid==null || sid.equals("")) return "-1";
+//		String requestURI = req.getRequestURI();
+//		String status="";
+//		if(requestURI.startsWith("add"))
+//			status="수강중";
+//		else if(requestURI.startsWith("del"))
+//			status="신청";
+//		int n = _crs.update2Present(Integer.parseInt(sid),status);
+//		
+//		return ""+n;
+//	}
 }

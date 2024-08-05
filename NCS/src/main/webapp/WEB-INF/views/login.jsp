@@ -19,8 +19,8 @@
 			<button type="submit">Login</button>
 		</div>
 		<div class='caption'>
-			<a href="{% url 'ncs:findPassword' %}">비밀번호 찾기</a>&nbsp;&nbsp;
-			<a href="{% url 'ncs:signup' %}">회원가입</a>
+			<a href="/findPassword">비밀번호 찾기</a>&nbsp;&nbsp;
+			<a href="/signup">회원가입</a>
 		</div>
 	</form>
 </section>
