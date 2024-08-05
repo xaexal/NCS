@@ -70,9 +70,6 @@ public class StatusController {
 			String status="확인중";
 			int n = _ds.count(did,sid);
 			if(n==0) {
-				if(s.getAttribute("level").equals("0")) {
-					status="완료";
-				}
 				_ds.insert(did, sid, status);
 			} else {
 				
