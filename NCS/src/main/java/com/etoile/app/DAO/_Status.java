@@ -10,7 +10,7 @@ import com.etoile.app.DTO.Status;
 @Mapper
 public interface _Status {
 	ArrayList<Status> list(@Param("drill_id") int drill_id,@Param("cid") int cid) ;
-	Status get(@Param("drill_id") int drill_id,@Param("sid") int sid);
+	String get(@Param("drill_id") int drill_id,@Param("sid") int sid);
 	int count(@Param("drill_id") int drill_id,@Param("sid") int sid);
 	int insert(@Param("drill_id") int drill_id, @Param("sid") int sid,@Param("status") String status);
 	int update(@Param("drill_id") int drill_id, @Param("sid") int sid,@Param("status") String status);

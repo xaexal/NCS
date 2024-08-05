@@ -43,41 +43,56 @@ public class StatusController {
 		}
 		
 	}
-	@PostMapping("/get")
-	public String get(HttpServletRequest req) {
-		try {
-			int student_id = Integer.parseInt(req.getParameter("sid"));
-			ArrayList<Status> arStatus = _ds.get(student_id);
-			System.out.println("arStatus size ["+arStatus.size()+"]");
-			JSONArray ja = new JSONArray();
-			arStatus.forEach(x->{
-				JSONObject jo = new JSONObject();
-				jo.put("drill_id", x.getDrill_id());
-				jo.put("status", x.getStatus());
-				ja.add(jo);
-			});
-			return ja.toJSONString();
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-			return "";
-		}
-	}
+//	@PostMapping("/get")
+//	public String get(HttpServletRequest req) {
+//		try {
+//			int student_id = Integer.parseInt(req.getParameter("sid"));
+//			ArrayList<Status> arStatus = _ds.get(student_id);
+//			System.out.println("arStatus size ["+arStatus.size()+"]");
+//			JSONArray ja = new JSONArray();
+//			arStatus.forEach(x->{
+//				JSONObject jo = new JSONObject();
+//				jo.put("drill_id", x.getDrill_id());
+//				jo.put("status", x.getStatus());
+//				ja.add(jo);
+//			});
+//			return ja.toJSONString();
+//		} catch(Exception e) {
+//			System.out.println(e.getMessage());
+//			return "";
+//		}
+//	}
 	@PostMapping("/update")
 	public String doUpdate(HttpServletRequest req,HttpSession s) {
+		int result=-1;
 		try {
 			int sid = Integer.parseInt(req.getParameter("sid"));
 			int did = Integer.parseInt(req.getParameter("did"));
 			String status="확인중";
 			int n = _ds.count(did,sid);
 			if(n==0) {
-				_ds.insert(did, sid, status);
-			} else {
-				
+				n=_ds.insert(did, sid, status);
 			}
-			
+			status = _ds.get(did, sid);
+			if(status.equals("작업중")) {
+				if(Integer.parseInt((String)s.getAttribute("level"))==0){
+					status="완료";
+				} else {
+					status="확인중";
+				}
+			} else if(status.equals("완료")) {
+				status = "작업중";
+			} else if(status.equals("확인중")) {
+				if(Integer.parseInt((String)s.getAttribute("level"))==0){
+					status="완료";
+				} else {
+					status="작업중";
+				}
+			}
+			result = _ds.update(did, sid, status);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			
 		}
+		return ""+result;
 	}
 }

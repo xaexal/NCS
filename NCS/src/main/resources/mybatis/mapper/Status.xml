@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etoile.app.DAO._Status">
 <select id="list" resultType="com.etoile.app.DTO.Status">
 	select * from ncs_status
 	 where drill_id=#{drill_id} and
 	 	   student_id in (select sid from ncs_student where course_id=#{cid})
 </select>
-<select id="get" resultType="com.etoile.app.DTO.Status">
-	select * from ncs_status
+<select id="get" resultType="java.lang.String">
+	select status from ncs_status
 	 where student_id=#{sid} and drill_id=#{drill_id}
 </select>
 <select id="count" resultType="_int">
