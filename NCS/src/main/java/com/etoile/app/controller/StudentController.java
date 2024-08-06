@@ -13,6 +13,7 @@ import com.etoile.app.DAO._Student;
 import com.etoile.app.DTO.Student;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/student")
@@ -20,8 +21,9 @@ public class StudentController {
 	@Autowired _Student _std;
 	
 	@PostMapping("/list")
-	public String doList(HttpServletRequest req) {
+	public String doList(HttpServletRequest req, HttpSession s) {
 		try {
+			if(s.getAttribute("userid")==null) return re
 			int cid = Integer.parseInt(req.getParameter("cid"));
 			ArrayList<Student> arStudent = _std.list(cid);
 			System.out.println("arStudent size="+arStudent.size());
