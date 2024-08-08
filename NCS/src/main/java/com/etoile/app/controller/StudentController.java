@@ -23,7 +23,6 @@ public class StudentController {
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req, HttpSession s) {
 		try {
-			if(s.getAttribute("userid")==null) return re
 			int cid = Integer.parseInt(req.getParameter("cid"));
 			ArrayList<Student> arStudent = _std.list(cid);
 			System.out.println("arStudent size="+arStudent.size());

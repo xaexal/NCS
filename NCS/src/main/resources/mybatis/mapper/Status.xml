@@ -18,7 +18,7 @@
 	insert into ncs_status set drill_id=#{drill_id},student_id=#{sid},status=#{status}
 </insert>
 <update id="update">
-	update ncs_status set status=''
+	update ncs_status set status=#{status}
 	 where student_id=#{sid} and drill_id=#{drill_id}
 </update> 
 </mapper>

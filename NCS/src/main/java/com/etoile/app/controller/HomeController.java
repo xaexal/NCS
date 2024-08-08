@@ -57,7 +57,8 @@ public class HomeController {
 			if(name==null || name.equals("")) {
 				return "redirect:/personal";
 			}
-			if( member.getLevel()==0) { // 관리자 레벨
+			System.out.println("level ["+member.getLevel()+"]");
+			if(member.getLevel()==0) { // 관리자 레벨
 				return "redirect:/drillViewT";
 			}
 			if( _mem.checkStudent(member.getMid())>0 ) {
@@ -90,7 +91,10 @@ public class HomeController {
 //		
 //	}
 	@GetMapping("/drillViewT")
-	public String doTeacherView(HttpServletRequest req,Model model) {
+	public String doTeacherView(HttpServletRequest req,HttpSession s,Model model) {
+		String mobile = (String)s.getAttribute("mobile");
+		if(mobile==null || mobile.equals("")) return "redirect:/login";
+		
 		ArrayList<Course> alCourse = _crs.list();
 		System.out.println("alCourse size="+alCourse.size());
 		

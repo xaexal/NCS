@@ -66,33 +66,46 @@ public class StatusController {
 	public String doUpdate(HttpServletRequest req,HttpSession s) {
 		int result=-1;
 		try {
+			String mobile = (String)s.getAttribute("mobile");
+			if(mobile==null || mobile.equals("")) return "";
+			
+			int level=-1;
+			Object oLevel = s.getAttribute("level");
+			if(oLevel instanceof Integer) level = (Integer) oLevel;
+			else if(oLevel instanceof String) level = Integer.parseInt((String) oLevel);
+
 			int sid = Integer.parseInt(req.getParameter("sid"));
-			int did = Integer.parseInt(req.getParameter("did"));
-			String status="확인중";
+			int did = Integer.parseInt(req.getParameter("drill_id"));
+			System.out.println("sid ["+sid+"] did ["+did+"]");
+			String status="작업중";
 			int n = _ds.count(did,sid);
+			System.out.println("n ["+n+"]");
 			if(n==0) {
 				n=_ds.insert(did, sid, status);
 			}
 			status = _ds.get(did, sid);
-			if(status.equals("작업중")) {
-				if(Integer.parseInt((String)s.getAttribute("level"))==0){
-					status="완료";
-				} else {
-					status="확인중";
-				}
-			} else if(status.equals("완료")) {
+			System.out.println("status ["+status+"]");
+			if(status.equals("완료")) {
 				status = "작업중";
 			} else if(status.equals("확인중")) {
-				if(Integer.parseInt((String)s.getAttribute("level"))==0){
+				if(level==0){
 					status="완료";
 				} else {
 					status="작업중";
 				}
-			}
+			} else {
+				if(level==0){
+					status="완료";
+				} else {
+					status="확인중";
+				}
+			} 
 			result = _ds.update(did, sid, status);
+			System.out.println("result ["+result+"]");
+			if(result==1) return status;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return ""+result;
+		return "";
 	}
 }

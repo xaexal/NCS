@@ -84,15 +84,18 @@ $(document)
 	let oParam={sid:thisSeat.prop('id'),drill_id:$('#selDrill').val()};
 //	console.log(oParam);
 	$.post(url_statusUpdate,oParam,function(data){
-//		console.log(data)
-		if(data['result']!='0') return false;
-		thisSeat.removeClass().text(data['newStatus']);
-		switch(thisSeat.text()){
+		console.log(data)
+		if(data=='') {
+			alert('로그인확인바람');
+			return false;
+		}
+		thisSeat.removeClass().text(data);
+		switch(data){
 		case '작업중': thisSeat.addClass('working'); break;
 		case '확인중': thisSeat.addClass('checking'); break;
 		case '완료':	 thisSeat.addClass('done');
 		}
-	},'json');
+	},'text');
 	return false;
 })
 .on('click','.palm',function(e,u){
