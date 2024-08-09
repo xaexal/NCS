@@ -22,8 +22,23 @@ public class HomeController {
 	@Autowired _Course _crs;
 	
 	@GetMapping("/")
-	public String home() {
-		return "home";
+	public String home(HttpSession s, Model m) {
+		try {
+			String mobile=(String)s.getAttribute("mobile");
+			if(mobile==null || mobile.equals("")) return "redirect:/login";
+			
+			int level=-1;
+			Object oLevel = s.getAttribute("level");
+			if(oLevel instanceof Integer) level = (Integer) oLevel;
+			else if(oLevel instanceof String) level = Integer.parseInt((String) oLevel);
+			
+			if(level==0) {
+				return "redirect:/drillViewT";
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "redirect:/drillViewS";
 	}
 	@GetMapping("/login") 
 	public String login(HttpServletRequest req, Model m) {
@@ -61,6 +76,8 @@ public class HomeController {
 			if(member.getLevel()==0) { // 관리자 레벨
 				return "redirect:/drillViewT";
 			}
+			System.out.println("member_id ["+member.getMid()+"]");
+			System.out.println("student count ["+_mem.checkStudent(member.getMid())+"]");
 			if( _mem.checkStudent(member.getMid())>0 ) {
 				return "redirect:/drillViewS";
 			}
@@ -90,15 +107,44 @@ public class HomeController {
 //		}
 //		
 //	}
+	@GetMapping("/logout")
+	public String doLogout(HttpServletRequest req,HttpSession s,Model m) {
+		s.invalidate();
+		return "redirect:/";
+	}
 	@GetMapping("/drillViewT")
 	public String doTeacherView(HttpServletRequest req,HttpSession s,Model model) {
-		String mobile = (String)s.getAttribute("mobile");
-		if(mobile==null || mobile.equals("")) return "redirect:/login";
-		
-		ArrayList<Course> alCourse = _crs.list();
-		System.out.println("alCourse size="+alCourse.size());
-		
-		model.addAttribute("Courses",alCourse);
-		return "drillViewT";
+		try {
+			String mobile = (String)s.getAttribute("mobile");
+			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in."); 
+			
+			ArrayList<Course> alCourse = _crs.list();
+			System.out.println("alCourse size="+alCourse.size());
+			
+			model.addAttribute("Courses",alCourse);
+			return "drillViewT";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			
+		}
+		return "redirect:/login";
+	}
+	@GetMapping("/drillViewS")
+	public String doStudentView(HttpServletRequest req,HttpSession s,Model model) {
+		try {
+			String mobile = (String)s.getAttribute("mobile");
+			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in."); 
+			
+			ArrayList<Course> alCourse = _crs.present((Integer)s.getAttribute("member_id"));
+			System.out.println("alCourse size="+alCourse.size());
+			
+			model.addAttribute("Courses",alCourse);
+			model.addAttribute("title","하이미디어 일산");
+			return "drillViewS";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			
+		}
+		return "redirect:/login";
 	}
 }
