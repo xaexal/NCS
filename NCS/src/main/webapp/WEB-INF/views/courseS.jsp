@@ -9,15 +9,15 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <header>
-<h2>{{title}}</h2>	
+<h2>${title}</h2>	
 </header>
 <nav class='navbar navbar-expand-lg gb-light'>
 	<div class='container-fluid'>
-		<a class="navbar-brand" href="{% url 'ncs:drillViewS' %}">과제수행</a>
-			<a class="navbar-brand" href="{% url 'board:list' %}">자유게시판</a>&nbsp;&nbsp;
-		<a class="navbar-brand" href='{% url 'ncs:personal' %}'><%=sessionScope.name %></a>&nbsp;&nbsp;
-		<a class="navbar-brand" href='{% url 'ncs:logout' %}'>로그아웃</a>
-		<input type="hidden" id="member_id" value="{{request.session.member_id}}">
+		<a class="navbar-brand" href="/drillViewS">과제수행</a>
+			<a class="navbar-brand" href="/board:list">자유게시판</a>&nbsp;&nbsp;
+		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
+		<a class="navbar-brand" href='/logout'>로그아웃</a>
+		<input type="hidden" id="member_id" value="${sessionScope.member_id}">
 	</div>
 </nav>
 <section>
@@ -53,10 +53,10 @@
 </section>
 {% load static %}
 <script>
-let url_apply2Course="{% url 'ncs:apply2Course' %}";
-let url_revokeCourse="{% url 'ncs:revokeCourse' %}";
-let url_setDefaultCourse="{% url 'ncs:setDefaultCourse' %}";
-let url_resetDefaultCourse="{% url 'ncs:resetDefaultCourse' %}";
+let url_apply2Course="/apply2Course";
+let url_revokeCourse="/revokeCourse";
+let url_setDefaultCourse="/setDefaultCourse";
+let url_resetDefaultCourse="/resetDefaultCourse";
 </script>
 <script src="js/courseS.js"></script>
 <div id=p_info style='display:none;position:absolute;background-color:aquamarine;border:1px solid cyan;font-size:12px;text-align:left;'></div>

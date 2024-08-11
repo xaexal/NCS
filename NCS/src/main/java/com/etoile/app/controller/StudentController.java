@@ -101,8 +101,8 @@ public class StudentController {
 	public String getSID(HttpServletRequest req) {
 		int sid = -1;
 		try {
-			int mid = Integer.parseInt(req.getParameter("mid"));
-			int cid = Integer.parseInt(req.getParameter("cid"));
+			int mid = Integer.parseInt(req.getParameter("member_id"));
+			int cid = Integer.parseInt(req.getParameter("course_id"));
 			sid = _std.getSID(mid, cid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

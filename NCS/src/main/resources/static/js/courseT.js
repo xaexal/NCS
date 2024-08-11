@@ -10,36 +10,35 @@ $(document)
 	
 	let cid=$(this).val();
 	console.log(`cid [${cid}]`)
-	$.post(url_getCourse,{cid:cid},function(result){
-		console.log(result);
-		rec=result['rec'][0]
+	$.post('/course/get',{cid:cid},function(data){
+		console.log(data);
 		$('#frmCourse input,textarea,label').each(function(){
 			let id=$(this).prop('id');
 			if($(this).prop('type')=='checkbox'){
-				if(rec[id]=='1')	$('#'+id).prop('checked',true);
+				if(data[id]=='1')	$('#'+id).prop('checked',true);
 				else $('#'+id).prop('checked',false);
 			} else if(id!=''&&$(this).prop('type')!='button') {
-				$('#'+id).val(rec[id]);
+				$('#'+id).val(data[id]);
 			}
 		})
 		$('#cid').val(cid);
-		$.post(url_studentPresent,{cid:cid},function(result){
-			console.log('studentPresent',result)
-			$.each(result['present'],function(ndx,rec){
+		$.post('/student/list',{cid:cid},function(data){
+			console.log('studentPresent',data)
+			$.each(data,function(ndx,rec){
 				for( value in rec){
 					if(rec[value]==null || rec[value]==undefined || rec[value]=='null') {
 						console.log(value+':'+rec[value]);
 						rec[value]='';
 					}
 				}
-				let str=`<option value="${rec['member__mid']},${rec['sid']}">`+
-						`${rec['member__name']},\t${rec['member__mobile']},\t`+
-						`${rec['member__birthday']}</option>`;
+				let str=`<option value="${rec['member_id']},${rec['sid']}">`+
+						`${rec['name']},\t${rec['mobile']},\t`+
+						`${rec['birthday']}</option>`;
 				console.log(str);
 				$('#selStudentPresent').append(str);
 			});
 		},'json');
-		$.post(url_studentApplied,{cid:cid},function(result){
+		$.post('/course/applied',{cid:cid},function(result){
 			$.each(result['applied'],function(ndx,rec){
 				for( value in rec){
 					if(rec[value]==null || rec[value]==undefined || rec[value]=='null') {
@@ -58,7 +57,7 @@ $(document)
 	return false;
 })
 .on('click','#btnAddCourse',function(){
-	$.ajax({url:url_addCourse,data:$('#frmCourse').serialize(),dataType:'json',method:'post',
+	$.ajax({url:'/course/add',data:$('#frmCourse').serialize(),dataType:'json',method:'post',
 		beforeSend:function(){
 			$('#title').val($.trim($('#title').val()));
 			if($('#title').val()==''){
@@ -82,7 +81,7 @@ $(document)
 	return false;
 })
 .on('click','#btnDelCourse',function(){
-	$.ajax({url:url_delCourse,data:{cid:$('#cid').val()},dataType:'json',method:'post',
+	$.ajax({url:'/course/delete',data:{cid:$('#cid').val()},dataType:'json',method:'post',
 		beforeSend:function(){
 			if($('#cid').val()=='') {
 				alert('삭제할 과정을 선택하십시오')
@@ -119,7 +118,7 @@ $(document)
 		
 	$('#member_id').val(pstr[0]);
 	$('#sid').val(pstr[1]);
-	$.post(url_getStudent,{member_id:$('#member_id').val()},(data)=>{
+	$.post('/student/list',{member_id:$('#member_id').val()},(data)=>{
 		
 		let student=data['student'][0]
 		console.log(student)
@@ -136,7 +135,7 @@ $(document)
 	return false;
 })
 .on('click','#btnPersonal',function(){	
-	$.post(url_getStudent,{member_id:$('#member_id').val()},function(data){
+	$.post('/student/list',{member_id:$('#member_id').val()},function(data){
 		$('#btnClearMember').trigger('click')
 		rec=data['student'][0]
 		$('#frmStudent input,textarea,label').each(function(){
@@ -157,7 +156,7 @@ $(document)
 .on('dblclick','#selStudentPresent option',function(){
 	console.log('sid ['+$('#sid').val()+']')
 	let thisone=$(this);
-	$.post(url_del4Present,{sid:$('#sid').val()},function(data){
+	$.post('/student/delete',{sid:$('#sid').val()},function(data){
 		if(data['result']!='0'){
 			alert(data['msg']); return false;
 		}
@@ -170,7 +169,7 @@ $(document)
 .on('dblclick','#selStudentApplied option',function(){
 	console.log('sid ['+$('#sid').val()+']')
 	let thisone=$(this);
-	$.post(url_add2Present,{sid:$('#sid').val()},function(data){
+	$.post('/student/add',{sid:$('#sid').val()},function(data){
 		if(data['result']!='0'){
 			alert(data['msg']); return false;
 		}
@@ -196,7 +195,7 @@ $(document)
 	oParam['address']=$('#member__address').val();
 	oParam['active']=$('#member__active').prop('checked')?'1':'0';	
 	console.log(oParam);					
-	$.post(url_addStudent,oParam,
+	$.post('/student/add',oParam,
 		function(data){
 			if(data['result']!='0'){
 				alert(data['msg']);
@@ -223,10 +222,10 @@ $(document)
 
 function courseList(){
 	$('#btnClearCourse').trigger('click');
-	$.post(url_courseListAll,{},function(data){
+	$.post('/course/list',{},function(data){
 		console.log(data)
 		$('#courseList').empty();
-		$.each(data['All'],function(ndx,course){
+		$.each(data,function(ndx,course){
 			$('#courseList').append(`<option value=${course.cid}>${course.title}</option>`);
 		});
 				

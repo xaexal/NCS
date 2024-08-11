@@ -24,7 +24,7 @@ public class ExerciseController {
 		try {
 			int cid = Integer.parseInt(req.getParameter("cid"));
 			ArrayList<Exercise> arExercise = _exr.list(cid);
-			System.out.println("arExercise size="+arExercise.size());
+//			System.out.println("arExercise size="+arExercise.size());
 			JSONArray ja = new JSONArray();
 			arExercise.forEach(x->{
 				JSONObject jo = new JSONObject();

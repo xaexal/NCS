@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="base.jsp" />
-<link rel="stylesheet" href="{% static 'member.css' %}"> 
+<link rel="stylesheet" href="member.css"> 
 <header></header>
 <section class='login-form'>
-	<h1 style='font-size:54px;color:aqua;'>{{title}}</h1>
+	<h1 style='font-size:54px;color:aqua;'>${title}</h1>
 	<h1>등록</h1>
-	<form action="{% url 'ncs:register' %}" id=frmsignup method="post">
+	<form action="/register" id=frmsignup method="post">
 		{% csrf_token %}
         <div class='int-area'>
 			<input type="text" name="mobile" id="mobile" autocomplete=off required>
@@ -23,8 +24,8 @@
 			<button type="submit" id=btnSubmit>등록(가입)</button>
 		</div>
 		<div class='caption'>
-			<a href="{% url 'ncs:findPassword' %}">비밀번호 찾기</a>&nbsp;&nbsp;
-			<a href="{% url 'ncs:login' %}">로그인</a>
+			<a href="/findPassword">비밀번호 찾기</a>&nbsp;&nbsp;
+			<a href="/login">로그인</a>
 		</div>
 	</form>
 </section>
@@ -33,9 +34,9 @@
 <tr><td>
 	<label for='selClass'>과정 선택</label><br>
 	<select name=selClass id=selClass size=5>
-	{% for course in classes %}
-		<option value='{{course.classcode}},{{course.seat_cnt}},{{course.col_cnt}}'>{{course.title}}[{{course.period1}}~{{course.period2}}]</option>
-	{% endfor %}
+	<c:forEach var="course" items="${classes}">
+		<option value='${course.classcode},${course.seat_cnt},${course.col_cnt}'>${course.title}[${course.period1}~${course.period2}]</option>
+	</c:forEach>
 	</select>
 </td></tr>
 </table>
@@ -58,11 +59,11 @@ $(document)
 				$('#class').text(pstr);
 				$('#classcode').val(pcode[0]);
 				$(this).dialog('close');
-			}}
+			}
 			,{text:'취소'
 			,click:function(){
 				$(this).dialog('close');
-			}}
+			}
 		]
 	});
 	return false;*/
@@ -80,7 +81,7 @@ $(document)
 	pstr=$.trim(pstr);
 	if(pstr!=''){
 		$('#mobile').val(pstr);
-		$.post("{% url 'ncs:duplicate' %}",{mobile:pstr},function(data){
+		$.post("/duplicate",{mobile:pstr},function(data){
 			$('#lblMobile').text(data['msg']);
 			if(data['result']=='0'){
 // 				$('#btnSubmit').prop('disabled',false);

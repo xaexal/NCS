@@ -147,4 +147,37 @@ public class HomeController {
 		}
 		return "redirect:/login";
 	}
+	@GetMapping("/drillT")
+	public String doDrillT(HttpServletRequest req,HttpSession s,Model model) {
+		try {
+			String mobile = (String)s.getAttribute("mobile");
+			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			return "drillT";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "redirect:/login";
+		}
+	}
+	@GetMapping("/courseS")
+	public String doCourseS(HttpServletRequest req,HttpSession s,Model model) {
+		try {
+			String mobile = (String)s.getAttribute("mobile");
+			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			return "courseS";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "redirect:/login";
+		}
+	}
+	@GetMapping("/courseT")
+	public String doCourseT(HttpServletRequest req,HttpSession s,Model model) {
+		try {
+			String mobile = (String)s.getAttribute("mobile");
+			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			return "courseT";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "redirect:/login";
+		}
+	}
 }

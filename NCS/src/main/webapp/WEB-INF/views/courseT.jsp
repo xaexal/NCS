@@ -3,17 +3,17 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <header>
-<h2>{{title}}</h2>
+<h2>${title}</h2>
 </header>
 <nav class='navbar navbar-expand-lg gb-light'>
 	<div class='container-fluid'>
 		<div class="col-6">&nbsp;</div>
 		<div class="col-6">
-		<a class='navbar-brand' href='{% url 'ncs:drillViewT' %}'>과제진행</a>
-		<a class="navbar-brand" href='{% url 'ncs:drillT' %}'>과제관리</a>
-		<a class="navbar-brand" href='{% url 'ncs:showRank' %}'>결과보기</a>
-		<a class="navbar-brand" href='{% url 'ncs:personal' %}'>{{request.session.name}}</a>&nbsp;&nbsp;
-		<a class="navbar-brand" href='{% url 'ncs:logout' %}'>로그아웃</a>
+		<a class='navbar-brand' href='/drillViewT'>과제진행</a>
+		<a class="navbar-brand" href='/drillT'>과제관리</a>
+		<a class="navbar-brand" href='/showRank'>결과보기</a>
+		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
+		<a class="navbar-brand" href='/logout'>로그아웃</a>
 		</div>
 	</div>
 </nav>
@@ -126,8 +126,8 @@
 </div>
 </section>
 <script>
-let url_add2Present="{% url 'ncs:add2Present' %}";
-let url_del4Present="{% url 'ncs:del4Present' %}";
+let url_add2Present="/add2Present";
+let url_del4Present="/del4Present";
 </script>
 <script src="js/courseT.js"></script>
 <jsp:include page="footer.jsp" />
