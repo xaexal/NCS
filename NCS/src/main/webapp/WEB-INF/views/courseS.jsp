@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="base.jsp" />
 <style>
 /* button {
@@ -51,7 +52,6 @@
 	</div>
 </div>
 </section>
-{% load static %}
 <script>
 let url_apply2Course="/apply2Course";
 let url_revokeCourse="/revokeCourse";
@@ -60,5 +60,4 @@ let url_resetDefaultCourse="/resetDefaultCourse";
 </script>
 <script src="js/courseS.js"></script>
 <div id=p_info style='display:none;position:absolute;background-color:aquamarine;border:1px solid cyan;font-size:12px;text-align:left;'></div>
-
 <jsp:include page="footer.jsp" />

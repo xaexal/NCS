@@ -32,13 +32,14 @@ input[type=button] {
 </header>
 <nav class="navbar navbar-expand-lg gb-light">
 	<div class='container-fluid' style="text-align:right;">
-{% if request.session.level == 0 %}	
+<c:if test="${sessionScope.level == '0'}">	
 		<a class='navbar-brand' href='/drillViewT'>과제진행</a>
 		<a class="navbar-brand" href='/drillT'>과제관리</a>
 		<a class="navbar-brand" href='/showRank'>결과보기</a>
-{% else %}		
+</c:if>
+<c:if test="${sessionScope.level != '0'}">		
 		<a class="navbar-brand" href="/drillViewS">과제수행</a>
-{% endif %}		
+</c:if>
 		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
 		<a class="navbar-brand" href='/logout'>로그아웃</a>
 		<input type="hidden" id="member_id" value="${sessionScope.member_id}">
@@ -47,35 +48,41 @@ input[type=button] {
 <section style="margin:auto;width:80%;">
 	<h1 style="color:rgb(128, 0, 255);font-size:36px;">나의 등록정보</h1>
 	<form action="/submitPersonal" id=frmPersonal method="post">
-		{% csrf_token %}
-		<input type="hidden" id="level" name="level" value="{{member.level}">
+		<input type="hidden" id="level" name="level" value="${member.level}">
 		<table align=center>
 		<tr>
 			<td><label for=mobile>모바일번호</label></td><td></td>
-			<td><input type="text" name="mobile" id="mobile" autocomplete=off required value='{{member.mobile}'></td>
+			<td><input type="text" name="mobile" id="mobile" autocomplete=off required value='${member.mobile}'></td>
 		</tr>
 		<tr>
 			<td><label for='passcode'>실명</label></td><td></td>
-			<td><input type="text" name="name" id="name" autocomplete=off required value='{{member.name|default_if_none:""}'></td>
+			<td><input type="text" name="name" id="name" autocomplete=off required value='${member.name}'></td>
 		</tr>
 		<tr>
 			<td><label for='gender'>성별</label></td><td></td>
 			<td><input type="radio" name="gender" id="male" value='M' 
-			{% if member.gender in 'M  checked  {% endif %}>남성
-			<input type="radio" name="gender" id="female" value='F' {% if member.gender in "F" %} checked {% endif %}>여성</td>
+			<c:if test="${member.gender == 'M' }">
+				checked 
+			</c:if>
+			>남성
+			<input type="radio" name="gender" id="female" value='F' 
+			<c:if test="${member.gender == 'F' }">
+				checked 
+			</c:if>
+			>여성</td>
 		</tr>
 		<tr>
 			<td><label for='birthday'>생년월일</label></td><td></td>
-			<td><input type="date" name="birthday" id="birthday" autocomplete=off required value='{{member.birthday|default_if_none:""}'></td>
+			<td><input type="date" name="birthday" id="birthday" autocomplete=off required value='${member.birthday}'></td>
 		</tr>
 		<tr>
 			<td><label for='email'>이메일</label></td><td></td>
-			<td><input type="text" name="email" id="email" autocomplete=off value='{{member.email|default_if_none:""}'></td>
+			<td><input type="text" name="email" id="email" autocomplete=off value='${member.email}'></td>
 		</tr>
 		<tr>
 			<td><label for='address'>자택주소</label></td><td></td>
 			<td><button id=btnAddress>주소찾기</button><br>
-				<textarea name="address" id="address" rows=3 cols=24>{{member.address|default_if_none:""}</textarea></td>
+				<textarea name="address" id="address" rows=3 cols=24>${member.address}</textarea></td>
 		</tr>
 		<tr>
 			<td><label for='passcode'>비밀번호확인</label></td><td></td>

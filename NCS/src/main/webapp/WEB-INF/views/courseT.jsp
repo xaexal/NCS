@@ -96,25 +96,25 @@
 			<div class=row>
 				<div class='col-2 first-col left-col'>이름</div>
 				<div class='col-4 right-col'>
-					<input type=text id=member__name required>
+					<input type=text id=name required>
 					<input type=hidden id=member_id><input type="hidden" id="sid">
 				</div></div>
 			<div class=row><div class='col-2 left-col'>모바일</div>
-			<div class='col-4 right-col'><input type=text id=member__mobile required></div></div>
+			<div class='col-4 right-col'><input type=text id=mobile required></div></div>
 			<div class=row><div class='col-2 left-col'>생년월일</div>
-			<div class='col-4 right-col'><input type=date id=member__birthday></div></div>
+			<div class='col-4 right-col'><input type=date id=birthday></div></div>
 			<div class=row><div class='col-2 left-col'>성별</div>
 				<div class='col-4 right-col'>
-					<input type=radio id=male name='member__gender' value='남' val='M'>남
-					<input type=radio id=female name='member__gender' value='여' val='F'>여</div></div>
+					<input type=radio id=male name='gender' value='남' val='M'>남
+					<input type=radio id=female name='gender' value='여' val='F'>여</div></div>
 			<div class=row><div class='col-2 left-col'>최종학력 </div>
-			<div class='col-4 right-col'><input type=text id=member__school></div></div>
+			<div class='col-4 right-col'><input type=text id=school></div></div>
 			<div class=row><div class='col-2 left-col'>좌석번호</div>
 			<div class='col-4 right-col'><input type=number id=seq></div></div>
 			<div class=row><div class='col-2 left-col'>주소</div>
-			<div class='col-4 right-col'><textarea id=member__address rows="3" cols="22"></textarea></div></div>
+			<div class='col-4 right-col'><textarea id=address rows="3" cols="22"></textarea></div></div>
 			<div class=row><div class='col-2 left-col'>&nbsp;</div>
-			<div class='col-4 right-col'><input type=checkbox id=member__active>Active</div></div>
+			<div class='col-4 right-col'><input type=checkbox id=active>Active</div></div>
 			<div class=row><div class='col-6 left-col right-col' style='text-align:center'>
 					<input type="button" id=btnUpdateMember class='btn-sm btn-primary' value='Save'>
 						<!--<button id=btnDelStudent class='btn-sm btn-secondary'>Delete</button>-->

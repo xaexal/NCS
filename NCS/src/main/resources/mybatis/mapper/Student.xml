@@ -11,7 +11,7 @@
 <select id="get" resultType="com.etoile.app.DTO.Student">
 	select a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.active,a.member_id,
 		   b.school,b.address
-	  from ncs_student a left outer join ncs_member b on a.member_id=b.m_id
+	  from ncs_student a left outer join ncs_member b on a.member_id=b.mid
 	 where a.sid=#{sid}
 </select>
 <insert id="insert">

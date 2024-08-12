@@ -46,9 +46,9 @@ $(document)
 						rec[value]='';
 					}
 				}
-				let str=`<option value="${rec['member__mid']},${rec['sid']}">`+
-						`${rec['member__name']},\t${rec['member__mobile']},\t`+
-						`${rec['member__birthday']}</option>`;
+				let str=`<option value="${rec['mid']},${rec['sid']}">`+
+						`${rec['name']},\t${rec['mobile']},\t`+
+						`${rec['birthday']}</option>`;
 				console.log(str);
 				$('#selStudentApplied').append(str);
 			});
@@ -113,24 +113,23 @@ $(document)
 	return false;
 })
 .on('click','#selStudentPresent option,#selStudentApplied option',function(){
-	let pstr=($(this).val()).split(',');
+	let pstr=($(this).val()).split(','); //[member_id,student_id]
 	console.log(pstr)
 		
 	$('#member_id').val(pstr[0]);
 	$('#sid').val(pstr[1]);
-	$.post('/student/list',{member_id:$('#member_id').val()},(data)=>{
+	$.post('/student/get',{sid:$('#sid').val()},(student)=>{
 		
-		let student=data['student'][0]
 		console.log(student)
-		$('#member__name').val(student['member__name'])
-		$('#member__mobile').val(student['member__mobile'])
-		$('#member__birthday').val(student['member__birthday'])
-		$('#member__school').val(student['member__school'])
-		$('#member__address').val(student['member__address'])
+		$('#name').val(student['name'])
+		$('#mobile').val(student['mobile'])
+		$('#birthday').val(student['birthday'])
+		$('#school').val(student['school'])
+		$('#address').val(student['address'])
 		$('#seq').val(student['seq'])
-		$('#member__active').val(student['member__active'])
+		$('#active').val(student['active'])
 		$('#member_id').val(student['member_id'])
-		$('input[name=member__gender][val='+student['member__gender']+']').prop('checked',true)
+		$('input[name=gender][val='+student['gender']+']').prop('checked',true)
 	},'json')
 	return false;
 })
@@ -186,14 +185,14 @@ $(document)
 		return false;
 	}
 	
-	oParam['name']=$('#member__name').val();
-	oParam['mobile']=$('#member__mobile').val();
-	oParam['birthday']=$('#member__birthday').val();
-	oParam['gender']=$('input[name=member__gender]:checked').attr('val'); // .prop()안됨
-	oParam['school']=$('#member__school').val();
+	oParam['name']=$('#name').val();
+	oParam['mobile']=$('#mobile').val();
+	oParam['birthday']=$('#birthday').val();
+	oParam['gender']=$('input[name=gender]:checked').attr('val'); // .prop()안됨
+	oParam['school']=$('#school').val();
 	oParam['seq']=$('#seq').val();
-	oParam['address']=$('#member__address').val();
-	oParam['active']=$('#member__active').prop('checked')?'1':'0';	
+	oParam['address']=$('#address').val();
+	oParam['active']=$('#active').prop('checked')?'1':'0';	
 	console.log(oParam);					
 	$.post('/student/add',oParam,
 		function(data){

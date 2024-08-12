@@ -180,4 +180,19 @@ public class HomeController {
 			return "redirect:/login";
 		}
 	}
+	@GetMapping("/personal")
+	public String doPersonal(HttpServletRequest req,HttpSession s,Model model) {
+		try {
+			String mobile = (String)s.getAttribute("mobile");
+			System.out.println("mobile ["+mobile+"]");
+			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			
+			Member m=_mem.get(mobile);
+			model.addAttribute("member",m);
+			return "personal";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "redirect:/login";
+		}
+	}
 }

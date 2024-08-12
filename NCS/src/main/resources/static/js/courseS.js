@@ -67,36 +67,36 @@ $(document)
 })
 ;
 function courseList(){
-	console.log('courseListAll')
-	$.post(url_courseListAll,{member_id:$('#member_id').val()},function(data){
+	console.log('Unenrolled')
+	$.post('/course/unenrolled',{member_id:$('#member_id').val()},function(data){
 		console.log(data)
 		courseInfo=data;
 		$('#selCourseAll').empty();
-		$.each(data['All'],function(ndx,course){
+		$.each(data,function(ndx,course){
 			$('#selCourseAll').append(`<option value=${course['cid']}>${course['title']}</option>`);
 		});
 	},'json');
-	console.log('courseListApplied')
-	$.post(url_courseListApplied,{member_id:$('#member_id').val()},function(data){
+	console.log('Applied')
+	$.post('/course/applied',{member_id:$('#member_id').val()},function(data){
 		console.log(data)
 		$('#selCourseApplied').empty();
-		$.each(data['Applied'],function(ndx,course){
+		$.each(data,function(ndx,course){
 			$('#selCourseApplied').append(`<option value=${course['cid']}>${course['title']}</option>`);
 		});
 	},'json');
-	console.log('courseListPresent')
-	$.post(url_courseListPresent,{member_id:$('#member_id').val()},function(data){
+	console.log('Present')
+	$.post('/course/present',{member_id:$('#member_id').val()},function(data){
 		console.log(data)
 		$('#selCoursePresent').empty();
-		$.each(data['Present'],function(ndx,course){
+		$.each(data,function(ndx,course){
 			$('#selCoursePresent').append(`<option value=${course['cid']}>${course['title']}</option>`);
 		});
 	},'json');
-	console.log('courseListComplete')
-	$.post(url_courseListComplete,{member_id:$('#member_id').val()},function(data){
+	console.log('Complete')
+	$.post('/course/complete',{member_id:$('#member_id').val()},function(data){
 		console.log(data)
 		$('#selCourseComplete').empty();
-		$.each(data['Complete'],function(ndx,course){
+		$.each(data,function(ndx,course){
 			$('#selCourseComplete').append(`<option value=${course['cid']}>${course['title']}</option>`);
 		});
 	},'json');

@@ -15,4 +15,21 @@
 <update id="changePasscode">
 	update ncs_student set passcode=#{passcode_new} where member_id=#{member_id} and passcode=#{passcode}
 </update>
+<select id="get" resultType="com.etoile.app.DTO.Member">
+	select * from ncs_member where mobile=#{mobile}
+</select>
+<insert id="insert">
+	insert into ncs_member set mobile=#{mobile},name=#{mobile},passcode=#{passcode},
+			gender=#{gender}, birthday=#{birthday}, school=#{school},
+			level=#{level}, email=#{email}, address=#{address}
+</insert>
+<update id="update">
+	update ncs_member set mobile=#{mobile},name=#{mobile},passcode=#{passcode},
+			gender=#{gender}, birthday=#{birthday}, school=#{school},
+			level=#{level}, email=#{email}, address=#{address}
+	 where mid=#{mid}
+</update>
+<delete id="delete">
+	delete from ncs_member where mid=#{mid}
+</delete>
 </mapper>

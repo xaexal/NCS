@@ -30,12 +30,7 @@ public class CourseController {
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	        String formattedDate = today.format(formatter);
 	        System.out.println(formattedDate);
-	        String mid = req.getParameter("member_id");
-	        if(mid == null || mid.equals("")) { 
-	        	alCourse = _crs.list();
-	        } else {
-	        	alCourse = _crs.unenrolled(Integer.parseInt(mid));
-	        }
+        	alCourse = _crs.list();
 		} else {
 			String mid = req.getParameter("member_id");
 			int member_id=0;
@@ -48,6 +43,8 @@ public class CourseController {
 				alCourse = _crs.present(member_id);
 			} else if(requestURI.endsWith("complete")) {
 				alCourse = _crs.complete(member_id);
+			} else if(requestURI.endsWith("unenrolled")) {
+				alCourse = _crs.unenrolled(member_id);
 			}
 		}
     	System.out.println("alCourse size="+alCourse.size());
