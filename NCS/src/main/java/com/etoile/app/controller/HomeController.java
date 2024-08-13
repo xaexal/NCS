@@ -45,6 +45,11 @@ public class HomeController {
 		m.addAttribute("title","하이미디어 일산");
 		return "login"; 
 	}
+	@GetMapping("/signup")
+	public String doSignup(HttpServletRequest req, Model m) {
+		m.addAttribute("title","하이미디어 일산");
+		return "signup";
+	}
 	@PostMapping("/checkuser")
 	public String checkUser(HttpServletRequest req,HttpSession s,Model m) {
 		try {

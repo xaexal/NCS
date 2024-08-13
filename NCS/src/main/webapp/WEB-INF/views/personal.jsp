@@ -42,12 +42,12 @@ input[type=button] {
 </c:if>
 		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
 		<a class="navbar-brand" href='/logout'>로그아웃</a>
-		<input type="hidden" id="member_id" value="${sessionScope.member_id}">
 	</div>
 </nav>
 <section style="margin:auto;width:80%;">
 	<h1 style="color:rgb(128, 0, 255);font-size:36px;">나의 등록정보</h1>
-	<form action="/submitPersonal" id=frmPersonal method="post">
+	<form action="/member/add" id=frmPersonal method="post">
+		<input type="hidden" id="member_id" value="${sessionScope.member_id}">
 		<input type="hidden" id="level" name="level" value="${member.level}">
 		<table align=center>
 		<tr>

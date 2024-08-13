@@ -12,12 +12,10 @@ public interface _Member {
 	int checkStudent(@Param("member_id") int mid);
 	int changePasscode(@Param("member_id") String x, @Param("passcode") String y, @Param("passcode_new") String z);
 	Member get(@Param("mobile") String mobile);
-	int insert(@Param("mobile") String mobile, @Param("name") String name, @Param("passcode") String passcode,
-			@Param("gender") String gender, @Param("birthday") String birthday, @Param("school") String school,
-			@Param("level") int level, @Param("email") String email, @Param("address") String address);
+	int insert(@Param("mobile") String mobile, @Param("passcode") String passcode);
 	int update(@Param("mobile") String mobile, @Param("name") String name, @Param("passcode") String passcode,
 			@Param("gender") String gender, @Param("birthday") String birthday, @Param("school") String school,
-			@Param("level") int level, @Param("email") String email, @Param("address") String address,
+			@Param("email") String email, @Param("address") String address,
 			@Param("mid") int mid);
 	int delete(@Param("mid") int mid);
 }
