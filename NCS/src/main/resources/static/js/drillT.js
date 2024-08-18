@@ -34,7 +34,7 @@ $(document)
 	if($('#dtid').val()==''){
 		alert('지울 데이터를 먼저 선택하십시오.'); return false;
 	}
-	$.post(url_delDrillType,{dtid:$('#dtid').val()},function(rec){
+	$.post('/drilltype/delete',{dtid:$('#dtid').val()},function(rec){
 		console.log(rec)
 		if(rec['result']!='0'){
 			alert(rec['msg']); return false;
@@ -49,7 +49,7 @@ $(document)
 	if($('#typename').val()==''){
 		alert('내용을 입력하십시오.'); return false;
 	}
-	$.post(url_addDrillType,{dtid:$('#dtid').val(),typename:$('#typename').val()},function(rec){
+	$.post('/drilltype/add',{dtid:$('#dtid').val(),typename:$('#typename').val()},function(rec){
 		if(rec['result']!='0'){
 			alert('새 분류 등록 실패'); return false;
 		}
@@ -62,65 +62,65 @@ $(document)
 	drillList();
 	return false;	
 })
-.on('dblclick','#selDrillAll option',function(){
+.on('dblclick','#selDrill option',function(){
 	$('#btnAppend').trigger('click');
 	return false;
 })
 .on('click','#btnAppend',function(){
 	let cid=$('#selCourse').val().split(',')[0];
-	$('#selDrillAll option:selected').each(function(){
+	$('#selDrill option:selected').each(function(){
 		let did=$(this).val();
 		let dtype=$(this).attr('dtype');
 		let htmlstr='<option value='+did+' dtype='+dtype+'>'+$(this).html()+'</option>';
 		console.log(`did [${did}] cid [${cid}] dtype [${dtype}]`)
-		$.ajax({url:url_addDrill2List,data:{cid:cid,did:did},
-			dataType:'json',method:'post',
+		$.ajax({url:'/exercise/add',data:{cid:cid,did:did},
+			dataType:'text',method:'post',
+			beforeSend:function(){console.log(this.data)},
 			success:function(data){
-				if(data['result']=='-1'){
-					alert(data['msg']); return false;
+				if(data=='0'){
+					alert('추가실패'); return false;
 				}
 				console.log(htmlstr)
-				$('#selDrillAdded').append(htmlstr);
+				$('#selExercise').append(htmlstr);
 			}
 		});
 		$(this).remove();
 	});
 	return false;
 })
-.on('dblclick','#selDrillAdded',function(){
+.on('dblclick','#selExercise',function(){
 	$('#btnRemove').trigger('click');
 	return false;
 })
 .on('click','#btnRemove',function(){
 	let cid=$('#selCourse').val().split(',')[0];
-	$('#selDrillAdded option:selected').each(function(){
+	$('#selExercise option:selected').each(function(){
 		let did=$(this).val();
 		let dtype=$(this).attr('dtype');
 		let htmlstr='<option value='+did+' dtype='+dtype+'>'+$(this).html()+'</option>';
 		console.log(`did [${did}] cid [${cid}]`)
-		$.ajax({url:url_delDrill4List,data:{cid:cid,did:did},
-			dataType:'json',method:'post',
+		$.ajax({url:'/exercise/delete',data:{cid:cid,did:did},
+			dataType:'text',method:'post',
 			success:function(data){
-				if(data['result']=='-1'){
-					alert(data['msg']); return false;
+				if(data=='='){
+					alert('제외 실패'); return false;
 				}
 				console.log(htmlstr)
-				$('#selDrillAll').append(htmlstr);
+				$('#selDrill').append(htmlstr);
 			}
 		});
 		$(this).remove();
 	});
 	return false;
 })
-.on('click','#selDrillAll option,#selDrillAdded option',function(){
+.on('click','#selDrill option,#selExercise option',function(){
 	if($(this).find(':selected').length>1) {
 		$('#btnClear').trigger('click');
 		return false;
 	}
 	$('#did').val($(this).parent().val());
 	
-	$.post(url_getDrill,{did:$('#did').val()},function(json){
-		let data=json['rec'][0];
+	$.post('/drill/get',{did:$('#did').val()},function(data){
 		$('#txtDrillName').val(data['name']);
 		$('#selDrillType').val(data['dtype_id']);
 		$('#txtComment').val(data['comment']);
@@ -141,17 +141,23 @@ $(document)
 		return false;
 	}
 	// insert if did is null, else update
-	$.post(url_addDrill,{did:$('#did').val(),name:$('#txtDrillName').val(),
-						 comment:$('#txtComment').val(),type_id:$('#selDrillType').val()},
-		function(json){
-			if(json['result']=='0'){
+	
+	$.ajax({url:'/drill/add',dataType:'text',type:'post',
+			data:{did:$('#did').val(),name:$('#txtDrillName').val(),
+				  comment:$('#txtComment').val(),type_id:$('#selDrillType').val()},
+		beforeSend:function(){
+//			console.log(this.data);
+		},
+		success:function(data){
+			console.log(data);
+			if(data=='1'){
 				$('#btnClear').trigger('click');
 				drillList();
 			} else {
-				alert(json['msg']);
+				alert('등록실패');
 			}
 		}
-	,'json');	
+	});	
 	return false;
 })
 .on('click','#btnDelete',function(){
@@ -159,24 +165,24 @@ $(document)
 		alert('삭제할 과제를 선택하십시오.');
 		return false;
 	}
-	$.post(url_delDrill,{did:$('#did').val()},function(json){
-		if(json['result']=='0'){
+	$.post('/drill/delete',{did:$('#did').val()},function(data){
+		if(data=='1'){
 			$('#btnClear').trigger('click');
 			drillList();
 		} else {
-			alert(json['msg']);
+			alert('삭제 실패');
 		}
-	},'json');	
+	},'text');	
 	return false;
 })
-.on('change','#selDrillTypeAdded',function(){
+.on('change','#selDrilltype_Exercise',function(){
 	if($(this).val()=='all'){
-		$('#selDrillAdded option').each(function(){
+		$('#selExercise option').each(function(){
 			$(this).show();
 		})
 	} else {
 		let value=$(this).val();
-		$('#selDrillAdded option').each(function(){
+		$('#selExercise option').each(function(){
 			if($(this).attr('dtype')==value){ // .prop()사용안됨
 				$(this).show();
 			} else {
@@ -187,14 +193,14 @@ $(document)
 	$('#btnClear').trigger('click')
 	return false;
 })
-.on('change','#selDrillTypeAll',function(){
+.on('change','#selDrilltype_Drill',function(){
 	if($(this).val()=='all'){
-		$('#selDrillAll option').each(function(){
+		$('#selDrill option').each(function(){
 			$(this).show();
 		})
 	} else {
 		let value=$(this).val();
-		$('#selDrillAll option').each(function(){
+		$('#selDrill option').each(function(){
 			if($(this).attr('dtype')==value){ // .prop()사용안됨
 				$(this).show();
 			} else {
@@ -209,31 +215,26 @@ $(document)
 
 function drillList(){
 	// get drill list for current class
-	$.post(url_drillAdded,{cid:$('#selCourse').val().split(',')[0]},function(json){
-		if(bDebug) console.log(json)
-		console.log(json)
-		$('#selDrillAdded').empty();
-		$.each(json['added'],function(k,v){
-			$('#selDrillAdded').append(`<option value="${v['did']}" dtype="${v['dtype_id']}">${v['name']}</option>`);
+	$.post('/exercise/list',{cid:$('#selCourse').val().split(',')[0]},function(json){
+		$('#selExercise').empty();
+		$.each(json,function(k,v){
+			$('#selExercise').append(`<option value="${v['did']}" dtype="${v['dtype_id']}">${v['name']}</option>`);
 		});
 	},'json');
-	$.post(url_drillAll,{cid:$('#selCourse').val().split(',')[0]},function(json){
-		$('#selDrillAll').empty();
-		$.each(json['all'],function(k,v){
+	$.post('/drill/list',{cid:$('#selCourse').val().split(',')[0]},function(json){
+		$('#selDrill').empty();
+		$.each(json,function(k,v){
 			let pstr=`<option value="${v['did']}" dtype="${v['dtype_id']}">${v['name']}</option>`
-			console.log(pstr)
-			$('#selDrillAll').append(pstr);
+			$('#selDrill').append(pstr);
 		});
 	},'json');
 }
 
 function drillTypeList(){
-	console.log('drillTypeList()')
-	$.post(url_drillTypeList,{},function(json){
+	$.post('/drilltype/list',{},function(data){
 		$('select[name=selDrillType]').empty();
-		$('#selDrillTypeAdded,#selDrillTypeAll').append('<option value=all>All</option>');
-		for(rec of json['rec']){
-			console.log(rec)
+		$('#selDrilltype_Exercise,#selDrilltype_Drill').append('<option value=all>All</option>');
+		for(rec of data){
 			$('#dtid,#typename').val('');
 			let str=`<option value=${rec['dtid']}>${rec['typename']}</option>`;
 			$('select[name=selDrillType').append(str);

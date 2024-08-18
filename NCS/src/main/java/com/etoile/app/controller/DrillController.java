@@ -78,10 +78,10 @@ public class DrillController {
 		int n=0;
 		if(did==null || did.equals("")) {
 			n = _drl.insert(req.getParameter("name"),req.getParameter("comment"),
-						Integer.parseInt(req.getParameter("dtype_id")));
+						Integer.parseInt(req.getParameter("type_id")));
 		} else {
 			n = _drl.update(req.getParameter("name"),req.getParameter("comment"),
-						Integer.parseInt(req.getParameter("dtype_id")),
+						Integer.parseInt(req.getParameter("type_id")),
 						Integer.parseInt(did));
 		}
 		return ""+n;

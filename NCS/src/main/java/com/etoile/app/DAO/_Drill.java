@@ -11,7 +11,6 @@ import com.etoile.app.DTO.Drill;
 public interface _Drill {
 	ArrayList<Drill> list(@Param("cid") int cid);
 	Drill get(int did);
-	ArrayList<Drill> drillAdded(int cid);
 	int insert(@Param("name") String name, @Param("comment") String comment, @Param("dtype_id") int dtype_id);
 	int update(@Param("name") String name, @Param("comment") String comment, @Param("dtype_id")  int dtype_id, @Param("did")  int did);
 	int delete(@Param("did") int did);

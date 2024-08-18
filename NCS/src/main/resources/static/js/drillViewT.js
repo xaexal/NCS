@@ -30,7 +30,7 @@ $(document)
 //	dayCount($('#cid').val(),$('#lblDays'));
 		
 	// 해당과정의 재학생명단 가져오기
-	$.post(url_studentList,{cid:$('#cid').val()},function(data){
+	$.post('/student/list',{cid:$('#cid').val()},function(data){
 		console.log(data);
 		if(data['result']=='-1'){
 			alert(data['msg']); return false;
@@ -51,12 +51,12 @@ $(document)
 	},'json');
 	exerciseList();
 })
-.on('click','#selDrill option',function(){
+.on('click','#selExercise option',function(){
 	if(gInterval) clearInterval(gInterval);
 
 	title=$(this).text();
 	if(title=='-') {
-		$('#selDrill').val('');
+		$('#selExercise').val('');
 		return false;
 	}
 	//$('#txtDrill').val(title);
@@ -75,15 +75,15 @@ $(document)
 .on('click','table[id^=tbls] td',function(){
 //	console.log('td click')
 	if($(this).index()!=0 || $(this).parent().index()!=1) return false;
-//	if(bDebug) console.log($('#selDrill').val());
-	if($('#selDrill').val()==null) {
+//	if(bDebug) console.log($('#selExercise').val());
+	if($('#selExercise').val()==null) {
 		alert('과제를 선택해야 상태를 변경할 수 있습니다.');
 		return false;	
 	}
 	thisSeat=$(this);
-	let oParam={sid:thisSeat.prop('id'),drill_id:$('#selDrill').val()};
+	let oParam={sid:thisSeat.prop('id'),drill_id:$('#selExercise').val()};
 //	console.log(oParam);
-	$.post(url_statusUpdate,oParam,function(data){
+	$.post('/status/update',oParam,function(data){
 		console.log(data)
 		if(data=='') {
 			alert('로그인확인바람');
@@ -121,22 +121,22 @@ $(document)
 
 function exerciseList(){
 //	console.log('cid='+$('#cid').val());
-	$.post(url_exerciseList,{cid:$('#cid').val()},function(data){
+	$.post('/exercise/list',{cid:$('#cid').val()},function(data){
 		console.log(data)
-		$('#selDrill').empty();
+		$('#selExercise').empty();
 		$.each(data,function(k,rec){
 			let pstr=`<option value="${rec['did']}">${rec['name']}</option>`;
 //			console.log(pstr)
-			$('#selDrill').prepend(pstr);
+			$('#selExercise').prepend(pstr);
 		});
 	},'json');
 }
 
 function exerciseStatus(){
-	if($('#selDrill').val()=='') return false;
+	if($('#selExercise').val()=='') return false;
 
 	let arStudent=[];
-	$.post(url_exerciseStatus,{drill_id:$('#selDrill').val(),cid:$('#cid').val()},function(data){
+	$.post('/status/list',{drill_id:$('#selExercise').val(),cid:$('#cid').val()},function(data){
 		console.log(data)
 		$.each(data,function(ndx,rec){
 			arStudent.push(parseInt(rec['student_id']));

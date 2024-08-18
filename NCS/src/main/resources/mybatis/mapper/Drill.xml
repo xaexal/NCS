@@ -4,8 +4,8 @@
 <mapper namespace="com.etoile.app.DAO._Drill">
 <select id="list" resultType="com.etoile.app.DTO.Drill">
 	select * from ncs_drill
-	 where did not in (select drill_id from DrillList
-	 					where course_id=#{cid})
+	 where did not in (select drill_id from ncs_exercise
+	 					where course_id=#{cid}) order by created
 </select>
 <select id="get" resultType="com.etoile.app.DTO.Drill">
 	select * from ncs_drill where did =#{did}

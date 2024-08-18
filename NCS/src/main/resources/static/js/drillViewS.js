@@ -52,17 +52,22 @@ $(document)
 //	$(this).parent().css('background-color','yellow');
 
 	oParam['sid']=$('#sid').val();
-	console.log(oParam)
-	$.post('/status/update',oParam,function(data){
-		console.log(data)
-		if(data=='') return false;
-		curtd.removeClass().text(data);
-		switch(data){
-		case '작업중': curtd.addClass('border working'); break;
-		case '확인중': curtd.addClass('border checking'); break;
-		case '완료':	 curtd.addClass('border done')
+	$.ajax({url:'/status/update',type:'post',dataType:'text',
+		data:oParam,
+		beforeSend:function(){
+			console.log(this.data);
+		},
+		success:data=>{
+			console.log(data)
+			if(data=='') return false;
+			curtd.removeClass().text(data);
+			switch(data){
+			case '작업중': curtd.addClass('border working'); break;
+			case '확인중': curtd.addClass('border checking'); break;
+			case '완료':	 curtd.addClass('border done')
+			}
 		}
-	},'text');
+	});
 	return false;	
 })
 ;
@@ -113,7 +118,6 @@ function myExerciseStatus(){
 			let curtd=$('#tblExercise tbody tr[eid='+rec['drill_id']+']').find('td:eq(1)')
 			if(curtd.text()!=rec['status']){
 				curtd.removeClass('working checking done')
-				console.log(curtd.text(),rec['status'])
 				curtd.text(rec['status']);
 				switch(rec['status']){
 				case '작업중': curtd.addClass('working'); break;

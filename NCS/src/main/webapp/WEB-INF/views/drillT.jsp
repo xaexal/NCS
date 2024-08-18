@@ -8,8 +8,8 @@
 }
 </style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" >
-<input type=hidden id=classid value='${class.classcode}'>
-<input type=hidden id=seat_cnt value='${class.seat_cnt}'>
+<input type=hidden id=classid value='${classcode}'>
+<input type=hidden id=seat_cnt value='${seat_cnt}'>
 <header>
 <h2>${title}</h2>
 </header>
@@ -35,8 +35,8 @@
 <div class='container'>
 	<div class='row'>
 		<div class='col-3'>
-			<tr><td><select id=selDrillTypeAdded style='width:300px;' name="selDrillType"></select></td></tr>
-			<select id=selDrillAdded size=30 multiple style='width:300px;'></select>
+			<tr><td><select id=selDrilltype_Exercise style='width:300px;' name="selDrillType"></select></td></tr>
+			<select id=selExercise size=30 multiple style='width:300px;'></select>
 		</div>
 		<div class='col-1' style='display:flex;align-items:center;'>
 			<table style='height:100%;'>
@@ -47,8 +47,8 @@
 		</div>
 		<div class='col-3'>
 			<table valign=top>
-			<tr><td><select id=selDrillTypeAll style='width:300px;' name="selDrillType"></select></td></tr>
-			<tr><td><select id=selDrillAll size=30 multiple style='width:300px;'></select></td></tr>
+			<tr><td><select id=selDrilltype_Drill style='width:300px;' name="selDrillType"></select></td></tr>
+			<tr><td><select id=selDrill size=30 multiple style='width:300px;'></select></td></tr>
 			</table>
 		</div>
 		<div class='col-1'>

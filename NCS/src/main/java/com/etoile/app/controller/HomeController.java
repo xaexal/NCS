@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.etoile.app.DAO._Course;
+import com.etoile.app.DAO._Drilltype;
 import com.etoile.app.DAO._Member;
 import com.etoile.app.DTO.Course;
+import com.etoile.app.DTO.Drilltype;
 import com.etoile.app.DTO.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 public class HomeController {
 	@Autowired _Member _mem;
 	@Autowired _Course _crs;
+	@Autowired _Drilltype _dt;
 	
 	@GetMapping("/")
 	public String home(HttpSession s, Model m) {
@@ -157,6 +160,13 @@ public class HomeController {
 		try {
 			String mobile = (String)s.getAttribute("mobile");
 			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			
+			ArrayList<Drilltype> arDrilltype = _dt.list();
+			System.out.println("arDrilltype size="+arDrilltype.size());
+			model.addAttribute("arDrillType",arDrilltype);
+			ArrayList<Course> arCourse = _crs.list();
+			System.out.println("arCOurse size="+arCourse.size());
+			model.addAttribute("courses",arCourse);
 			return "drillT";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

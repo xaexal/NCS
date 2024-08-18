@@ -31,7 +31,7 @@
 <div class='container'>
 	<div class='row'>
 	<div class='col-3'>
-		<select id=selDrill size=39 style='width:300px;'></select>
+		<select id=selExercise size=39 style='width:300px;'></select>
 	</div>
 	<div class='col-9'>
 		<table align=center style='border-collapse:collapse;' id=tblSeat style="width:100px;height:100px;">
@@ -41,11 +41,5 @@
 </div>
 <div id=p_info style='display:none;position:absolute;background-color:aquamarine;border:1px solid cyan;font-size:12px;text-align:left;'></div>
 </section>
-<script>
-let url_studentList='/student/list';
-let url_exerciseList = '/exercise/list';
-let url_exerciseStatus = '/status/list';
-let url_statusUpdate = '/status/update';
-</script>
 <script src="js/drillViewT.js"></script>
 <jsp:include page="footer.jsp" />
