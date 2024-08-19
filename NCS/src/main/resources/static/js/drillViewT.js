@@ -81,7 +81,7 @@ $(document)
 		return false;	
 	}
 	thisSeat=$(this);
-	let oParam={sid:thisSeat.prop('id'),drill_id:$('#selExercise').val()};
+	let oParam={sid:thisSeat.prop('id'),eid:$('#selExercise').val()};
 //	console.log(oParam);
 	$.post('/status/update',oParam,function(data){
 		console.log(data)

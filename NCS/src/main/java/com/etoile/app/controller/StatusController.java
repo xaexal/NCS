@@ -103,31 +103,28 @@ public class StatusController {
 			int sid = Integer.parseInt(req.getParameter("sid"));
 			int eid = Integer.parseInt(req.getParameter("eid"));
 			System.out.println("sid ["+sid+"] eid ["+eid+"]");
-			String status="작업중";
 			int n = _ds.count(eid,sid);
+			String status="작업중";
 			System.out.println("n ["+n+"]");
 			if(n==0) {
 				n=_ds.insert(eid, sid, status);
-			}
-			status = _ds.get(eid, sid);
-			System.out.println("status ["+status+"]");
-			if(status.equals("완료")) {
-				status = "작업중";
-			} else if(status.equals("확인중")) {
-				if(level==0){
-					status="완료";
-				} else {
-					status="작업중";
-				}
 			} else {
-				if(level==0){
-					status="완료";
+				status = _ds.get(eid, sid);
+				System.out.println("status ["+status+"]");
+				if(status.equals("완료")) {
+					status = "작업중";
+				} else if(status.equals("확인중")) {
+					if(level==0) {
+						status="완료";
+					} else {
+						status="작업중";
+					}
 				} else {
 					status="확인중";
-				}
-			} 
-			result = _ds.update(eid, sid, status);
-			System.out.println("result ["+result+"] status ["+status+"]");
+				} 
+				result = _ds.update(eid, sid, status);
+				System.out.println("result ["+result+"] status ["+status+"]");
+			}
 			if(result==1) return status;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
