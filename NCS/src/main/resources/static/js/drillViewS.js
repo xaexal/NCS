@@ -115,7 +115,7 @@ function myExerciseStatus(){
 	$.post('/status/list4student',{student_id:$('#sid').val()},function(data){
 //		console.log(data);
 		$.each(data,function(ndx,rec){
-			let curtd=$('#tblExercise tbody tr[eid='+rec['drill_id']+']').find('td:eq(1)')
+			let curtd=$('#tblExercise tbody tr[eid='+rec['eid']+']').find('td:eq(1)')
 			if(curtd.text()!=rec['status']){
 				curtd.removeClass('working checking done')
 				curtd.text(rec['status']);

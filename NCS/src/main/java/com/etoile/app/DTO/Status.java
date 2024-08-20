@@ -8,6 +8,7 @@ public class Status {
 	int drill_id;
 	String status;
 	int student_id;
+	int eid;
 	String created;
 	String updated;
 }

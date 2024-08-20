@@ -125,7 +125,7 @@ function exerciseList(){
 		console.log(data)
 		$('#selExercise').empty();
 		$.each(data,function(k,rec){
-			let pstr=`<option value="${rec['did']}">${rec['name']}</option>`;
+			let pstr=`<option value="${rec['eid']}">${rec['name']}</option>`;
 //			console.log(pstr)
 			$('#selExercise').prepend(pstr);
 		});
@@ -136,7 +136,7 @@ function exerciseStatus(){
 	if($('#selExercise').val()=='') return false;
 
 	let arStudent=[];
-	$.post('/status/list',{drill_id:$('#selExercise').val(),cid:$('#cid').val()},function(data){
+	$.post('/status/list',{eid:$('#selExercise').val()},function(data){
 		console.log(data)
 		$.each(data,function(ndx,rec){
 			arStudent.push(parseInt(rec['student_id']));

@@ -23,11 +23,10 @@ public class StatusController {
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req) {
 		try {
-			int drill_id = Integer.parseInt(req.getParameter("drill_id"));
-			int cid = Integer.parseInt(req.getParameter("cid"));
-			System.out.println("drill_id ["+drill_id+"] cid ["+cid+"]");
+			int eid = Integer.parseInt(req.getParameter("eid"));
+			System.out.println("eid ["+eid+"]");
 			
-			ArrayList<Status> arStatus = _ds.list(drill_id,cid);
+			ArrayList<Status> arStatus = _ds.list(eid);
 //			System.out.println("arStatus size ["+arStatus.size()+"]");
 			JSONArray ja = new JSONArray();
 			arStatus.forEach(x->{
@@ -58,6 +57,7 @@ public class StatusController {
 				jo.put("drill_id", x.getDrill_id());
 				jo.put("status", x.getStatus());
 				jo.put("student_id", x.getStudent_id());
+				jo.put("eid", x.getEid());
 				jo.put("created", x.getCreated());
 				jo.put("updated", x.getUpdated());
 				ja.add(jo);
@@ -102,10 +102,10 @@ public class StatusController {
 
 			int sid = Integer.parseInt(req.getParameter("sid"));
 			int eid = Integer.parseInt(req.getParameter("eid"));
-			System.out.println("sid ["+sid+"] eid ["+eid+"]");
+			System.out.println("level ["+level+"] sid ["+sid+"] eid ["+eid+"]");
 			int n = _ds.count(eid,sid);
-			String status="작업중";
 			System.out.println("n ["+n+"]");
+			String status="작업중";
 			if(n==0) {
 				n=_ds.insert(eid, sid, status);
 			} else {
@@ -128,6 +128,7 @@ public class StatusController {
 			if(result==1) return status;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			System.out.println("error");
 		}
 		return "";
 	}
