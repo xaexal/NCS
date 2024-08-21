@@ -74,4 +74,16 @@ public class ExerciseController {
 		}
 		
 	}
+	@PostMapping("/lastCreated")
+	public String lastCreated(HttpServletRequest req) {
+		String lastTime="";
+		try {
+			int cid = Integer.parseInt(req.getParameter("cid"));
+			lastTime = _exr.lastCreated(cid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return lastTime;
+	}
+
 }

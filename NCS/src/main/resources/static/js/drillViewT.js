@@ -68,7 +68,7 @@ $(document)
 	exerciseStatus();
 	let dt=new Date();
 //	if(dt.getHours()>9 && dt.getHours()<18){
-//		gInterval=setInterval(exerciseStatus,5000);
+		gInterval=setInterval(exerciseStatus,5000);
 //	}
 	return false;
 })

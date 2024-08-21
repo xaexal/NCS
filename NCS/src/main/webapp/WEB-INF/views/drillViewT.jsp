@@ -28,6 +28,7 @@
 	</div>
 </nav>
 <section>
+<input type=hidden id=lastUpdated>
 <div class='container'>
 	<div class='row'>
 	<div class='col-3'>

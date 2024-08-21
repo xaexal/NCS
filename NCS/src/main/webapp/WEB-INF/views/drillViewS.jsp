@@ -29,9 +29,12 @@
 		</div>
 	</div>
 </nav>
+<input type=hidden id=lastCreated>
+<input type=hidden id=lastUpdated>
 <div class='container'>
 	<div class=row>
 		<div class=col>
+			<select id=selDrillType></select>
 			<table id=tblExercise style='width:100%;' class=border>
 		        <thead><tr style='background-color:white;height:40px;'>
 		        	<th align=center>과제</th>

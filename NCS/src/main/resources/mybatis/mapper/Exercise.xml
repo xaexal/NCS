@@ -6,7 +6,13 @@
 	select a.eid,b.did,b.name,b.comment,b.dtype_id,b.created,b.updated
 	  from ncs_exercise a, ncs_drill b 
 	 where a.course_id=#{cid} and a.drill_id=b.did
-	 order by a.created desc
+	 order by a.created
+</select>
+<select id="get" resultType="com.etoile.app.DTO.Exercise">
+	select * from ncs_exercise where eid=#{eid}
+</select>
+<select id="lastCreated" resultType="String">
+	select max(created) from ncs_exercise where course_id=#{cid}
 </select>
 <insert id="insert">
 	insert into ncs_exercise set course_id=#{cid},drill_id=#{did}

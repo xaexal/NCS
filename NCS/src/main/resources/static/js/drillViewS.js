@@ -18,6 +18,7 @@ $(document)
 		},'json');	
 	}
 */	
+	drillTypeList();
 	let dt=new Date();
 //	if( dt.getHours()>9 && dt.getHours()<18){
 		setInterval(refreshPage,5000);
@@ -31,6 +32,7 @@ $(document)
 			console.log("sid ["+data+"]");
 			$('#sid').val(data);
 //			dayCount($('#selCourse').val(),$('#lblDays'));
+			$('#lastCreated').val('');
 			refreshPage();
 		},'json')
 	return false;
@@ -70,10 +72,53 @@ $(document)
 	});
 	return false;	
 })
+.on('change','#selDrillType',function(){
+	console.log("change ["+$(this).val()+"]")
+	if($(this).val()=='all'){
+		
+		$('#tblExercise tbody tr').show();
+	} else {
+		let value=$(this).val();
+		$('#tblExercise tbody tr').each(function(){
+			if($(this).attr('dtype')==value){ // .prop()사용안됨
+				$(this).show();
+			} else {
+				$(this).hide();
+			}
+		})
+	}
+	return false;
+})
+
 ;
 
 function refreshPage(){
-	exerciseList();
+	$.ajax({type:'post',dataType:'text',url:'/exercise/lastCreated',
+		data:{cid:$('#selCourse').val()},
+		beforeSend:function(){},
+		success:function(data){
+//			console.log("data ["+data+"] lastCreated ["+$('#lastCreated').val()+"]");
+			if(data>$('#lastCreated').val()) {
+				$('#lastCreated').val(data);
+				exerciseList();
+			}
+		},
+		complete:function(){
+			$.ajax({type:'post',dataType:'text',url:'/status/lastUpdated',
+				data:{sid:$('#sid').val()},
+				beforeSend:function(){
+					console.log(this.data);
+				},
+				success:function(data){
+//					console.log("data ["+data+"] lastUpdated ["+$('#lastUpdated').val()+"]");
+					if(data>$('#lastUpdated').val()){
+						$('#lastUpdated').val(data);
+						myExerciseStatus();
+					}
+				}
+			})
+		}
+	})
 	return false;
 }
 
@@ -83,7 +128,7 @@ function exerciseList(){
 	$.post('/exercise/list',{cid:$('#selCourse').val()},function(data){
 //		console.log(data)
 		$('#tblExercise tbody').empty();
-		$.each(data,function(ndx,rec){
+		for(rec of data){
 			let skip=false;
 			$('#tblExercise tbody tr').each(function(){
 				if($(this).attr('eid')==rec['eid']){
@@ -93,12 +138,13 @@ function exerciseList(){
 				}
 			})
 			if(!skip){
-				let pstr=`<tr eid="${rec['eid']}" tag="${tag}"><td class='border'>${rec['name']}</td><td class='border working'>작업중</td></tr>`;
+				let pstr=`<tr eid="${rec['eid']}" tag="${tag}" dtype="${rec['dtype_id']}"><td class='border'>${rec['name']}</td><td class='border working'>작업중</td></tr>`;
 				$('#tblExercise tbody').prepend(pstr);
 				drill_info[rec['eid']]=rec['comment']+
 						'\n\n\n[작성:'+rec['created']+']\n[수정:'+rec['updated']+']';
+				if($('#lastCreated').val()=='') $('#lastCreated').val(rec['created']);
 			}
-		})	
+		}
 		$('#tblExercise tbody tr').each(function(){
 			if($(this).attr('tag')!=tag){
 				$(this).remove();
@@ -113,8 +159,7 @@ function exerciseList(){
 function myExerciseStatus(){
 	console.log("myExerciseStatus ["+$('#sid').val()+"]");
 	$.post('/status/list4student',{student_id:$('#sid').val()},function(data){
-//		console.log(data);
-		$.each(data,function(ndx,rec){
+		for(rec of data){
 			let curtd=$('#tblExercise tbody tr[eid='+rec['eid']+']').find('td:eq(1)')
 			if(curtd.text()!=rec['status']){
 				curtd.removeClass('working checking done')
@@ -125,6 +170,18 @@ function myExerciseStatus(){
 				case '완료':	 curtd.addClass('done')
 				}
 			}
-		})
+		}
+	},'json');
+}
+
+function drillTypeList(){
+	$.post('/drilltype/list',{},function(data){
+		$('#selDrillType').empty();
+		$('#selDrillType').append('<option value=all>All</option>');
+		console.log(data);
+		for(rec of data){
+			let str=`<option value=${rec['dtid']}>${rec['typename']}</option>`;
+			$('#selDrillType').append(str);
+		}
 	},'json');
 }

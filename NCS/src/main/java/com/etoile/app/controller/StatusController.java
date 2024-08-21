@@ -102,34 +102,47 @@ public class StatusController {
 
 			int sid = Integer.parseInt(req.getParameter("sid"));
 			int eid = Integer.parseInt(req.getParameter("eid"));
-			System.out.println("level ["+level+"] sid ["+sid+"] eid ["+eid+"]");
+//			System.out.println("level ["+level+"] sid ["+sid+"] eid ["+eid+"]");
 			int n = _ds.count(eid,sid);
-			System.out.println("n ["+n+"]");
+//			System.out.println("n ["+n+"]");
 			String status="작업중";
 			if(n==0) {
 				n=_ds.insert(eid, sid, status);
 			} else {
 				status = _ds.get(eid, sid);
-				System.out.println("status ["+status+"]");
-				if(status.equals("완료")) {
-					status = "작업중";
-				} else if(status.equals("확인중")) {
-					if(level==0) {
-						status="완료";
-					} else {
-						status="작업중";
-					}
-				} else {
-					status="확인중";
-				} 
-				result = _ds.update(eid, sid, status);
-				System.out.println("result ["+result+"] status ["+status+"]");
 			}
+			System.out.println("status ["+status+"]");
+			if(status.equals("완료")) {
+				status = "작업중";
+			} else if(status.equals("확인중")) {
+				if(level==0) {
+					status="완료";
+				} else {
+					status="작업중";
+				}
+			} else {
+				status="확인중";
+			} 
+			result = _ds.update(eid, sid, status);
+//			System.out.println("result ["+result+"] status ["+status+"]");
 			if(result==1) return status;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			System.out.println("error");
+//			System.out.println("error");
 		}
 		return "";
+	}
+	@PostMapping("/lastUpdated")
+	public String lastUpdated(HttpServletRequest req) {
+		String updated="";
+		try {
+			int sid = Integer.parseInt(req.getParameter("sid"));
+			updated = _ds.lastUpdated(sid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			
+		}
+//		System.out.println("updated ["+updated+"]");
+		return updated;
 	}
 }
