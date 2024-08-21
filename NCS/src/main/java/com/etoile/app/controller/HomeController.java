@@ -53,6 +53,19 @@ public class HomeController {
 		m.addAttribute("title","하이미디어 일산");
 		return "signup";
 	}
+	@PostMapping("/memberInsert")
+	public String memberInsert(HttpServletRequest req, Model m) {
+		int result=0;
+		try {
+			String mobile = req.getParameter("mobile");
+			String passcode = req.getParameter("passcode");
+			result = _mem.insert(mobile, passcode);
+			if(result==1) return "redirect:/login";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "redirect:/signup";
+	}
 	@PostMapping("/checkuser")
 	public String checkUser(HttpServletRequest req,HttpSession s,Model m) {
 		try {

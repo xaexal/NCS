@@ -2,6 +2,7 @@ package com.etoile.app.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etoile.app.DAO._Course;
+import com.etoile.app.DAO._Student;
 import com.etoile.app.DTO.Course;
+import com.etoile.app.DTO.Student;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -19,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/course")
 public class CourseController {
 	@Autowired _Course _crs;
+	@Autowired _Student _std;
 	
 	@PostMapping({"/list","/applied","/unenrolled",
 				  "/present","/complete"})
@@ -69,9 +73,18 @@ public class CourseController {
 	}
 	@PostMapping("/add")
 	public String doAdd(HttpServletRequest req) {
+		Map<String, String[]> parameterMap =req.getParameterMap();
+		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+	        String paramName = entry.getKey();
+	        String[] paramValues = entry.getValue();
+	        // 요청 매개변수 값에 대해 원하는 작업을 수행합니다.
+	        for (String paramValue : paramValues) {
+	            System.out.println(paramName+" ["+ paramValue+"]");
+	        }
+	    }
 		String cid = req.getParameter("cid");
 		int result=0;
-		if(cid == null || !cid.equals("")) {
+		if(cid == null || cid.equals("")) {
 			result=_crs.insert(req.getParameter("title"), req.getParameter("period1"), 
 					req.getParameter("period2"), Integer.parseInt(req.getParameter("seat_cnt")), 
 					Integer.parseInt(req.getParameter("col_cnt")), req.getParameter("alive"), 
@@ -87,11 +100,16 @@ public class CourseController {
 	@PostMapping("/delete")
 	public String doDelete(HttpServletRequest req) {
 		int result=0;
-		String cid = req.getParameter("cid");
-		if(cid==null || !cid.equals("")) {
+		try {
+			String cid = req.getParameter("cid");
+			if(cid==null || cid.equals("")) throw new Exception("course id is not given");
 			
-		} else {
+			ArrayList<Student> arStudent = _std.list(Integer.parseInt(cid));
+			if(arStudent.size()>0) throw new Exception("This course has one or more students.");
+			
 			result=_crs.delete(Integer.parseInt(cid));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		return ""+result;
 	}

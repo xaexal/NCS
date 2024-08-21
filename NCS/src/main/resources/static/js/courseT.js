@@ -57,7 +57,7 @@ $(document)
 	return false;
 })
 .on('click','#btnAddCourse',function(){
-	$.ajax({url:'/course/add',data:$('#frmCourse').serialize(),dataType:'json',method:'post',
+	$.ajax({url:'/course/add',data:$('#frmCourse').serialize(),dataType:'text',method:'post',
 		beforeSend:function(){
 			$('#title').val($.trim($('#title').val()));
 			if($('#title').val()==''){
@@ -69,11 +69,14 @@ $(document)
 			if(parseInt($('#seat_cnt').val())%parseInt($('#col_cnt').val())!=0){
 				alert('좌석수는 열숫자의 배수여야 합니다.'); return false;
 			}
-			console.log($('#frmCourse').serialize())
+			let datastr=$('#frmCourse').serialize();
+			if($('#alive').prop('checked')) datastr = datastr.replace('alive=','alive=1')
+			else datastr += '&alive=0';
+			this.data = datastr;
 		},
 		success:function(result){
-			if(parseInt(result['result'])<0) {
-				alert(result['msg']);
+			if(result=='0') {
+				alert('등록 실패');
 				return false;
 			}
 			courseList();
@@ -81,17 +84,18 @@ $(document)
 	return false;
 })
 .on('click','#btnDelCourse',function(){
-	$.ajax({url:'/course/delete',data:{cid:$('#cid').val()},dataType:'json',method:'post',
+	$.ajax({url:'/course/delete',data:{cid:$('#cid').val()},dataType:'text',method:'post',
 		beforeSend:function(){
 			if($('#cid').val()=='') {
 				alert('삭제할 과정을 선택하십시오')
 				return false;
 			}
 			if(!confirm('삭제할까요?')) return false;
+			console.log(this.data);
 		},
 		success:function(data){
-			if(parseInt(data['result'])<0) {
-				alert(result['msg']); return false;
+			if(data=='0') {
+				alert('삭제 실패'); return false;
 			}
 			$('#courseList option[value='+$('#cid').val()+']').remove();
 			courseList();

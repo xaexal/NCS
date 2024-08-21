@@ -54,11 +54,11 @@
 				<div class='col-2 left-col'>수료일</div>
 				<div class='col-4 right-col'><input type=date id=period2 name=period2 required></div>
 			</div>
-<!-- 			<div class=row>
+ 			<div class=row>
 				<div class='col-2 left-col'>활성화</div>
 				<div class='col-4 right-col'><input type=checkbox id=alive name=alive></div>
 			</div>
- -->			<div class=row>
+			<div class=row>
 				<div class='col-2 left-col'>작성시각</div>
 				<div class='col-4 right-col'><input size="16" id=created name=created readonly></div>
 			</div>
@@ -125,9 +125,5 @@
 	</div>
 </div>
 </section>
-<script>
-let url_add2Present="/add2Present";
-let url_del4Present="/del4Present";
-</script>
 <script src="js/courseT.js"></script>
 <jsp:include page="footer.jsp" />
