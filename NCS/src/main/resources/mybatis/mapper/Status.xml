@@ -31,4 +31,7 @@
 	select max(updated) from ncs_status
 	 where student_id=#{sid} 
 </select>
+<select id="recent" resultType="String">
+	select max(updated) from ncs_status 
+</select>
 </mapper>
