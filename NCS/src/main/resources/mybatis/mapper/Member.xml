@@ -21,11 +21,18 @@
 <insert id="insert">
 	insert into ncs_member set mobile=#{mobile},passcode=#{passcode}
 </insert>
-<update id="update">
-	update ncs_member set mobile=#{mobile},name=#{mobile}
-			gender=#{gender}, birthday=#{birthday}, school=#{school},
-			level=#{level}, email=#{email}, address=#{address}
+<update id="updateBySelf">
+	update ncs_member set mobile=#{mobile},name=#{name},
+			gender=#{gender}, birthday=#{birthday},
+			email=#{email}, address=#{address},
+			updated=current_timestamp
 	 where mid=#{mid} and passcode=#{passcode}
+</update>
+<update id="updateByAdmin">
+	update ncs_member set mobile=#{mobile},name=#{name},
+			gender=#{gender}, birthday=#{birthday}, school=#{school},
+			email=#{email}, address=#{address}, updated=current_timestamp
+	 where mid=#{mid} 
 </update>
 <delete id="delete">
 	delete from ncs_member where mid=#{mid}

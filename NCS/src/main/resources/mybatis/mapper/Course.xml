@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etoile.app.DAO._Course">
 <!--  오늘이후 끝나는 모든 강의목록 -->
-<select id="list" resultType="com.etoile.app.DTO.Course">
+<select id="listAll" resultType="com.etoile.app.DTO.Course">
 	select *
 	  from ncs_course
 	 order by period2 desc
 </select>
 <!-- 등록하지 않는 강의목록만 -->
-<select id="unenrolled" resultType="com.etoile.app.DTO.Course">
+<select id="applicable" resultType="com.etoile.app.DTO.Course">
 	select *
 	  from ncs_course
 	 where cid not in (select course_id from ncs_student where member_id=#{mid})
@@ -19,12 +19,12 @@
 	 where cid in (select course_id from ncs_student
 	 				where member_id=#{mid} and status='신청')
 </select>
-<select id="present" resultType="com.etoile.app.DTO.Course">
+<select id="enrolled" resultType="com.etoile.app.DTO.Course">
 	select * from ncs_course
 	 where cid in (select course_id from ncs_student
 	 				where member_id=#{mid} and status='수강중')
 </select>
-<select id="complete" resultType="com.etoile.app.DTO.Course">
+<select id="completed" resultType="com.etoile.app.DTO.Course">
 	select * from ncs_course
 	 where cid in (select course_id from ncs_student
 	 				where member_id=#{mid} and status='수료') 

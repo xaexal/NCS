@@ -9,12 +9,12 @@ import com.etoile.app.DTO.Course;
 
 @Mapper
 public interface _Course {
-	ArrayList<Course> list();
+	ArrayList<Course> listAll();
+	ArrayList<Course> applicable(@Param("mid") int member_id);
 	Course get(@Param("cid") int cid);
-	ArrayList<Course> unenrolled(@Param("mid") int member_id);
+	ArrayList<Course> enrolled(@Param("mid") int member_id);
 	ArrayList<Course> applied(@Param("mid") int member_id);
-	ArrayList<Course> present(@Param("mid") int member_id);
-	ArrayList<Course> complete(@Param("mid") int member_id);
+	ArrayList<Course> completed(@Param("mid") int member_id);
 	int insert(@Param("title") String title, @Param("period1") String period1, @Param("period2") String period2, 
 			   @Param("seat_cnt") int seat_cnt, @Param("col_cnt") int col_cnt, @Param("alive") String alive, 
 			   @Param("orgname") String orgname);

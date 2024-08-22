@@ -15,10 +15,18 @@
 	 where a.sid=#{sid}
 </select>
 <insert id="insert">
-	insert into ncs_student set member_id=#{mid},course_id=#{cid},
-								seq=(select count(*)+1 from ncs_student 
-								      where course_id=#{cid} and status='수강중')
+	insert into ncs_student set member_id=#{mid},course_id=#{cid},status='신청'
 </insert>
+<update id="update">
+	update ncs_student set member_id=#{mid},course_id=#{cid},
+			updated=current_timestamp
+	 where sid=#{sid}
+</update>
+<update id="updateByAdmin">
+	update ncs_student set seq=#{seq},active=#{active},
+		   updated=current_timestamp
+	 where sid=#{sid}
+</update>
 <delete id="delete">
 	delete from ncs_student where member_id=#{mid} and course_id=#{cid}
 </delete>

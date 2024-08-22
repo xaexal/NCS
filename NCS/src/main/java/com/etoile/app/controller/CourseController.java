@@ -24,32 +24,30 @@ public class CourseController {
 	@Autowired _Course _crs;
 	@Autowired _Student _std;
 	
-	@PostMapping({"/list","/applied","/unenrolled",
-				  "/present","/complete"})
+	@PostMapping({"/applicable","/applied","/enrolled",
+				  "/completed","listAll"})
 	public String doList(HttpServletRequest req) {
         ArrayList<Course> alCourse = null;
+		String mid = req.getParameter("member_id");
+		int member_id=0;
+		if(mid != null && !mid.equals("")) member_id=Integer.parseInt(mid);
+		System.out.println("mid ["+member_id+"]");
+		
 		String requestURI = req.getRequestURI();
-		if(requestURI.endsWith("list")){
-			LocalDate today = LocalDate.now();
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	        String formattedDate = today.format(formatter);
-	        System.out.println(formattedDate);
-        	alCourse = _crs.list();
-		} else {
-			String mid = req.getParameter("member_id");
-			int member_id=0;
-			if(mid != null && !mid.equals("")) member_id=Integer.parseInt(mid);
-			System.out.println("mid ["+member_id+"]");
-			
-			if(requestURI.endsWith("applied")) {
-				alCourse = _crs.applied(member_id);
-			} else if(requestURI.endsWith("present")) {
-				alCourse = _crs.present(member_id);
-			} else if(requestURI.endsWith("complete")) {
-				alCourse = _crs.complete(member_id);
-			} else if(requestURI.endsWith("unenrolled")) {
-				alCourse = _crs.unenrolled(member_id);
-			}
+		if(requestURI.endsWith("listAll")){
+//			LocalDate today = LocalDate.now();
+//	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//	        String formattedDate = today.format(formatter);
+//	        System.out.println(formattedDate);
+        	alCourse = _crs.listAll();
+		} else if(requestURI.endsWith("applicable")) {
+			alCourse = _crs.applicable(member_id);
+		} else if(requestURI.endsWith("applied")) {
+			alCourse = _crs.applied(member_id);
+		} else if(requestURI.endsWith("enrolled")) {
+			alCourse = _crs.enrolled(member_id);
+		} else if(requestURI.endsWith("completed")) {
+			alCourse = _crs.completed(member_id);
 		}
     	System.out.println("alCourse size="+alCourse.size());
     	JSONArray ja = new JSONArray();

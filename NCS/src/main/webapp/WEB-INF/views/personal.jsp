@@ -46,8 +46,8 @@ input[type=button] {
 </nav>
 <section style="margin:auto;width:80%;">
 	<h1 style="color:rgb(128, 0, 255);font-size:36px;">나의 등록정보</h1>
-	<form action="/member/add" id=frmPersonal method="post">
-		<input type="hidden" id="member_id" value="${sessionScope.member_id}">
+	<form action="/member/updateBySelf" id=frmPersonal method="post">
+		<input type="hidden" id="member_id" name="member_id" value="${sessionScope.member_id}">
 		<input type="hidden" id="level" name="level" value="${member.level}">
 		<table align=center>
 		<tr>
@@ -90,7 +90,7 @@ input[type=button] {
 		</tr>
 		<tr>
 			<td></td>
-			<td colspan=2 align=center><input type="submit" value='수정완료'></td>
+			<td colspan=2 align=center><input type="button" id=btnSubmit value='수정완료'></td>
 		</tr>
 		</table>
 	</form>

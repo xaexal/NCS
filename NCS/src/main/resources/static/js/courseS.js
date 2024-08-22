@@ -5,22 +5,25 @@ $(document)
 	courseList();
 })
 .tooltip()
-.on('dblclick','#selCourseAll option',function(){
+.on('dblclick','#selApplicable option',function(){
 	console.log($(this).val()+','+$(this).text());
 	let course_id=$(this).val();
-	let selCourseAll=$(this);
-	$.post(url_apply2Course,{course_id:course_id},function(data){
-		console.log(data);
-		if(data['msg']!=''){
-			alert(data['msg']);
-		} else {
-			$('#selCourseApplied').append(selCourseAll.html());
+	let selApplicable=$(this);
+	$.ajax({url:'/student/add',type:'post',dataType:'text',
+		data:{cid:course_id,mid:$('#member_id').val()},
+		beforeSend:function(){},
+		success:function(data){
+			console.log(data);
+			if(data=='0'){
+				alert('신청 실패');
+			} else {
+				courseList();
+			}
 		}
-		courseList();
-	},'json');
+	});
 	return false;
 })
-.on('click','#selCourseAll option',function(){
+.on('click','#selApplicable option',function(){
 	let thisone=$(this).val();
 	$.each(courseInfo['All'],function(ndx,course){
 		if(course['cid']==thisone){
@@ -30,23 +33,23 @@ $(document)
 		}
 	})
 })
-.on('dblclick','#selCourseApplied option',function(){
+.on('dblclick','#selApplied option',function(){
 	console.log($(this).val()+','+$(this).find('option:selected').text());
 	let course_id=$(this).val();
-	let selCourseApplied=$(this);
+	let selApplied=$(this);
 	$.post(url_revokeCourse,{course_id:course_id},function(data){
 		if(data['msg']!=''){
 			alert(data['msg']);
 		} else {
-			$('#selCourseAll').append(selCourseApplied.html());
+			$('#selApplicable').append(selApplied.html());
 		}
 		courseList();
 	},'json');
 	return false;
 })
 .on('click','#btnPresented',function(){
-	let course_id=$('#selCourseApplied').val();
-	let title=$('#selCourseApplied option:selected').text();
+	let course_id=$('#selApplied').val();
+	let title=$('#selApplied option:selected').text();
 	console.log(`title [${title}]`)
 	$.post(url_setDefaultCourse,{course_id:course_id},function(data){
 		if(data['result']=='-1') {
@@ -67,37 +70,37 @@ $(document)
 })
 ;
 function courseList(){
-	console.log('Unenrolled')
-	$.post('/course/unenrolled',{member_id:$('#member_id').val()},function(data){
+	console.log('Applicable')
+	$.post('/course/applicable',{member_id:$('#member_id').val()},function(data){
 		console.log(data)
 		courseInfo=data;
-		$('#selCourseAll').empty();
+		$('#selApplicable').empty();
 		$.each(data,function(ndx,course){
-			$('#selCourseAll').append(`<option value=${course['cid']}>${course['title']}</option>`);
+			$('#selApplicable').append(`<option value=${course['cid']}>${course['title']}</option>`);
 		});
 	},'json');
 	console.log('Applied')
 	$.post('/course/applied',{member_id:$('#member_id').val()},function(data){
 		console.log(data)
-		$('#selCourseApplied').empty();
+		$('#selApplied').empty();
 		$.each(data,function(ndx,course){
-			$('#selCourseApplied').append(`<option value=${course['cid']}>${course['title']}</option>`);
+			$('#selApplied').append(`<option value=${course['cid']}>${course['title']}</option>`);
 		});
 	},'json');
 	console.log('Present')
-	$.post('/course/present',{member_id:$('#member_id').val()},function(data){
+	$.post('/course/enrolled',{member_id:$('#member_id').val()},function(data){
 		console.log(data)
-		$('#selCoursePresent').empty();
+		$('#selEnrolled').empty();
 		$.each(data,function(ndx,course){
-			$('#selCoursePresent').append(`<option value=${course['cid']}>${course['title']}</option>`);
+			$('#selEnrolled').append(`<option value=${course['cid']}>${course['title']}</option>`);
 		});
 	},'json');
 	console.log('Complete')
-	$.post('/course/complete',{member_id:$('#member_id').val()},function(data){
+	$.post('/course/completed',{member_id:$('#member_id').val()},function(data){
 		console.log(data)
-		$('#selCourseComplete').empty();
+		$('#selCompleted').empty();
 		$.each(data,function(ndx,course){
-			$('#selCourseComplete').append(`<option value=${course['cid']}>${course['title']}</option>`);
+			$('#selCompleted').append(`<option value=${course['cid']}>${course['title']}</option>`);
 		});
 	},'json');
 }

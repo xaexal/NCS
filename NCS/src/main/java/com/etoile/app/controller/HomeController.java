@@ -139,7 +139,7 @@ public class HomeController {
 			String mobile = (String)s.getAttribute("mobile");
 			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in."); 
 			
-			ArrayList<Course> alCourse = _crs.list();
+			ArrayList<Course> alCourse = _crs.listAll();
 			System.out.println("alCourse size="+alCourse.size());
 			
 			model.addAttribute("Courses",alCourse);
@@ -156,7 +156,7 @@ public class HomeController {
 			String mobile = (String)s.getAttribute("mobile");
 			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in."); 
 			
-			ArrayList<Course> alCourse = _crs.present((Integer)s.getAttribute("member_id"));
+			ArrayList<Course> alCourse = _crs.enrolled((Integer)s.getAttribute("member_id"));
 			System.out.println("alCourse size="+alCourse.size());
 			
 			model.addAttribute("Courses",alCourse);
@@ -177,7 +177,7 @@ public class HomeController {
 			ArrayList<Drilltype> arDrilltype = _dt.list();
 			System.out.println("arDrilltype size="+arDrilltype.size());
 			model.addAttribute("arDrillType",arDrilltype);
-			ArrayList<Course> arCourse = _crs.list();
+			ArrayList<Course> arCourse = _crs.listAll();
 			System.out.println("arCOurse size="+arCourse.size());
 			model.addAttribute("courses",arCourse);
 			return "drillT";

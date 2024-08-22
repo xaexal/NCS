@@ -131,7 +131,9 @@ $(document)
 		$('#school').val(student['school'])
 		$('#address').val(student['address'])
 		$('#seq').val(student['seq'])
-		$('#active').val(student['active'])
+		if(student['active']=='1')
+			$('#active').prop('checked',true);
+		else $('#active').prop('checked',false);
 		$('#member_id').val(student['member_id'])
 		$('input[name=gender][val='+student['gender']+']').prop('checked',true)
 	},'json')
@@ -183,12 +185,12 @@ $(document)
 	return false;
 })
 .on('click','#btnUpdateMember',function(){
-	oParam={'sid':$('#sid').val(),'member_id':$('#member_id').val()};
 	if($('#sid').val()=='' || $('#member_id').val()=='') { 
 		alert('학생을 선택하십시오');
 		return false;
 	}
 	
+	oParam={'sid':$('#sid').val(),'member_id':$('#member_id').val()};
 	oParam['name']=$('#name').val();
 	oParam['mobile']=$('#mobile').val();
 	oParam['birthday']=$('#birthday').val();
@@ -198,14 +200,19 @@ $(document)
 	oParam['address']=$('#address').val();
 	oParam['active']=$('#active').prop('checked')?'1':'0';	
 	console.log(oParam);					
-	$.post('/student/add',oParam,
-		function(data){
-			if(data['result']!='0'){
-				alert(data['msg']);
+	$.ajax({url:'/member/updateByAdmin',type:'post',dataType:'text',
+		data:oParam,
+		beforeSend:function(){
+			console.log(this.data);
+		},
+		success:function(data){
+			if(data=='0'){
+				alert('변경 실패');
 				return false;
 			}
 			$('#btnClearMember').trigger('click')
-		},'json')
+		}
+	});
 	return false;
 })
 .on('click','#btnClearMember',function(){

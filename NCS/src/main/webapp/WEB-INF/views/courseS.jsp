@@ -28,21 +28,21 @@
 		<tr>
 			<td valign=top>
 				<h2>신청한 교육과정</h2>
-				<select id=selCourseApplied name=selCourseApplied size=7 style='width:540px;'
+				<select id=selApplied name=selApplied size=7 style='width:540px;'
 				title="신청한 교육과정을 더블클릭하면 신청이 취소됩니다. 신청한 교육과정은 관리자의 확인 후에 수강중인 과정으로 편성됩니다">
 				</select><br><br>
 				<h2>현재 수강중인 과정:</h2>
-				<select id=selCoursePresent name=selCoursePresent readonly size=7 style='width:540px;'
+				<select id=selEnrolled name=selEnrolled readonly size=7 style='width:540px;'
 				title="신청한 교육과정은 관리자의 확인 후 현재 수강중인 과정으로 편성됩니다. 수강생은 변경할 수 없습니다.">
 				</select><br><br>
 				<h2>수료한 과정:</h2>
-				<select id=selCourseComplete name=selCourseComplete readonly size=7 style='width:540px;'
+				<select id=selCompleted name=selCompleted readonly size=7 style='width:540px;'
 				title="수료한 과정은 관리자에 의해서만 변경될 수 있습니다.">
 				</select>
 			</td>
 			<td valign=top>
 				<h2>신청가능한 교육과정</h2>
-				<select id=selCourseAll name=selCourseAll size=10 style='width:540px;height:320px;'
+				<select id=selApplicable name=selApplicable size=10 style='width:540px;height:320px;'
 				title="학생은 교육과정을 선택 후 더블클릭하여 신청할 수 있으며, 관리자 확인후 수강중인 과정으로 편성됩니다.">
 				</select><br><br>
 				<textarea style='width:540px;height:320px;' id="txtCourse"></textarea>
@@ -52,12 +52,6 @@
 	</div>
 </div>
 </section>
-<script>
-let url_apply2Course="/apply2Course";
-let url_revokeCourse="/revokeCourse";
-let url_setDefaultCourse="/setDefaultCourse";
-let url_resetDefaultCourse="/resetDefaultCourse";
-</script>
 <script src="js/courseS.js"></script>
 <div id=p_info style='display:none;position:absolute;background-color:aquamarine;border:1px solid cyan;font-size:12px;text-align:left;'></div>
 <jsp:include page="footer.jsp" />

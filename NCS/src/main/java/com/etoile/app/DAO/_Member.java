@@ -13,7 +13,11 @@ public interface _Member {
 	int changePasscode(@Param("member_id") String x, @Param("passcode") String y, @Param("passcode_new") String z);
 	Member get(@Param("mobile") String mobile);
 	int insert(@Param("mobile") String mobile, @Param("passcode") String passcode);
-	int update(@Param("mobile") String mobile, @Param("name") String name, @Param("passcode") String passcode,
+	int updateBySelf(@Param("mobile") String mobile, @Param("name") String name, @Param("passcode") String passcode,
+			@Param("gender") String gender, @Param("birthday") String birthday, 
+			@Param("email") String email, @Param("address") String address,
+			@Param("mid") int mid);
+	int updateByAdmin(@Param("mobile") String mobile, @Param("name") String name, 
 			@Param("gender") String gender, @Param("birthday") String birthday, @Param("school") String school,
 			@Param("email") String email, @Param("address") String address,
 			@Param("mid") int mid);
