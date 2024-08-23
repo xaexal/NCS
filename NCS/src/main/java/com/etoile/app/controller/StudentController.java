@@ -36,7 +36,7 @@ public class StudentController {
 				jo.put("mobile", x.getMobile());
 				jo.put("birthday", x.getBirthday());
 				jo.put("seq",x.getSeq());
-				jo.put("active", x.getActive());
+				jo.put("status", x.getStatus());
 				jo.put("member_id", x.getMember_id());
 				ja.add(jo);
 			}});
@@ -60,7 +60,7 @@ public class StudentController {
 			jo.put("birthday", x.getBirthday());
 			jo.put("school", x.getSchool());
 			jo.put("seq",x.getSeq());
-			jo.put("active", x.getActive());
+			jo.put("status", x.getStatus());
 			jo.put("member_id", x.getMember_id());
 			return jo.toJSONString();
 		} catch (Exception e) {

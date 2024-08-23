@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <input type=hidden id=mobile value="${sessionScope.mobile}">
 <header>
-<h2>${title}</h2>
+<h2>${sessionScope.title}</h2>
 </header>
 <section>
 <nav class='navbar navbar-expand-lg gb-light'>

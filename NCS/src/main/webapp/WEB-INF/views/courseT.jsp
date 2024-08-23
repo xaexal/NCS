@@ -3,7 +3,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <header>
-<h2>${title}</h2>
+<h2>${sessionScope.title}</h2>
 </header>
 <nav class='navbar navbar-expand-lg gb-light'>
 	<div class='container-fluid'>
@@ -82,7 +82,7 @@
 	<div class=row>
 		<div class='col-3'>
 			<label>현재과정 재학생</label>
-			<select id=selStudentPresent style='width:240px;' size=30></select>
+			<select id=selStudentEnrolled style='width:240px;' size=30></select>
 `		</div>
 		<div class="col-3">
 			<label>현재과정 신청학생</label>
@@ -114,7 +114,15 @@
 			<div class=row><div class='col-2 left-col'>주소</div>
 			<div class='col-4 right-col'><textarea id=address rows="3" cols="22"></textarea></div></div>
 			<div class=row><div class='col-2 left-col'>&nbsp;</div>
-			<div class='col-4 right-col'><input type=checkbox id=active>Active</div></div>
+			<div class='col-4 right-col'>
+				<select id=selStatus>
+					<option value='신청'>신청</option>
+					<option value='수강중'>수강중</option>
+					<option value='중도포기'>중도포기</option>
+					<option value='제적'>제적</option>
+					<option value='수료'>수료</option>
+					<option value='기타'>기타</option>
+				</select></div>
 			<div class=row><div class='col-6 left-col right-col' style='text-align:center'>
 					<input type="button" id=btnUpdateMember class='btn-sm btn-primary' value='Save'>
 						<!--<button id=btnDelStudent class='btn-sm btn-secondary'>Delete</button>-->

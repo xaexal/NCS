@@ -37,17 +37,21 @@ $(document)
 	console.log($(this).val()+','+$(this).find('option:selected').text());
 	let course_id=$(this).val();
 	let selApplied=$(this);
-	$.post(url_revokeCourse,{course_id:course_id},function(data){
-		if(data['msg']!=''){
-			alert(data['msg']);
-		} else {
-			$('#selApplicable').append(selApplied.html());
+	$.ajax({url:'/student/delete',	type:'post',dataType:'text',
+			data:{cid:course_id,mid:$('#member_id').val()},
+		beforeSend:function(){
+			console.log(this.data);
+		},
+		success:function(data){
+			if(data=='0'){
+				alert('신청철회 실패');
+			}
+			courseList();
 		}
-		courseList();
-	},'json');
+	});
 	return false;
 })
-.on('click','#btnPresented',function(){
+.on('click','#btnEnrolled',function(){
 	let course_id=$('#selApplied').val();
 	let title=$('#selApplied option:selected').text();
 	console.log(`title [${title}]`)

@@ -6,7 +6,7 @@ $(document)
 })
 .on('click','#courseList option',function(){
 	$('#btnClearMember,#btnClearCourse').trigger('click');
-	$('#selStudentPresent,#selStudentApplied').empty();
+	$('#selStudentEnrolled,#selStudentApplied').empty();
 	
 	let cid=$(this).val();
 	console.log(`cid [${cid}]`)
@@ -23,7 +23,7 @@ $(document)
 		})
 		$('#cid').val(cid);
 		$.post('/student/list',{cid:cid},function(data){
-			console.log('studentPresent',data)
+			console.log('studentEnrolled',data)
 			$.each(data,function(ndx,rec){
 				for( value in rec){
 					if(rec[value]==null || rec[value]==undefined || rec[value]=='null') {
@@ -35,7 +35,7 @@ $(document)
 						`${rec['name']},\t${rec['mobile']},\t`+
 						`${rec['birthday']}</option>`;
 				console.log(str);
-				$('#selStudentPresent').append(str);
+				$('#selStudentEnrolled').append(str);
 			});
 		},'json');
 		$.post('/course/applied',{cid:cid},function(result){
@@ -116,7 +116,7 @@ $(document)
 	})
 	return false;
 })
-.on('click','#selStudentPresent option,#selStudentApplied option',function(){
+.on('click','#selStudentEnrolled option,#selStudentApplied option',function(){
 	let pstr=($(this).val()).split(','); //[member_id,student_id]
 	console.log(pstr)
 		
@@ -131,9 +131,7 @@ $(document)
 		$('#school').val(student['school'])
 		$('#address').val(student['address'])
 		$('#seq').val(student['seq'])
-		if(student['active']=='1')
-			$('#active').prop('checked',true);
-		else $('#active').prop('checked',false);
+		$('#selStatus').val(student['status']);
 		$('#member_id').val(student['member_id'])
 		$('input[name=gender][val='+student['gender']+']').prop('checked',true)
 	},'json')
@@ -158,7 +156,7 @@ $(document)
 	},'json')
 	return false;
 })
-.on('dblclick','#selStudentPresent option',function(){
+.on('dblclick','#selStudentEnrolled option',function(){
 	console.log('sid ['+$('#sid').val()+']')
 	let thisone=$(this);
 	$.post('/student/delete',{sid:$('#sid').val()},function(data){
@@ -179,7 +177,7 @@ $(document)
 			alert(data['msg']); return false;
 		}
 		console.log(thisone.html())
-		$('#selStudentPresent').append(thisone.parent().html());
+		$('#selStudentEnrolled').append(thisone.parent().html());
 		thisone.remove();
 	},'json')
 	return false;
@@ -198,8 +196,7 @@ $(document)
 	oParam['school']=$('#school').val();
 	oParam['seq']=$('#seq').val();
 	oParam['address']=$('#address').val();
-	oParam['active']=$('#active').prop('checked')?'1':'0';	
-	console.log(oParam);					
+	oParam['status']=$('#selStatus').val();	
 	$.ajax({url:'/member/updateByAdmin',type:'post',dataType:'text',
 		data:oParam,
 		beforeSend:function(){
@@ -232,7 +229,7 @@ $(document)
 
 function courseList(){
 	$('#btnClearCourse').trigger('click');
-	$.post('/course/list',{},function(data){
+	$.post('/course/listAll',{},function(data){
 		console.log(data)
 		$('#courseList').empty();
 		$.each(data,function(ndx,course){

@@ -176,6 +176,9 @@ $(document)
 	return false;
 })
 .on('change','#selDrilltype_Exercise',function(){
+	if(isHandlingChange) return false;
+	isHandlingChange=true;
+	
 	if($(this).val()=='all'){
 		$('#selExercise option').each(function(){
 			$(this).show();
@@ -191,9 +194,15 @@ $(document)
 		})
 	}
 	$('#btnClear').trigger('click')
+	$('#selDrilltype_Drill').val($(this).val()).trigger('change');
+	$('#selDrillType').val($(this).val());
+	isHandlingChange=false;
 	return false;
 })
 .on('change','#selDrilltype_Drill',function(){
+	if(isHandlingChange) return false;
+	isHandlingChange=true;
+	
 	if($(this).val()=='all'){
 		$('#selDrill option').each(function(){
 			$(this).show();
@@ -209,9 +218,13 @@ $(document)
 		})
 	}
 	$('#btnClear').trigger('click')
+	$('#selDrilltype_Exercise').val($(this).val()).trigger('change');
+	$('#selDrillType').val($(this).val());
+	isHandlingChange=false;
 	return false;
 })
 
+let isHandlingChange = false;
 
 function drillList(){
 	// get drill list for current class

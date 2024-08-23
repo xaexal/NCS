@@ -17,6 +17,6 @@ public interface _Student {
 	int insert(@Param("mid") int member_id, @Param("cid") int course_id);
 	int delete(@Param("mid") int member_id, @Param("cid") int course_id);
 	int update(@Param("mid") int member_id, @Param("cid") int course_id,@Param("sid") int sid);
-	int updateByAdmin(@Param("seq") int seq, @Param("active") String active, @Param("sid") int sid);
+	int updateByAdmin(@Param("seq") int seq, @Param("status") String status, @Param("sid") int sid);
 	int getSID(@Param("mid") int mid, @Param("cid") int course_id);
 }

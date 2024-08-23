@@ -28,7 +28,7 @@ input[type=button] {
 </style>
 <!--<link rel="stylesheet" href="member.css">-->
 <header>
-<h1>${title}</h1>	
+<h1>${sessionScope.title}</h1>	
 </header>
 <nav class="navbar navbar-expand-lg gb-light">
 	<div class='container-fluid' style="text-align:right;">

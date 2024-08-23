@@ -3,6 +3,19 @@ let p_info={};
 
 $(document)
 .ready(function(){
+	let today=strDate(new Date());
+//	console.log(today);
+	$('#selCourse option').each(function(){
+//		console.log($(this).val())
+		let ar = $(this).val().split(',');
+		let start = ar[3].replace('-','');
+		let end = ar[4].replace('-','');
+		
+		if(today >=start && today<=end) {
+			$(this).prop('selected',true);
+			return false;
+		}
+	})
 	$('#selCourse').trigger('change');
 	return false;
 })
@@ -13,7 +26,7 @@ $(document)
 		return false;	
 	}
 	let ar=($(this).val()).split(',');
-	console.log(ar)
+//	console.log(ar)
 	$('#cid').val(ar[0]);
 	$('#tblSeat').empty();
 	outstr='<tr>';
@@ -30,25 +43,29 @@ $(document)
 //	dayCount($('#cid').val(),$('#lblDays'));
 		
 	// 해당과정의 재학생명단 가져오기
-	$.post('/student/list',{cid:$('#cid').val()},function(data){
-		console.log(data);
-		if(data['result']=='-1'){
-			alert(data['msg']); return false;
+	$.ajax({url:'/student/list',data:{cid:$('#cid').val()},type:'post',dataType:'json',
+		beforeSend:function(){
+//			console.log(this.data);
+		},
+		success:function(data){
+//			console.log(data);
+			if(data['result']=='-1'){
+				alert(data['msg']); return false;
+			}
+			$.each(data,function(ndx,student){
+				outstr=`<tr height=20px><td class=palm sid=${student['sid']}>${student['name']}</td>`+
+						'<td aligh=right style="font-size:12px">&nbsp;</td></tr>'+
+						`<tr><td colspan=2 align=center class="working" id=${student['sid']}>작업중</td></tr>`;
+				$('#tbls'+student['seq']).append(outstr);
+				p_info[student['sid']]=
+					{'name':student['name'],'seq':student['seq'],
+					 'school':(student['school']==undefined?'최종학력':student['school']),
+					 'address':(student['address']==undefined?'주소':student['address']),
+					 'birth':(student['birthday']==undefined?'생년월일':student['birthday']),
+					 'mobile':(student['mobile']==undefined?'모바일번호':student['mobile'])};
+		 	});
 		}
-		$.each(data,function(ndx,student){
-			outstr=`<tr height=20px><td class=palm sid=${student['sid']}>${student['name']}</td>`+
-					'<td aligh=right style="font-size:12px">&nbsp;</td></tr>'+
-					`<tr><td colspan=2 align=center class="working" id=${student['sid']}>작업중</td></tr>`;
-			$('#tbls'+student['seq']).append(outstr);
-			p_info[student['sid']]=
-				{'name':student['name'],'seq':student['seq'],
-				 'school':(student['school']==undefined?'최종학력':student['school']),
-				 'address':(student['address']==undefined?'주소':student['address']),
-				 'birth':(student['birthday']==undefined?'생년월일':student['birthday']),
-				 'mobile':(student['mobile']==undefined?'모바일번호':student['mobile'])};
-		});
-		console.log(p_info)
-	},'json');
+	});
 	exerciseList();
 })
 .on('click','#selExercise option',function(){
@@ -84,7 +101,7 @@ $(document)
 	let oParam={sid:thisSeat.prop('id'),eid:$('#selExercise').val()};
 //	console.log(oParam);
 	$.post('/status/update',oParam,function(data){
-		console.log(data)
+//		console.log(data)
 		if(data=='') {
 			alert('로그인확인바람');
 			return false;
@@ -122,7 +139,7 @@ $(document)
 function exerciseList(){
 //	console.log('cid='+$('#cid').val());
 	$.post('/exercise/list',{cid:$('#cid').val()},function(data){
-		console.log(data)
+//		console.log(data)
 		$('#selExercise').empty();
 		$.each(data,function(k,rec){
 			let pstr=`<option value="${rec['eid']}">${rec['name']}</option>`;
@@ -137,7 +154,6 @@ function exerciseStatus(){
 
 	let arStudent=[];
 	$.post('/status/list',{eid:$('#selExercise').val()},function(data){
-		console.log(data)
 		$.each(data,function(ndx,rec){
 			arStudent.push(parseInt(rec['student_id']));
 			if($('#'+rec['student_id']).text()==rec['status']) return true;

@@ -25,7 +25,7 @@ public class CourseController {
 	@Autowired _Student _std;
 	
 	@PostMapping({"/applicable","/applied","/enrolled",
-				  "/completed","listAll"})
+				  "/completed","/listAll"})
 	public String doList(HttpServletRequest req) {
         ArrayList<Course> alCourse = null;
 		String mid = req.getParameter("member_id");

@@ -11,7 +11,7 @@ td {
 }
 </style>
 <header>
-<h2>${title}</h2>
+<h2>${sessionScope.title}</h2>
 </header>
 <nav class='navbar navbar-expand-lg gb-light'>
 	<div class='container-fluid'>

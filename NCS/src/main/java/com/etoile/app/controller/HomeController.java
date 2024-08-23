@@ -74,10 +74,10 @@ public class HomeController {
 			System.out.println("["+mobile+","+passcode+"]");
 			Member member = _mem.checkUser(mobile, passcode); 
 			if(member==null) {
-				m.addAttribute("title","하이미디어 일산");
 				m.addAttribute("msg","모바일번호/비밀번호가 잘못 입력됐거나 회원가입한 적이 없습니다");
 				return "login";
 			}
+			s.setAttribute("title","하이미디어 일산");
 			s.setAttribute("member_id", member.getMid());
 			s.setAttribute("mobile", req.getParameter("mobile"));
 			s.setAttribute("name", member.getName());
@@ -143,7 +143,7 @@ public class HomeController {
 			System.out.println("alCourse size="+alCourse.size());
 			
 			model.addAttribute("Courses",alCourse);
-			return "drillViewT";
+			model.addAttribute("title","하이미디어 일산");			return "drillViewT";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			

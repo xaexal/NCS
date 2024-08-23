@@ -6,7 +6,7 @@
 <input type=hidden id=cid value='${course.cid}'>
 <input type=hidden id=seat_cnt value='${course.seat_cnt}'>
 <header>
-<h2>${title}</h2>
+<h2>${sessionScope.title}</h2>
 </header>
 <nav class='navbar navbar-expand-lg gb-light'>
 	<div class='container-fluid'>
@@ -17,7 +17,7 @@
 		<div class='col'>
 			<select id=selCourse style='font-size:20px;'>
 			<c:forEach items="${Courses}" var="course">
-				<option value='${course.cid},${course.seat_cnt},${course.col_cnt}' style='font-size:20px;'>
+				<option value='${course.cid},${course.seat_cnt},${course.col_cnt},${course.period1},${course.period2}' style='font-size:20px;'>
 					${course.title} [${course.period1}~${course.period2}]</option>
 			</c:forEach>
 			</select>
@@ -42,5 +42,6 @@
 </div>
 <div id=p_info style='display:none;position:absolute;background-color:aquamarine;border:1px solid cyan;font-size:12px;text-align:left;'></div>
 </section>
+<script src="js/common.js"></script>
 <script src="js/drillViewT.js"></script>
 <jsp:include page="footer.jsp" />
