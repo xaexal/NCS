@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etoile.app.DAO._Exercise;
-import com.etoile.app.DTO.Exercise;
+import com.etoile.app.Entity.Exercise;
 
 import jakarta.servlet.http.HttpServletRequest;
 
