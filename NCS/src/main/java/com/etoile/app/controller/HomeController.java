@@ -1,6 +1,7 @@
 package com.etoile.app.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,20 +9,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.etoile.app.DAO._Course;
-import com.etoile.app.DAO._Drilltype;
-import com.etoile.app.DAO._Member;
-import com.etoile.app.DTO.Course;
-import com.etoile.app.DTO.Drilltype;
-import com.etoile.app.DTO.Member;
+import com.etoile.app.Entity.Course;
+import com.etoile.app.Entity.Drilltype;
+import com.etoile.app.Entity.Member;
+import com.etoile.app.Repository._Course;
+import com.etoile.app.Repository._Drilltype;
+import com.etoile.app.Repository._Member;
+import com.etoile.app.Service.CourseSvc;
+import com.etoile.app.Service.MemberSvc;
+import com.etoile.app.Service.StudentSvc;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
-	@Autowired _Member _mem;
-	@Autowired _Course _crs;
+	MemberSvc _mem;
+	StudentSvc _std;
+	CourseSvc _crs;
 	@Autowired _Drilltype _dt;
 	
 	@GetMapping("/")
@@ -59,8 +64,8 @@ public class HomeController {
 		try {
 			String mobile = req.getParameter("mobile");
 			String passcode = req.getParameter("passcode");
-			result = _mem.insert(mobile, passcode);
-			if(result==1) return "redirect:/login";
+			_mem.save(mobile,passcode);
+			return "redirect:/login";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -72,7 +77,7 @@ public class HomeController {
 			String mobile = req.getParameter("mobile");
 			String passcode = req.getParameter("passcode");
 			System.out.println("["+mobile+","+passcode+"]");
-			Member member = _mem.checkUser(mobile, passcode); 
+			Member member = _mem.checkUser(mobile, passcode);
 			if(member==null) {
 				m.addAttribute("msg","모바일번호/비밀번호가 잘못 입력됐거나 회원가입한 적이 없습니다");
 				return "login";
@@ -83,11 +88,7 @@ public class HomeController {
 			s.setAttribute("name", member.getName());
 			s.setAttribute("level", member.getLevel());
 			
-			int n = _mem.saveLoginTime(mobile);
-			System.out.println("n="+n);
-			if(n<1) {
-				
-			}
+			_mem.saveLoginTime(mobile);
 			String name = member.getName();
 			System.out.println("member_name ["+name+"]");
 			if(name==null || name.equals("")) {
@@ -98,8 +99,7 @@ public class HomeController {
 				return "redirect:/drillViewT";
 			}
 			System.out.println("member_id ["+member.getMid()+"]");
-			System.out.println("student count ["+_mem.checkStudent(member.getMid())+"]");
-			if( _mem.checkStudent(member.getMid())>0 ) {
+			if( _std.countAsStudent(member.getMid())>0 ) {
 				return "redirect:/drillViewS";
 			}
 		} catch(Exception e) {
