@@ -10,5 +10,5 @@ public interface _Member extends JpaRepository<Member, Integer> {
 	Member findMemberByMobileAndPasscode(String mobile, String passcode);
 
 	Member findMemberByMobile(String mobile);
-	
+	int countByIdAndStatus(int mid, String status);
 }

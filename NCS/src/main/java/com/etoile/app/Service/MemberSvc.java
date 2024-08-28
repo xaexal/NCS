@@ -2,6 +2,7 @@ package com.etoile.app.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class MemberSvc {
 	public Member checkUser(String mobile, String passcode) {
 		return _mem.findMemberByMobileAndPasscode(mobile, passcode);
 	}
+	int checkStudent(int mid) {
+		return _mem.countByIdAndStatus(mid,"수강중");
+	}
 	public void save(String mobile, String passcode) {
 		Member member = new Member();
 		member.setMobile(mobile);
@@ -29,5 +33,18 @@ public class MemberSvc {
 		Member member = _mem.findMemberByMobile(mobile);
 		member.setLoginTm(now.format(fmt));
 		_mem.save(member);
+	}
+	public boolean changePasscode(int mid, String oldPasscode, String newPasscode) {
+		Optional<Member> memberOpt = _mem.findByMemberIdAndPasscode(mid,oldPasscode);
+		if(memberOpt.isPresent()) {
+			Member one = memberOpt.get();
+			one.setPasscode(newPasscode);
+			_mem.save(one);
+			return true;
+		}
+		return false;
+	}
+	public Optional<Member> get(int mid){
+		return _mem.findById(mid);
 	}
 }
