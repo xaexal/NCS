@@ -18,11 +18,13 @@ public class Status {
     @Column(nullable = false, length = 12)
     private String status;
 
-    @Column(name = "student_id")
-    private Integer studentId;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 
-    @Column(name = "drill_id")
-    private Integer drillId;
+    @ManyToOne
+    @JoinColumn(name = "drill_id")
+    private Drill drill;
 
     @Column(name = "eid", columnDefinition = "int unsigned")
     private Integer eid;

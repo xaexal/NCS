@@ -59,9 +59,9 @@ public class Course {
     private LocalDateTime updated;
     
     @OneToMany(mappedBy="course",cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<Student> students;
+    private List<Student> arStudent;
     
     @OneToMany(mappedBy="course",cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<Drill> drills;
+    private List<Exercise> arExercise;
 
 }

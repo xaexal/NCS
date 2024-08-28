@@ -1,14 +1,25 @@
 package com.etoile.app.Entity;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "ncs_student") // Replace with your actual table name
 @Getter
 @Setter
+@Entity
+@Table(name = "ncs_student") // Replace with your actual table name
 public class Student {
 
     @Id
@@ -29,6 +40,9 @@ public class Student {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @OneToMany(mappedBy="status",cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<Status> arStatus;
+    
     @Column(length = 12)
     private String status;
 
