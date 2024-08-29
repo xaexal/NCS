@@ -25,8 +25,14 @@ public class CourseSvc {
 		
 		return _crs.findByPeriod1GreaterThanEqual(now.format(fmt));
 	}
-	public Optional<Course> get(int cid) {
-		return _crs.findById(cid);
+	public Course get(int cid) {
+		try {
+			Course arCourse=_crs.findById(cid).orElseThrow(()->new Exception("해당하는 과정을 찾을 수 없습니다"));
+			return arCourse;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 	public void save(int cid,String title,String period1,String period2,int seat_cnt,int col_cnt,String alive,String orgname) {
 		Optional<Course> courseOpt = _crs.findById(cid);

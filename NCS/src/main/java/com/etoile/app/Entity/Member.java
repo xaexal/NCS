@@ -69,9 +69,6 @@ public class Member {
     @OneToMany(mappedBy="student",cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Student> arStudent;
     
-    @OneToMany(mappedBy="member",cascade=CascadeType.ALL, orphanRemoval=true)
-    private List<Member> arMember;
-    
 
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime created;
