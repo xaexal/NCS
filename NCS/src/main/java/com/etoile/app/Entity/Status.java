@@ -26,8 +26,9 @@ public class Status {
     @JoinColumn(name = "drill_id")
     private Drill drill;
 
-    @Column(name = "eid", columnDefinition = "int unsigned")
-    private Integer eid;
+    @ManyToOne
+    @JoinColumn(name = "eid")
+    private Exercise exercise;
     
     @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime created;
