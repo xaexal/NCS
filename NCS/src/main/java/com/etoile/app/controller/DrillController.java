@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.etoile.app.DAO._Drill;
-import com.etoile.app.DTO.Drill;
+import com.etoile.app.Repository._Drill;
+import com.etoile.app.Entity.Drill;
 
 import jakarta.servlet.http.HttpServletRequest;
 

@@ -20,13 +20,36 @@ public class StudentSvc {
 	@Autowired _Course _crs;
 	
 	public List<Student> list(int cid){
-		return _std.findByCourseId(cid);
+		try {
+			return _std.findByCourseId(cid); 
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 	public long countAsStudent(int mid) {
-		return _std.countByMid(mid);
+		try {
+			return _std.countByMid(mid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return 0L;
 	}
-	public Optional<Student> get(int sid) {
-		return _std.findById(sid);
+	public int countPerCourse(int cid) {
+		try {
+			return _std.countByCourseId(cid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return 0;
+	}
+	public Student get(int sid) {
+		try {
+			return _std.findById(sid).orElseThrow(()->new Exception("sid not found"));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 	public boolean save(int mid, int cid) {
 		try {

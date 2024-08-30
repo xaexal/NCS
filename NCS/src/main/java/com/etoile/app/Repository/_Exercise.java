@@ -9,4 +9,6 @@ import org.springframework.data.repository.query.Param;
 import com.etoile.app.Entity.Exercise;
 
 public interface _Exercise extends JpaRepository<Exercise, Integer> {
+
+	LocalDateTime findMaxCreatedByCourseId(int cid);
 }

@@ -17,13 +17,33 @@ public class CourseSvc {
 	@Autowired _Course _crs;
 	
 	public List<Course> listAll(){
-		return _crs.findAll();
+		try {
+			return _crs.findAllByOrderByPeriod2Desc();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
-	public List<Course> listAllAfterToday(){
-		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		
-		return _crs.findByPeriod1GreaterThanEqual(now.format(fmt));
+	public List<Course> listApplicable(int mid){
+		try {
+			List<Course> arCourse=_crs.findAvailable(mid);
+			return arCourse;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	public List<Course> listByStatus(int mid, String status){
+		List<Course> arCourse=null;
+		try {
+			if(status.equals("신청") || status.equals("수료") ||
+			   status.equals("수강중")) {
+				arCourse=_crs.findByStatus(mid,status);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return arCourse;
 	}
 	public Course get(int cid) {
 		try {
@@ -34,25 +54,49 @@ public class CourseSvc {
 		}
 		return null;
 	}
-	public void save(int cid,String title,String period1,String period2,int seat_cnt,int col_cnt,String alive,String orgname) {
-		Optional<Course> courseOpt = _crs.findById(cid);
-		Course one = null;
-		if(courseOpt.isPresent()) {
-			one = courseOpt.get();
-		} else {
-			one = new Course();
+	public String insert(String title,String period1,String period2,int seat_cnt,int col_cnt,String alive,String orgname) {
+		try {
+			Course one = new Course();
+			one.setTitle(title);
+			one.setOrgname(orgname);
+			one.setPeriod1(LocalDate.parse(period1));
+			one.setPeriod2(LocalDate.parse(period2));
+			one.setSeatCnt(seat_cnt);
+			one.setColCnt(col_cnt);
+			one.setAlive(alive);
+			one.setOrgname(orgname);
+			_crs.save(one);
+			return "0";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
-		one.setTitle(title);
-		one.setOrgname(orgname);
-		one.setPeriod1(LocalDate.parse(period1));
-		one.setPeriod2(LocalDate.parse(period2));
-		one.setSeatCnt(seat_cnt);
-		one.setColCnt(col_cnt);
-		one.setAlive(alive);
-		one.setOrgname(orgname);
-		_crs.save(one);
+		return "-1";
 	}
-	public void delete(int cid) {
-		_crs.deleteById(cid);
+	public String update(String title,String period1,String period2,int seat_cnt,int col_cnt,String alive,String orgname,int cid) {
+		try {
+			Course one=_crs.findById(cid).orElseThrow(()->new Exception("cid not found"));
+			one.setTitle(title);
+			one.setOrgname(orgname);
+			one.setPeriod1(LocalDate.parse(period1));
+			one.setPeriod2(LocalDate.parse(period2));
+			one.setSeatCnt(seat_cnt);
+			one.setColCnt(col_cnt);
+			one.setAlive(alive);
+			one.setOrgname(orgname);
+			_crs.save(one);
+			return "0";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "-1";
+	}
+	public String delete(int cid) {
+		try {
+			_crs.deleteById(cid);
+			return "0";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "-1";
 	}
 }
