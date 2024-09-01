@@ -1,16 +1,15 @@
 package com.etoile.app.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.etoile.app.DAO._Student;
-import com.etoile.app.DTO.Student;
+import com.etoile.app.Entity.Student;
+import com.etoile.app.Service.StudentSvc;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -18,21 +17,21 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-	@Autowired _Student _std;
+	private final StudentSvc stdSvc = new StudentSvc();
 	
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req, HttpSession s) {
 		try {
 			int cid = Integer.parseInt(req.getParameter("cid"));
-			ArrayList<Student> arStudent = _std.list(cid);
+			List<Student> arStudent = stdSvc.list(cid);
 			System.out.println("arStudent size="+arStudent.size());
 			
 			JSONArray ja = new JSONArray();
 			arStudent.forEach(x->{{
 				JSONObject jo = new JSONObject();
 				jo.put("sid", x.getSid());
-				jo.put("name", x.getName());
-				jo.put("gender", x.getGender());
+				jo.put("name", x.getMember());
+				jo.put("gender", x.());
 				jo.put("mobile", x.getMobile());
 				jo.put("birthday", x.getBirthday());
 				jo.put("seq",x.getSeq());
@@ -50,7 +49,7 @@ public class StudentController {
 	public String doGet(HttpServletRequest req) {
 		try {
 			int sid = Integer.parseInt(req.getParameter("sid"));
-			Student x = _std.get(sid);
+			Student x = stdSvc.get(sid);
 
 			JSONObject jo = new JSONObject();
 			jo.put("sid", x.getSid());
@@ -70,14 +69,14 @@ public class StudentController {
 	}
 	@PostMapping("/add")	// apply2Course() 
 	public String doAdd(HttpServletRequest req) {
-		int result=-1;
+		boolean result=false;
 		try {
 			String sid = req.getParameter("sid");
 			if(sid==null || sid.equals("")) {
-				result = _std.insert(Integer.parseInt(req.getParameter("mid")), 
+				result = stdSvc.insert(Integer.parseInt(req.getParameter("mid")), 
 									 Integer.parseInt(req.getParameter("cid")));
 			} else {
-				result = _std.update(Integer.parseInt(req.getParameter("mid")), 
+				result = stdSvc.update(Integer.parseInt(req.getParameter("mid")), 
 									 Integer.parseInt(req.getParameter("cid")),
 									 Integer.parseInt(sid));
 			}
@@ -92,7 +91,7 @@ public class StudentController {
 		try {
 			int mid = Integer.parseInt(req.getParameter("mid"));
 			int cid = Integer.parseInt(req.getParameter("cid"));
-			result = _std.delete(mid, cid);
+			result = stdSvc.delete(mid, cid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -104,7 +103,7 @@ public class StudentController {
 		try {
 			int mid = Integer.parseInt(req.getParameter("member_id"));
 			int cid = Integer.parseInt(req.getParameter("course_id"));
-			sid = _std.getSID(mid, cid);
+			sid = stdSvc.getSID(mid, cid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

@@ -1,6 +1,6 @@
 package com.etoile.app.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etoile.app.Repository._Drill;
+import com.etoile.app.Service.CourseSvc;
+import com.etoile.app.Service.DrillSvc;
 import com.etoile.app.Entity.Drill;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,21 +19,21 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/drill")
 public class DrillController {
-	@Autowired _Drill _drl;
+	private final DrillSvc drlSvc = new DrillSvc();
 	
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req) {
 		try {
 			int cid = Integer.parseInt(req.getParameter("cid"));
 			
-			ArrayList<Drill> alDrill = _drl.list(cid);
+			List<Drill> alDrill = drlSvc.list(cid);
 			System.out.println("Drill size="+alDrill.size());
 			
 			JSONArray ja = new JSONArray();
 			alDrill.forEach(x->{
 	    		JSONObject jo = new JSONObject();
 	    		jo.put("did", x.getDid());
-	    		jo.put("dtype_id", x.getDtype_id());
+	    		jo.put("dtype_id", x.getDrilltype());
 	    		jo.put("name", x.getName());
 	    		jo.put("comment", x.getComment());
 	    		jo.put("created", x.getCreated());
@@ -48,10 +50,10 @@ public class DrillController {
 	public String get(HttpServletRequest req) {
 		try {
 			int did = Integer.parseInt(req.getParameter("did"));
-			Drill x = _drl.get(did);
+			Drill x = drlSvc.get(did);
 			JSONObject jo = new JSONObject();
     		jo.put("did", x.getDid());
-    		jo.put("dtype_id", x.getDtype_id());
+    		jo.put("dtype_id", x.getDrilltype());
     		jo.put("name", x.getName());
     		jo.put("comment", x.getComment());
     		jo.put("created", x.getCreated());
@@ -66,24 +68,25 @@ public class DrillController {
 	public String delete(HttpServletRequest req) {
 		try {
 			int did = Integer.parseInt(req.getParameter("did"));
-			int n = _drl.delete(did);
-			return ""+n;
+			if(drlSvc.delete(did)) return "0";
 		} catch(Exception e) {
-			return "";
+			System.out.println(e.getMessage());
 		}
+		return "-1";
 	}
 	@PostMapping("/add")
 	public String add(HttpServletRequest req) {
 		String did = req.getParameter("did");
-		int n=0;
+		boolean result=true;
 		if(did==null || did.equals("")) {
-			n = _drl.insert(req.getParameter("name"),req.getParameter("comment"),
+			result = drlSvc.insert(req.getParameter("name"),req.getParameter("comment"),
 						Integer.parseInt(req.getParameter("type_id")));
 		} else {
-			n = _drl.update(req.getParameter("name"),req.getParameter("comment"),
+			result = drlSvc.update(req.getParameter("name"),req.getParameter("comment"),
 						Integer.parseInt(req.getParameter("type_id")),
 						Integer.parseInt(did));
 		}
-		return ""+n;
+		if(result) return "0";
+		else return "-1";
 	}
 }

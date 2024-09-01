@@ -51,7 +51,7 @@ public class StudentSvc {
 		}
 		return null;
 	}
-	public boolean save(int mid, int cid) {
+	public boolean insert(int mid, int cid) {
 		try {
 			Member member=(Member) _mem.findById(mid).orElseThrow(() -> new Exception("memberID를 찾을 수 없습니다"));
 			
@@ -73,6 +73,17 @@ public class StudentSvc {
 			System.out.println(e.getMessage());
 		}
 		return false;
+	}
+	public boolean update(int mid,int cid) {
+		try {
+			Member member=(Member) _mem.findById(mid).orElseThrow(() -> new Exception("memberID를 찾을 수 없습니다"));
+		
+			Course course=_crs.findById(cid).orElseThrow(() -> new Exception("courseID를 찾을 수 없습니다"));
+			
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	public boolean delete(int mid, int cid) {
 		try {

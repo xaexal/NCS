@@ -1,5 +1,7 @@
 package com.etoile.app.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,15 @@ public class DrillSvc {
 	@Autowired _Drill _drl;
 	@Autowired _Drilltype _dt;
 	
+	public List<Drill> list(int cid){
+		try {
+			List<Drill> arDrill=_drl.list(cid);
+			return arDrill;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
 	public Drill get(int did) {
 		try {
 			Drill drill = _drl.findById(did).orElseThrow(()->new Exception("Did not found"));
