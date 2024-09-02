@@ -1,6 +1,5 @@
 package com.etoile.app.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import com.etoile.app.Repository._Course;
 import com.etoile.app.Repository._Drilltype;
 import com.etoile.app.Repository._Member;
 import com.etoile.app.Service.CourseSvc;
+import com.etoile.app.Service.DrilltypeSvc;
 import com.etoile.app.Service.MemberSvc;
 import com.etoile.app.Service.StudentSvc;
 
@@ -27,8 +27,14 @@ public class HomeController {
 	MemberSvc _mem;
 	StudentSvc _std;
 	CourseSvc _crs;
-	@Autowired _Drilltype _dt;
+	DrilltypeSvc _dt;
 	
+	HomeController(){
+		this._mem=new MemberSvc();
+		this._std=new StudentSvc();
+		this._crs=new CourseSvc();
+		this._dt=new DrilltypeSvc();
+	}
 	@GetMapping("/")
 	public String home(HttpSession s, Model m) {
 		try {
@@ -139,7 +145,7 @@ public class HomeController {
 			String mobile = (String)s.getAttribute("mobile");
 			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in."); 
 			
-			ArrayList<Course> alCourse = _crs.listAll();
+			List<Course> alCourse = _crs.listAll();
 			System.out.println("alCourse size="+alCourse.size());
 			
 			model.addAttribute("Courses",alCourse);
@@ -156,7 +162,7 @@ public class HomeController {
 			String mobile = (String)s.getAttribute("mobile");
 			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in."); 
 			
-			ArrayList<Course> alCourse = _crs.enrolled((Integer)s.getAttribute("member_id"));
+			List<Course> alCourse = _crs.listByStatus((Integer)s.getAttribute("member_id"),"수강중");
 			System.out.println("alCourse size="+alCourse.size());
 			
 			model.addAttribute("Courses",alCourse);
@@ -174,10 +180,10 @@ public class HomeController {
 			String mobile = (String)s.getAttribute("mobile");
 			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
 			
-			ArrayList<Drilltype> arDrilltype = _dt.list();
+			List<Drilltype> arDrilltype = _dt.list();
 			System.out.println("arDrilltype size="+arDrilltype.size());
 			model.addAttribute("arDrillType",arDrilltype);
-			ArrayList<Course> arCourse = _crs.listAll();
+			List<Course> arCourse = _crs.listAll();
 			System.out.println("arCOurse size="+arCourse.size());
 			model.addAttribute("courses",arCourse);
 			return "drillT";

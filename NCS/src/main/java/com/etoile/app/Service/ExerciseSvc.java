@@ -1,6 +1,8 @@
 package com.etoile.app.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,15 @@ public class ExerciseSvc {
 	@Autowired _Course _crs;
 	@Autowired _Drill _drl;
 	
+	public List<Object[]> list(int cid){
+		try {
+			List<Object[]> list=_exr.list(cid);
+			return list;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
 	public Exercise get(int eid) {
 		try {
 			Exercise one=_exr.findById(eid).orElseThrow(()->new Exception("eid not found"));
@@ -27,14 +38,15 @@ public class ExerciseSvc {
 		}
 		return null;
 	}
-	public LocalDateTime lastCreated(int cid) {
+	public String lastCreated(int cid) {
 		try {
 			LocalDateTime last = _exr.findMaxCreatedByCourseId(cid);
-			return last;
+			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
+			return last.format(fmt);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return null;
+		return "";
 	}
 	public boolean insert(int cid, int did) {
 		try {

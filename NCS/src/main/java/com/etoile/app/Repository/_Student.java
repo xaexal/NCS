@@ -11,5 +11,5 @@ public interface _Student extends JpaRepository<Student, Integer> {
 	List<Student> findByCourseId(int cid);
 	long countByMid(int mid);
 	int countByCourseId(int cid);
-	Optional<Student> findByMemberIdAndCourseId(int mid, int cid);
+	Student findByMemberIdAndCourseId(int mid, int cid);
 }

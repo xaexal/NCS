@@ -28,7 +28,7 @@ public class Student {
     private int sid;
 
     @Column(columnDefinition = "int unsigned")
-    private Integer seq;
+    private int seq;
 
     @Column(length = 1)
     private String active;

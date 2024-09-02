@@ -2,17 +2,20 @@ package com.etoile.app.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.etoile.app.DTO.MemberDTO;
 import com.etoile.app.Entity.Member;
+import com.etoile.app.Entity.Student;
 import com.etoile.app.Repository._Member;
+import com.etoile.app.Repository._Student;
 
 @Service
 public class MemberSvc {
 	@Autowired _Member _mem;
+	@Autowired _Student _std;
 
 	public Member checkUser(String mobile, String passcode) {
 		try {
@@ -27,16 +30,35 @@ public class MemberSvc {
 	int checkStudent(int mid) {
 		return _mem.countByIdAndStatus(mid,"수강중");
 	}
-	public boolean save(String mobile, String passcode) {
+	public boolean insert(String mobile, String passcode) {
 		try {
-			Member member=_mem.findByMobile(mobile);
-			if(member==null) {
-				member = new Member();
-			}
+			Member member = new Member();
 			member.setMobile(mobile);
 			member.setPasscode(passcode);
 			_mem.save(member);
 			return true;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+	public boolean update(MemberDTO mdto, int sid, String bywho) {
+		try {
+			Member member = _mem.findByMobile(mdto.getMobile());
+			if(bywho.equals("admin") || mdto.getPasscode().equals(member.getPasscode())) {
+				member.setMobile(mdto.getMobile());
+				member.setName(mdto.getName());
+				member.setGender(mdto.getGender());
+				member.setBirthday(mdto.getBirthday());
+				member.setSchool(mdto.getSchool());
+				member.setEmail(mdto.getEmail());
+				member.setAddress(mdto.getAddress());
+				Student student = _std.findById(sid).orElseThrow(()->new Exception("sid not found"));
+				student.setSeq(mdto.getSeq());
+				_mem.save(member);
+				_std.save(student);
+				return true;
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

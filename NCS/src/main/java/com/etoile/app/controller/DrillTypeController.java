@@ -1,6 +1,6 @@
 package com.etoile.app.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,20 +9,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.etoile.app.DAO._Drilltype;
-import com.etoile.app.DTO.Drilltype;
+import com.etoile.app.Entity.Drilltype;
+import com.etoile.app.Service.DrilltypeSvc;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/drilltype")
 public class DrillTypeController {
-	@Autowired _Drilltype _dt;
+	private final DrilltypeSvc _dt;
+	
+	DrillTypeController(){
+		this._dt=new DrilltypeSvc();
+	}
 	
 	@PostMapping("/list")
 	public String doList() {
 		try {
-			ArrayList<Drilltype> arDT = _dt.list();
+			List<Drilltype> arDT = _dt.list();
 			System.out.println("arDT size="+arDT.size());
 			
 			JSONArray ja = new JSONArray();
@@ -58,7 +62,7 @@ public class DrillTypeController {
 	}
 	@PostMapping("/add")
 	public String doAdd(HttpServletRequest req) {
-		int result=-1;
+		boolean result=false;
 		try {
 			String dtid = req.getParameter("");
 			if(dtid==null || dtid.equals("")) {
@@ -69,17 +73,19 @@ public class DrillTypeController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return ""+result;
+		if(result) return "0";
+		else return "-1";
 	}
 	@PostMapping("/delete")
 	public String doDelete(HttpServletRequest req) {
-		int result=-1;
+		boolean result=false;
 		try {
 			int dtid = Integer.parseInt(req.getParameter("dtid"));
 			result = _dt.delete(dtid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return ""+result;
+		if(result) return "0";
+		else return "-1";
 	}
 }

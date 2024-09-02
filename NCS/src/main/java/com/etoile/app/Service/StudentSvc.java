@@ -57,13 +57,7 @@ public class StudentSvc {
 			
 			Course course=_crs.findById(cid).orElseThrow(() -> new Exception("courseID를 찾을 수 없습니다"));
 			
-			Optional<Student> studentOpt=_std.findByMemberIdAndCourseId(mid,cid);
-			Student student=null;
-			if(studentOpt.isPresent()) {
-				student = studentOpt.get();
-			} else {
-				student = new Student();
-			}
+			Student student=_std.findByMemberIdAndCourseId(mid,cid);
 			student.setMember((com.etoile.app.Entity.Member) member);
 			student.setCourse(course);
 			student.setStatus("신청");
@@ -79,16 +73,21 @@ public class StudentSvc {
 			Member member=(Member) _mem.findById(mid).orElseThrow(() -> new Exception("memberID를 찾을 수 없습니다"));
 		
 			Course course=_crs.findById(cid).orElseThrow(() -> new Exception("courseID를 찾을 수 없습니다"));
-			
+			Student student= new Student();
+			student.setMember((com.etoile.app.Entity.Member) member);
+			student.setCourse(course);
+			student.setStatus("신청");
+			_std.save(student);
+			return true;
 		
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		return false;
 	}
 	public boolean delete(int mid, int cid) {
 		try {
-			Student student = _std.findByMemberIdAndCourseId(mid, cid).orElseThrow(() -> new Exception("해당 memberId와 courseId로 Student를 찾을 수 없습니다."));
-
+			Student student = _std.findByMemberIdAndCourseId(mid, cid);
 	        _std.delete(student);
 	        return true;
 		} catch (Exception e) {
@@ -99,7 +98,7 @@ public class StudentSvc {
 	}
 	public int getSID(int mid, int cid) {
 		try {
-			Student student = _std.findByMemberIdAndCourseId(mid, cid).orElseThrow(() -> new Exception("해당 memberId와 courseId로 Student를 찾을 수 없습니다."));
+			Student student = _std.findByMemberIdAndCourseId(mid, cid);
 			return student.getSid();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
