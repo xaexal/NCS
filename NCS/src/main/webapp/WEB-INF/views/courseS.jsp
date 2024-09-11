@@ -12,13 +12,28 @@
 <header>
 <h2>${sessionScope.title}</h2>	
 </header>
-<nav class='navbar navbar-expand-lg gb-light'>
-	<div class='container-fluid'>
-		<a class="navbar-brand" href="/drillViewS">과제수행</a>
-			<a class="navbar-brand" href="/board:list">자유게시판</a>&nbsp;&nbsp;
-		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
-		<a class="navbar-brand" href='/logout'>로그아웃</a>
-		<input type="hidden" id="member_id" value="${sessionScope.member_id}">
+<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
+	<a class="navbar-brand" href="#"></a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+	  <span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			<li class='nav-item active'>
+				<a class="navbar-brand" href="/drillViewS" style='color:white'>과제수행</a>
+			</li>
+			<li class='nav-item active'>
+				<a class="navbar-brand" href="/board:list" style='color:white'>자유게시판</a>&nbsp;&nbsp;
+			</li>
+			<li class='nav-item active'>
+				<a class="navbar-brand" href='/personal' style='color:white'>${sessionScope.name}</a>&nbsp;&nbsp;
+			</li>
+			<li class='nav-item active'>
+				<a class="navbar-brand" href='/logout' style='color:white'>로그아웃</a>
+				<input type="hidden" id="member_id" value="${sessionScope.member_id}">
+			</li>
+		</ul>
 	</div>
 </nav>
 <section>
