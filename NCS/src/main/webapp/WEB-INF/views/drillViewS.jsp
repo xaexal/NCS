@@ -9,28 +9,29 @@
 <h2>${sessionScope.title}</h2>
 </header>
 <section>
-<nav class='navbar navbar-expand-lg gb-light'>
-	<div class='container-fluid'>
-		<div class='col-3'></div>
-		<div class="col-6">
-			<input type=hidden id=member_id value="${sessionScope.member_id}">
-			<input type=hidden id=sid>
-			<select id="selCourse" style="font-size:24px;">
-			<c:forEach items="${Courses}"  var="crs">
-				<option value="${crs.cid}">${crs.title}</option>
-			</c:forEach>
-			</select>
-		</div>
-		<label id="lblDays"></label>
-		<div class="col-3">
-			<a class="navbar-brand" href="/courseS">과정관리</a>&nbsp;&nbsp;
-			<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
-			<a class="navbar-brand" href='/logout'>로그아웃</a>
-		</div>
-	</div>
+<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
+	<table style='width:100%;color:white;'>
+	<tr>
+		<td style='width:50%;text-align:left;'>
+			<a class="navbar-brand" href="/courseS" style='color:white'>과정관리</a>&nbsp;&nbsp;
+		</td>
+		<td style='text-align:right;'>
+			<a class="navbar-brand" href='/personal' style='color:white'>${sessionScope.name}</a>&nbsp;&nbsp;
+			<a class="navbar-brand" href='/logout' style='color:white'>로그아웃</a>
+		</td>
+	</tr>
+	</table>
 </nav>
+<input type=hidden id=member_id value="${sessionScope.member_id}">
+<input type=hidden id=sid>
 <input type=hidden id=lastCreated>
 <input type=hidden id=lastUpdated>
+		<label id="lblDays"></label>
+<select id="selCourse" style="font-size:24px;">
+<c:forEach items="${Courses}"  var="crs">
+	<option value="${crs.cid}">${crs.title}</option>
+</c:forEach>
+</select>
 <div class='container'>
 	<div class=row>
 		<div class=col>

@@ -8,28 +8,32 @@
 <header>
 <h2>${sessionScope.title}</h2>
 </header>
-<nav class='navbar navbar-expand-lg gb-light'>
-	<div class='container-fluid'>
-		<a class="navbar-brand" href='/courseT'>과정관리</a>
-		<a class="navbar-brand" href='/drillT'>과제관리</a>
-		<a class="navbar-brand" href='/showRank'>결과보기</a>
-		<a class="navbar-brand" href="/list">자유게시판</a>&nbsp;&nbsp;
-		<div class='col'>
-			<select id=selCourse style='font-size:20px;'>
+<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
+	<table style='width:100%;color:white;'>
+	<tr>
+		<td style='text-align:left;'>
+		<a class="navbar-brand" style='color:white' href='/courseT'>과정관리</a>
+		<a class="navbar-brand" style='color:white' href='/drillT'>과제관리</a>
+		<a class="navbar-brand" style='color:white' href='/showRank'>결과보기</a>
+		<a class="navbar-brand" style='color:white' href="/list">자유게시판</a>&nbsp;&nbsp;
+			<select id=selCourse style='font-size:20px;width:64%;'>
 			<c:forEach items="${Courses}" var="course">
 				<option value='${course.cid},${course.seat_cnt},${course.col_cnt},${course.period1},${course.period2}' style='font-size:20px;'>
 					${course.title} [${course.period1}~${course.period2}]</option>
 			</c:forEach>
 			</select>
-		</div>
-		<label id="lblDays"></label>
-		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>
-		&nbsp;&nbsp;<a class="navbar-brand" href='/logout'>로그아웃</a>
-	</div>
+		</td>
+		<td style='text-align:right;'>
+		<a class="navbar-brand" style='color:white' href='/personal'>${sessionScope.name}</a>
+		&nbsp;&nbsp;<a class="navbar-brand" style='color:white' href='/logout'>로그아웃</a>
+		</td>
+	</tr>
+	</table>
 </nav>
 <section>
-<input type=hidden id=lastUpdated>
-<div class='container'>
+	<label id="lblDays"></label>
+	<input type=hidden id=lastUpdated>
+	<div class='container'>
 	<div class='row'>
 	<div class='col-3'>
 		<select id=selExercise size=39 style='width:300px;'></select>

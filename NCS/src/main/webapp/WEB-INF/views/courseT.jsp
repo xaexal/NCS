@@ -5,17 +5,21 @@
 <header>
 <h2>${sessionScope.title}</h2>
 </header>
-<nav class='navbar navbar-expand-lg gb-light'>
-	<div class='container-fluid'>
-		<div class="col-6">&nbsp;</div>
-		<div class="col-6">
-		<a class='navbar-brand' href='/drillViewT'>과제진행</a>
-		<a class="navbar-brand" href='/drillT'>과제관리</a>
-		<a class="navbar-brand" href='/showRank'>결과보기</a>
-		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
-		<a class="navbar-brand" href='/logout'>로그아웃</a>
-		</div>
-	</div>
+<section>
+<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
+	<table style='width:100%;'>
+	<tr>
+		<td style='width:50%;text-align:left;'>
+		<a class='navbar-brand' style='color:white;' href='/drillViewT'>과제진행</a>
+		<a class="navbar-brand" style='color:white;' href='/drillT'>과제관리</a>
+		<a class="navbar-brand" style='color:white;' href='/showRank'>결과보기</a>
+		</td>
+		<td style='text-align:right;'>
+		<a class="navbar-brand" style='color:white;' href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
+		<a class="navbar-brand" style='color:white;' href='/logout'>로그아웃</a>
+		</td>
+	</tr>
+	</table>
 </nav>
 <section>
 <div class='container'>

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="base.jsp" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 input[type=button] {
 	width:50%; height: 50px; background: #166cea; color: #fff; font-size: 24px; border: none; border-radius: 25px;
@@ -9,29 +11,22 @@ input[type=button] {
 table,input,select,textarea {
 	font-size:24px;
 }
-tr {
-	
-}
-td:nth-child(1) {
-	text-align:right;height:48px;
-}
-td:nth-child(2) {
-	width:20px;
-}
-td:nth-child(3) {
-	text-align:left;
-}
 input[type=button] {
 	width:100%; height: 50px; background: #166cea; color: #fff; font-size: 20px; border: none; border-radius: 25px;
 	cursor: pointer;
+}
+.navbar-brand {
+	color:white;
 }
 </style>
 <!--<link rel="stylesheet" href="member.css">-->
 <header>
 <h1>${sessionScope.title}</h1>	
 </header>
-<nav class="navbar navbar-expand-lg gb-light">
-	<div class='container-fluid' style="text-align:right;">
+<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
+	<table style='width:100%;color:white;'>
+	<tr>
+		<td style='text-align:left;'>
 <c:if test="${sessionScope.level == '0'}">	
 		<a class='navbar-brand' href='/drillViewT'>과제진행</a>
 		<a class="navbar-brand" href='/drillT'>과제관리</a>
@@ -40,9 +35,13 @@ input[type=button] {
 <c:if test="${sessionScope.level != '0'}">		
 		<a class="navbar-brand" href="/drillViewS">과제수행</a>
 </c:if>
+		</td>
+		<td style='text-align:right;'>
 		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
 		<a class="navbar-brand" href='/logout'>로그아웃</a>
-	</div>
+		</td>
+	</tr>
+	</table>
 </nav>
 <section style="margin:auto;width:80%;">
 	<h1 style="color:rgb(128, 0, 255);font-size:36px;">나의 등록정보</h1>

@@ -13,23 +13,27 @@
 <header>
 <h2>${title}</h2>
 </header>
-<nav class='navbar navbar-expand-lg gb-light'>
-	<div class='container-fluid'>
-		<a class='navbar-brand' href='/drillViewT'>과제진행</a>
-		<a class="navbar-brand" href='/courseT'>과정관리</a>
-		<a class="navbar-brand" href='/drillT'>과제관리</a>
-		<a class="navbar-brand" href='/showRank'>결과보기</a>
-		<div class='col'>
-			<select id=selCourse style='font-size:20px;'>
+<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
+	<table style='width:100%;color:white;'>
+	<tr>
+		<td style='text-align:left;'>
+			<a class='navbar-brand' style='color:white;' href='/drillViewT'>과제진행</a>
+			<a class="navbar-brand" style='color:white;' href='/courseT'>과정관리</a>
+			<a class="navbar-brand" style='color:white;' href='/drillT'>과제관리</a>
+			<a class="navbar-brand" style='color:white;' href='/showRank'>결과보기</a>
+			<select id=selCourse style='font-size:20px;width:64%;'>
 			<c:forEach var="course" items="${courses}">
 				<option value='${course.cid},${course.seat_cnt},${course.col_cnt}' style='font-size:20px;'>
 					${course.title} [${course.period1}~${course.period2}]</option>
 			</c:forEach>
 			</select>
-		</div>
-		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>
-		&nbsp;&nbsp;<a class="navbar-brand" href='/logout'>로그아웃</a>
-	</div>
+		</td>
+		<td style='text-align:right;'>
+			<a class="navbar-brand" style='color:white;' href='/personal'>${sessionScope.name}</a>
+			&nbsp;&nbsp;<a class="navbar-brand" style='color:white;' href='/logout'>로그아웃</a>
+		</td>
+	</tr>
+	</table>
 </nav>
 <section>
 <div class='container'>
