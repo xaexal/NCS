@@ -27,8 +27,17 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(HttpSession s, Model m) {
 		try {
+		} catch(Exception e) {
+			
+		}
+		return "home";
+	}
+	@GetMapping("/login") 
+	public String login(HttpServletRequest req,HttpSession s,  Model m) {
+		m.addAttribute("title","하이미디어 일산");
+		try {
 			String mobile=(String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) return "redirect:/login";
+			if(mobile==null || mobile.equals("")) return "login";
 			
 			int level=-1;
 			Object oLevel = s.getAttribute("level");
@@ -42,11 +51,6 @@ public class HomeController {
 			System.out.println(e.getMessage());
 		}
 		return "redirect:/drillViewS";
-	}
-	@GetMapping("/login") 
-	public String login(HttpServletRequest req, Model m) {
-		m.addAttribute("title","하이미디어 일산");
-		return "login"; 
 	}
 	@GetMapping("/signup")
 	public String doSignup(HttpServletRequest req, Model m) {
