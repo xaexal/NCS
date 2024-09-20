@@ -47,7 +47,7 @@ input[type=button] {
 <h1>해피 프로그래밍</h1>	
 </header>
 <section>
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img src="img/python.jpg" class="d-block" alt="First Image">
