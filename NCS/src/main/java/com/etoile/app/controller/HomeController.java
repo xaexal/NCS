@@ -34,7 +34,7 @@ public class HomeController {
 	}
 	@GetMapping("/login") 
 	public String login(HttpServletRequest req,HttpSession s,  Model m) {
-		m.addAttribute("title","하이미디어 일산");
+		m.addAttribute("title","코딩 부트캠프");
 		try {
 			String mobile=(String)s.getAttribute("mobile");
 			if(mobile==null || mobile.equals("")) return "login";
@@ -54,7 +54,7 @@ public class HomeController {
 	}
 	@GetMapping("/signup")
 	public String doSignup(HttpServletRequest req, Model m) {
-		m.addAttribute("title","하이미디어 일산");
+		m.addAttribute("title","코딩 부트캠프");
 		return "signup";
 	}
 	@PostMapping("/memberInsert")
@@ -81,7 +81,7 @@ public class HomeController {
 				m.addAttribute("msg","모바일번호/비밀번호가 잘못 입력됐거나 회원가입한 적이 없습니다");
 				return "login";
 			}
-			s.setAttribute("title","하이미디어 일산");
+			s.setAttribute("title","코딩 부트캠프");
 			s.setAttribute("member_id", member.getMid());
 			s.setAttribute("mobile", req.getParameter("mobile"));
 			s.setAttribute("name", member.getName());
@@ -110,7 +110,7 @@ public class HomeController {
 			System.out.println(e.getMessage());
 			return "redirect:/login";
 		}
-		m.addAttribute("title","하이미디어 일산");
+		m.addAttribute("title","코딩 부트캠프");
 		return "courseS";
 	}
 	@GetMapping("/passcode")
@@ -147,7 +147,7 @@ public class HomeController {
 			System.out.println("alCourse size="+alCourse.size());
 			
 			model.addAttribute("Courses",alCourse);
-			model.addAttribute("title","하이미디어 일산");			return "drillViewT";
+			model.addAttribute("title","코딩 부트캠프");			return "drillViewT";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			
@@ -164,7 +164,7 @@ public class HomeController {
 			System.out.println("alCourse size="+alCourse.size());
 			
 			model.addAttribute("Courses",alCourse);
-			model.addAttribute("title","하이미디어 일산");
+			model.addAttribute("title","코딩 부트캠프");
 			return "drillViewS";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
