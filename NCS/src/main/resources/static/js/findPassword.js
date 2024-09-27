@@ -11,10 +11,10 @@ $(document)
 	oParam['email']=$('#email').val();
 	$.post('/sendPasscode',oParam,function(data){
 		console.log(data)
-		if(data['result']!='0'){
-			alert(data['msg']); return false;
+		if(data!='0'){
+			alert('임시비밀번호 생성 실패'); return false;
 		}
-		$('#lblMsg').text('비밀번호 ['+data['rec']['passcode']+']');
+		document.location="/login";
 	},'json')
 	return false;
 })

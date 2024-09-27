@@ -1,5 +1,6 @@
 package com.etoile.app.controller;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.etoile.app.DAO._Course;
 import com.etoile.app.DAO._Drilltype;
@@ -235,22 +237,40 @@ public class HomeController {
 		return "findPassword";
 	}
 	@PostMapping("/sendPasscode")
+	@ResponseBody
 	public String sendPasscode(HttpServletRequest req, Model model) {
 		try {
 			String mobile = req.getParameter("mobile");
 			String email = req.getParameter("email");
+			
+			String newPass = this.tempPasscode(8);
+			if(_mem.setTempPasscode(mobile, newPass) != 1 ) return "redirect:/findPassword";
 
 	        SimpleMailMessage message = new SimpleMailMessage();
 	        message.setTo(email);
 	        message.setSubject("코딩 부트캠프 로그인용 임시비밀번호");
-	        message.setText("789123");
-	        message.setFrom("xaexal@gmail.com");  // 보내는 이메일 주소 (필요에 따라 생략 가능)
+	        message.setText(newPass);
+	        message.setFrom("cavenagh@naver.com");  // 보내는 이메일 주소 (필요에 따라 생략 가능)
 
 	        mailSender.send(message);
-			return "redirect:/login";
+	        
+			return "0";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return "/";
+		return "-1";
 	}
+	private String tempPasscode(int length) {
+        // 알파벳(대소문자), 숫자, 특수문자 정의
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?";
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            sb.append(characters.charAt(randomIndex));
+        }
+
+        return sb.toString();
+    }
 }
