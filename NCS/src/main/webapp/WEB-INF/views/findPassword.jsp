@@ -17,6 +17,10 @@
 		<div class='btn-area'>
 			<button id=btnSend>임시비밀번호 발급</button>
 		</div>
+		<div class='caption'>
+			<a href="/login">로그인</a>&nbsp;&nbsp;
+			<a href="/signup">회원가입</a>
+		</div>
 	</form>
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

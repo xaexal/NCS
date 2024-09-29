@@ -273,4 +273,12 @@ public class HomeController {
 
         return sb.toString();
     }
+	@GetMapping("/changePassword")
+	public String changePassword() {
+		return "changePassword";
+	}
+	@PostMapping("/passwordChange")
+	public String passwordChange(HttpServletRequest req) {
+		
+	}
 }
