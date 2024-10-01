@@ -1,9 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="base.jsp" />
-<link rel="stylesheet" href="member.css"> 
-<header></header>
+<header>
+<h1>코딩 부트캠프</h1>	
+</header>
 <section class='login-form'>
+<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
+	<table style='width:100%'>
+	<tr>
+		<td style='width:50%;text-align:left;'>
+			<a class="navbar-brand" href="/" style='color:white'>Home</a>&nbsp;&nbsp;
+			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;
+		</td>
+		<td style='text-align:right;'>
+            <a class="navbar-brand" href='/login' style='color:white'>로그인</a>
+            <a class="navbar-brand" href='/signup' style='color:white'>회원가입</a>
+		</td>
+	</tr>
+	</table>
+</nav>
 	<h1 style='font-size:54px;color:aqua;'>${title}</h1>
 	<h1>등록</h1>
 	<form action="/member/insert" id=frmsignup method="post">

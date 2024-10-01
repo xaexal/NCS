@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="base.jsp" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <style>/* 
 input[type=button] {
 	width:50%; height: 50px; background: #166cea; color: #fff; font-size: 24px; border: none; border-radius: 25px;
@@ -45,8 +43,6 @@ input[type=button] {
 <!--<link rel="stylesheet" href="member.css">-->
 <header>
 <h1>코딩 부트캠프</h1>	
-</header>
-</header>
 <nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
 	<table style='width:100%'>
 	<tr>
@@ -60,6 +56,7 @@ input[type=button] {
 	</tr>
 	</table>
 </nav>
+</header>
 <section>
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">

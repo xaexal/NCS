@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="base.jsp" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 input[type=button] {
 	width:50%; height: 50px; background: #166cea; color: #fff; font-size: 24px; border: none; border-radius: 25px;
@@ -22,7 +20,6 @@ input[type=button] {
 <!--<link rel="stylesheet" href="member.css">-->
 <header>
 <h1>${sessionScope.title}</h1>	
-</header>
 <nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
 	<table style='width:100%;color:white;'>
 	<tr>
@@ -43,6 +40,7 @@ input[type=button] {
 	</tr>
 	</table>
 </nav>
+</header>
 <section style="margin:auto;width:80%;">
 	<h1 style="color:rgb(128, 0, 255);font-size:36px;">나의 등록정보</h1>
 	<form action="/member/updateBySelf" id=frmPersonal method="post">
