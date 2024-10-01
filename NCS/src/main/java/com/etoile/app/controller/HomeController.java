@@ -279,6 +279,18 @@ public class HomeController {
 	}
 	@PostMapping("/passwordChange")
 	public String passwordChange(HttpServletRequest req) {
-		
+		try {
+			String mobile = req.getParameter("mobile");
+			String passcode = req.getParameter("passcode");
+			String passcode1 = req.getParameter("passcode1");
+			
+			if(_mem.changePasscode(mobile, passcode, passcode1)==1) {
+				return "redirect:/login";
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			
+		}
+		return "redirect:/changePassword";
 	}
 }

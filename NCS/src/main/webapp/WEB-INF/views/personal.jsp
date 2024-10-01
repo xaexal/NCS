@@ -93,6 +93,7 @@ input[type=button] {
 		</tr>
 		</table>
 	</form>
+	<div class='caption'><a href='/changePassword'>비밀번호 변경</a></div>
 </section>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="js/personal.js"></script>

@@ -46,7 +46,6 @@ input[type=button] {
 <header>
 <h1>코딩 부트캠프</h1>	
 </header>
-</header>
 <nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
 	<table style='width:100%'>
 	<tr>
@@ -60,35 +59,54 @@ input[type=button] {
 	</tr>
 	</table>
 </nav>
-<section>
-<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item">
-        	<a href='/class/python'>
-            <img src="img/python.jpg" class="d-block" alt="Python">
-            </a>
-        </div>
-        <div class="carousel-item active">
-        	<a  href='/class/java'>
-            <img src="img/java.jpg" class="d-block" alt="Java">
-            </a>
-        </div>
-        <div class="carousel-item">
-        	<a href='/class/react'>
-            <img src="img/react.jpg" class="d-block" alt="React">
-            </a>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">이전</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">다음</span>
-    </button>
-</div>
 
-</section>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<jsp:include page="footer.jsp" />
+<h2>공지사항 목록</h2>
+<table class='border spx auto'>
+<c:if test="${sessionScope['level'] <= 5}">
+<tr><td colspan=4 style='text-align:right;border:none;'><a href='/notice/write'>공지 작성</a></td></tr>
+</c:if>
+<tr>	
+	<th style='text-align:center;'>No.</th><th style='width:240px'>작성시각</th>
+	<th style='width:500px;'>제목</th><th style='width:200px'>작성자</th>
+	<th style='width:100px;'>조회수</th>
+</tr>
+<c:forEach var="notice" items="${zero}">
+<tr id="${notice.id}">
+	<td style='text-align:right;'>-</td><td>${notice.updated}</td><td>${notice.title}</td>
+	<td>${notice.name}</td>
+	<td style='text-align:right;'>${notice.hit}</td>
+</tr>
+<tr style='height:200px;background-color:yellow;'>
+	<td colspan=5 style='text-align:left;vertical-align:top'><pre>${notice.content}</pre></td>
+</tr>
+</c:forEach>
+<c:forEach var="notice" items="${first}">
+<tr id="${notice.id}" style='color:red;'>
+	<td style='text-align:right;'>-</td><td>${notice.updated}</td><td>${notice.title}</td>
+	<td>${notice.name}</td>
+	<td style='text-align:right;'>${notice.hit}</td>
+</tr>
+</c:forEach>
+<c:set var="start" value="${start}" />
+<c:forEach var="notice" items="${arNotice}">
+<tr id="${notice.id}">
+	<c:set var="start" value="${start+1}" />
+	<td style='text-align:right;'>${start}</td><td>${notice.updated}</td><td>${notice.title}</td>
+	<td>${notice.name}</td>
+	<td style='text-align:right;'>${notice.hit}</td>
+</tr>
+</c:forEach>
+</table>
+<script>
+$(document)
+.ready(()=>{})
+.on('click','tr',function(){
+	console.log($(this).prop('id'));
+	if($(this).prop('id')=='') return true;
+	let linkstr="/notice/view?id="+$(this).prop('id');
+	console.log(linkstr);
+	document.location="/notice/view?id="+$(this).prop('id');
+	return false;
+});
+</script>
+<jsp:include page="../footer.jsp" />

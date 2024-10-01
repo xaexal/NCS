@@ -13,7 +13,7 @@
 	update ncs_member set login_tm=current_timestamp where mobile=#{mobile}
 </update>
 <update id="changePasscode">
-	update ncs_member set passcode=#{passcode_new} where mid=#{member_id} and passcode=#{passcode}
+	update ncs_member set passcode=#{passcode1} where mobile=#{mobile} and passcode=#{passcode}
 </update>
 <update id="setTempPasscode">
 	update ncs_member set passcode=#{passcode_new},temp='1',updated=current_timestamp where mobile=#{mobile}
