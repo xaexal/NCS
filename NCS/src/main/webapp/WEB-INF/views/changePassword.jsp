@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="base.jsp" />
 <link rel="stylesheet" href="member.css"> 
-<header></header>
 <section class='login-form'>
 	<h1 style='font-size:54px;color:aqua;'>${title}</h1>
 	<h1>등록</h1>
@@ -27,6 +26,7 @@
 			<button type="submit" id=btnSubmit>등록</button>
 		</div>
 		<div class='caption'>
+			<a href="/">홈으로</a>&nbsp;&nbsp;
 			<a href="/findPassword">비밀번호 찾기</a>&nbsp;&nbsp;
 			<a href="/login">로그인</a>
 		</div>

@@ -16,6 +16,7 @@ td {
 		<a class="navbar-brand" href='/courseT'>과정관리</a>
 		<a class="navbar-brand" href='/drillT'>과제관리</a>
 		<a class="navbar-brand" href='/showRank'>결과보기</a>
+		<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
 		<a class="navbar-brand" href="/board:list">자유게시판</a>&nbsp;&nbsp;
 		<div class='col'>
 			<select id=selCourse style='font-size:20px;'>

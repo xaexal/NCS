@@ -1,25 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel='stylesheet' type='text/css' href='member.css' />
 <jsp:include page="base.jsp" />
-<header>
-<h1>코딩 부트캠프</h1>	
-</header>
 <section class='login-form'>
-<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
-	<table style='width:100%'>
-	<tr>
-		<td style='width:50%;text-align:left;'>
-			<a class="navbar-brand" href="/" style='color:white'>Home</a>&nbsp;&nbsp;
-			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;
-		</td>
-		<td style='text-align:right;'>
-            <a class="navbar-brand" href='/login' style='color:white'>로그인</a>
-            <a class="navbar-brand" href='/signup' style='color:white'>회원가입</a>
-		</td>
-	</tr>
-	</table>
-</nav>
-	<h1 style='font-size:54px;color:aqua;'>${title}</h1>
+	<h1 style='font-size:54px;color:aqua;'><a href="/" style='text-decoration:none;'>코딩 부트캠프</a></h1>
 	<h1>등록</h1>
 	<form action="/member/insert" id=frmsignup method="post">
         <div class='int-area'>
@@ -38,6 +22,7 @@
 			<button type="submit" id=btnSubmit>등록(가입)</button>
 		</div>
 		<div class='caption'>
+			<a href="/">홈으로</a>&nbsp;&nbsp;
 			<a href="/findPassword">비밀번호 찾기</a>&nbsp;&nbsp;
 			<a href="/login">로그인</a>
 		</div>

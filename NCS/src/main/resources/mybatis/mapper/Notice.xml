@@ -4,7 +4,7 @@
 <select id="selectAll" resultType="com.etoile.app.DTO.Notice">
 select a.id,a.level,a.parent_id,a.title,a.content,a.member_id,
 			 a.created,a.updated,a.hit,b.name
-  from o_notice a left outer join o_member b on a.member_id=b.id
+  from ncs_notice a left outer join ncs_member b on a.member_id=b.mid
 <if test='param1!=null and param1!=""'>
  where a.title like concat('%',#{param1},'%') 
     or a.content like concat('%',#{param1},'%')
@@ -17,32 +17,32 @@ select a.id,a.level,a.parent_id,a.title,a.content,a.member_id,
 <select id="selectByLevel" resultType="com.etoile.app.DTO.Notice">
 select a.id,a.level,a.parent_id,a.title,a.content,a.member_id,
 			 a.created,a.updated,a.hit,b.name
-  from o_notice a left outer join o_member b on a.member_id=b.id
+  from ncs_notice a left outer join ncs_member b on a.member_id=b.mid
  where a.level=#{param1} order by a.updated desc 
  limit #{param2},#{param3}
 </select>
 <select id="selectOne" resultType="com.etoile.app.DTO.Notice">
 select a.id,a.level,a.title,a.content,a.member_id,a.created,a.updated,
 			 a.hit,a.parent_id,b.name
-  from o_notice a left outer join o_member b on a.member_id=b.id
+  from ncs_notice a left outer join ncs_member b on a.member_id=b.mid
  where a.id=#{param1}
 </select>
 <insert id="insert">
-insert into o_notice set title=#{param1},content=#{param2},member_id=#{param3},
+insert into ncs_notice set title=#{param1},content=#{param2},member_id=#{param3},
 	level=#{param4},parent_id=#{param5}
 </insert>
 <update id="update">
-update o_notice set title=#{param1},content=#{param2},member_id=#{param3},
+update ncs_notice set title=#{param1},content=#{param2},member_id=#{param3},
 	updated=now(),level=#{param4},parent_id=#{param5}
  where id=#{param6}
 </update>
 <update id="addHit">
-update o_notice set hit=hit+1 where id=#{param1}
+update ncs_notice set hit=hit+1 where id=#{param1}
 </update>
 <delete id="delete">
-delete from o_notice where id=#{param1}
+delete from ncs_notice where id=#{param1}
 </delete>
 <select id="getLast" resultType="_int">
-select id from o_notice where member_id=#{param1} order by updated desc limit 0,1
+select id from ncs_notice where member_id=#{param1} order by updated desc limit 0,1
 </select>
 </mapper>

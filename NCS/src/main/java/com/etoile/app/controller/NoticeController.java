@@ -1,6 +1,8 @@
 package com.etoile.app.controller;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -26,9 +28,10 @@ public class NoticeController {
 	@Autowired _Member _mem;
 	
 	@GetMapping("/list")
-	public String getList(HttpServletRequest req,Model m) {
+	public String getList(HttpServletRequest req, HttpSession sess,Model m) {
 		try {
 			System.out.println("/notice/list");
+
 			String pageno=req.getParameter("pageno");
 			int start=0;
 			int pagesize=20;
@@ -55,18 +58,19 @@ public class NoticeController {
 			System.out.println(e.getMessage());
 		}
 		return "redirect:/";
-	}@GetMapping("/write")
+	}
+	@GetMapping("/write")
 	public String doWrite(HttpServletRequest req, Model m) {
 		System.out.println("writeNotice");
 		try {
 			HttpSession s=req.getSession();
-			if(s.getAttribute("memberID")==null) {
-				return "redirect:/member/signin";
-			}
-			int member_id=Integer.parseInt(String.valueOf(s.getAttribute("memberID")));
-			String member_name="";//_mem.getName(member_id);
-			System.out.println("member_name="+member_name);
-			m.addAttribute("name",member_name);
+//			if(Integer.parseInt((String)s.getAttribute("level"))!=0) {
+//				return "redirect:/member/signin";
+//			}
+//			int member_id=Integer.parseInt(String.valueOf(s.getAttribute("memberID")));
+//			String member_name="";//_mem.getName(member_id);
+//			System.out.println("member_name="+member_name);
+//			m.addAttribute("name",member_name);
 			m.addAttribute("mode","new");
 			m.addAttribute("NoticeTitle","공지사항 작성");
 			return "notice/write";

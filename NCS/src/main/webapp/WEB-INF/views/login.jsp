@@ -1,23 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="base.jsp" />
-<header>
-<h1>코딩 부트캠프</h1>	
-<nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
-	<table style='width:100%'>
-	<tr>
-		<td style='width:50%;text-align:left;'>
-			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;
-		</td>
-		<td style='text-align:right;'>
-            <a class="navbar-brand" href='/login' style='color:white'>로그인</a>
-            <a class="navbar-brand" href='/signup' style='color:white'>회원가입</a>
-		</td>
-	</tr>
-	</table>
-</nav>
-</header>
+<link rel='stylesheet' type='text/css' href='member.css' />
 <section class='login-form'>
-	<h1 style='font-size:54px;color:aqua;'>${sessionScope.title}</h1>
+	<h1 style='font-size:54px;color:aqua;'><a href="/" style='text-decoration:none;'>코딩 부트캠프</a></h1>
 	<h1>로그인</h1>
 	<label id=lblMsg style="color:red;">${msg}</label>
 	<form action="/checkuser" id=frmLogin method="post">
@@ -33,6 +18,7 @@
 			<button type="submit">Login</button>
 		</div>
 		<div class='caption'>
+			<a href="/">홈으로</a>&nbsp;&nbsp;
 			<a href="/findPassword">비밀번호 찾기</a>&nbsp;&nbsp;
 			<a href="/signup">회원가입</a>
 		</div>
