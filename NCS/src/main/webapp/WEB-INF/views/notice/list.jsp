@@ -52,7 +52,12 @@ input[type=button] {
 			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;
 		</td>
 		<td style='text-align:right;'>
+<c:if test="${sessionScope.name == null}">		
             <a class="navbar-brand" href='/login' style='color:white'>로그인</a>
+</c:if>
+<c:if test="${sessionScope.name != null}">
+            <a class="navbar-brand" href='/personal' style='color:white'>${sessionScope.name}</a>
+</c:if>           
             <a class="navbar-brand" href='/signup' style='color:white'>회원가입</a>
 		</td>
 	</tr>

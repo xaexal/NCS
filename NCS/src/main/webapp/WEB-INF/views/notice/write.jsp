@@ -16,31 +16,8 @@ input[type=button] {
 .navbar-brand {
 	color:white;
 }
- /* Center image should be larger */
-        .carousel-item img {
-            transition: transform 0.5s ease;
-        }
-
-        /* Default image size */
-        .carousel-inner img {
-            width: 500px;
-            height: auto;
-        }
-
-        /* Center image size */
-        .carousel-item.active img {
-            width: 500px;
-            height: auto;
-            transform: scale(1.2);
-        }
-
-        .carousel-inner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 </style>
-<!--<link rel="stylesheet" href="member.css">-->
+<link rel="stylesheet" href="member.css">
 <header>
 <h1>코딩 부트캠프</h1>	
 </header>
@@ -52,7 +29,12 @@ input[type=button] {
 			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;
 		</td>
 		<td style='text-align:right;'>
+<c:if test="${sessionScope.name == null}">		
             <a class="navbar-brand" href='/login' style='color:white'>로그인</a>
+</c:if>
+<c:if test="${sessionScope.name != null}">
+            <a class="navbar-brand" href='/personal' style='color:white'>${sessionScope.name}</a>
+</c:if>           
             <a class="navbar-brand" href='/signup' style='color:white'>회원가입</a>
 		</td>
 	</tr>

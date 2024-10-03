@@ -32,6 +32,9 @@ input[type=button] {
 <c:if test="${sessionScope.level != '0'}">		
 		<a class="navbar-brand" href="/drillViewS">과제수행</a>
 </c:if>
+		<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
+		<a class="navbar-brand" style='color:white' href="/list">자유게시판</a>&nbsp;&nbsp;
+
 		</td>
 		<td style='text-align:right;'>
 		<a class="navbar-brand" href='/personal'>${sessionScope.name}</a>&nbsp;&nbsp;
