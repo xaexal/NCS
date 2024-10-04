@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../base.jsp" />
+<link rel="stylesheet" href="member.css">
 <style>/* 
 input[type=button] {
 	width:50%; height: 50px; background: #166cea; color: #fff; font-size: 24px; border: none; border-radius: 25px;
@@ -16,8 +17,16 @@ input[type=button] {
 .navbar-brand {
 	color:white;
 }
+section {
+	display:flex; justify-content:center; align-items:center;height:100vh;
+}
+table {
+	border-collapse:collapsed;
+}
+td {
+	border:1px solid black;
+}
 </style>
-<link rel="stylesheet" href="member.css">
 <header>
 <h1>코딩 부트캠프</h1>	
 </header>
@@ -40,8 +49,9 @@ input[type=button] {
 	</tr>
 	</table>
 </nav>
+<section>
 <input type=hidden id=id name=id value='${notice.id}'>
-<table class='border auto spx' style='width:80%;height:640px;'>
+<table class='auto spx' style='height:640px;margin:0;'>
 <tr style='height:32px;'>
 	<td class="R" style='width:100px'>제목</td>
 	<td class="L">
@@ -67,7 +77,7 @@ input[type=button] {
 </tr>
 <tr>
 	<td class="R">내용</td>
-	<td style='text-align:left;vertical-align:top;'>
+	<td class="L" style='vertical-align:top;'>
 		<c:if test="${mode == 'view'}"> 
 		<pre>${notice.content}</pre>
 		</c:if>
@@ -79,7 +89,7 @@ input[type=button] {
 <c:if test="${mode != 'view'}">
 <tr style='height:32px;'>
 	<td class="R">공지종류</td>
-	<td>
+	<td class="L" style='text-align:left;'>
 		<select name="level" id="level" >
 			<option value="20"
 	<c:if test="${notice.level == '20'}">
@@ -101,7 +111,7 @@ input[type=button] {
 </tr>
 </c:if>	
 <tr style="height:32px">
-	<td class="R">상세</td><td class="L">작성시각:${notice.created} / 수정시각:${notice.updated}</td>
+	<td class="R">상세</td><td style='text-align:left;'>작성시각:${notice.created} / 수정시각:${notice.updated}</td>
 </tr>
 <tr style='height:32px;'>
 	<td colspan=2 align=center>
@@ -118,5 +128,6 @@ input[type=button] {
 </tr>
 </table>
 <a href='/notice/list'>목록보기</a>
+</section>
 <script src="/js/write.js"></script>
 <jsp:include page="../footer.jsp" />
