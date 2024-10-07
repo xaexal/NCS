@@ -1,3 +1,8 @@
+
+const cNone = '0';
+const cError = '-1';
+const cSignin = '-2';
+const cSignup = '-3';
 function dayCount(cid,labelID){
 	$.post('/common/countHoliday',{cid:cid},function(data){
 		console.log('countHoliday',data)
