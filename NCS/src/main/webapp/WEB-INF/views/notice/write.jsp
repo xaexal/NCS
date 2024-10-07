@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../base.jsp" />
-<link rel="stylesheet" href="member.css">
+<!-- <link rel="stylesheet" type="text/css"  href="/css/member.css"> -->
 <style>/* 
 input[type=button] {
 	width:50%; height: 50px; background: #166cea; color: #fff; font-size: 24px; border: none; border-radius: 25px;
@@ -20,10 +20,7 @@ input[type=button] {
 section {
 	display:flex; justify-content:center; align-items:center;height:100vh;
 }
-table {
-	border-collapse:collapsed;
-}
-td {
+.auto td {
 	border:1px solid black;
 }
 </style>
@@ -51,7 +48,7 @@ td {
 </nav>
 <section>
 <input type=hidden id=id name=id value='${notice.id}'>
-<table class='auto spx' style='height:640px;margin:0;'>
+<table class='auto spx' style='height:640px;margin:0;border-collapse:collapsed;'>
 <tr style='height:32px;'>
 	<td class="R" style='width:100px'>제목</td>
 	<td class="L">

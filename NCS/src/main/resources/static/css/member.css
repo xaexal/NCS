@@ -6,9 +6,9 @@ body {
 	justify-content: center;
 	align-items: center;
 	height:100vh;
-	background:url('bg.jpg') no-repeat center;
+/* 	background:url('bg.jpg') no-repeat center;
 	background-size: cover;
-}	
+ */}	
 body::before {
 	content: "";
 	position: absolute; z-index: 1;

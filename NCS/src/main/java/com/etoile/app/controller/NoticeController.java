@@ -82,20 +82,21 @@ public class NoticeController {
 	@PostMapping("/save")
 	@ResponseBody
 	public String doSave(HttpServletRequest req) {
+		System.out.println("save1");
 		JSONObject result = new JSONObject();
 		result.put("errcode",Errata.error);
 		result.put("data",null);
 		try {
-//			Map<String, String[]> parameterMap =req.getParameterMap();
-//			for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-//		        String paramName = entry.getKey();
-//		        String[] paramValues = entry.getValue();
-//		        for (String paramValue : paramValues) {
-//		            System.out.println(paramName+" ["+paramValue+"]");
-//		        }
-//			}
+			Map<String, String[]> parameterMap =req.getParameterMap();
+			for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+		        String paramName = entry.getKey();
+		        String[] paramValues = entry.getValue();
+		        for (String paramValue : paramValues) {
+		            System.out.println(paramName+" ["+paramValue+"]");
+		        }
+			}
 			HttpSession s=req.getSession();
-			if(s.getAttribute("memberID")==null) {
+			if(s.getAttribute("member_id")==null) {
 				result.put("errcode", Errata.signin);
 				result.put("data","/signin");
 				throw new Exception( Message.signIn);
@@ -105,7 +106,7 @@ public class NoticeController {
 			String level=req.getParameter("level");
 			String member_id=req.getParameter("member_id");
 			String id = req.getParameter("id");
-			int memberID = Integer.parseInt(String.valueOf(s.getAttribute("memberID")));
+			int memberID = Integer.parseInt(String.valueOf(s.getAttribute("member_id")));
 			int n=0, lastID=-1;
 			if(id==null || id.equals("")) {
 				n=ndao.insert(title, content, memberID, level, 0);
@@ -121,6 +122,7 @@ public class NoticeController {
 			System.out.println(e.getMessage());
 			result.put("message", e.getMessage());
 		}
+		System.out.println("save2");
 		return result.toJSONString();
 	}
 	
