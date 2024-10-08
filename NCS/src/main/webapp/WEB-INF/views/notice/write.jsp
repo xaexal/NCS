@@ -23,6 +23,10 @@ section {
 .auto td {
 	border:1px solid black;
 }
+.L {
+	text-align:left;
+}
+
 </style>
 <header>
 <h1>코딩 부트캠프</h1>	
@@ -48,7 +52,7 @@ section {
 </nav>
 <section>
 <input type=hidden id=id name=id value='${notice.id}'>
-<table class='auto spx' style='height:640px;margin:0;border-collapse:collapsed;'>
+<table class='auto spx' style='height:640px;width:640px;margin:0;border-collapse:collapsed;'>
 <tr style='height:32px;'>
 	<td class="R" style='width:100px'>제목</td>
 	<td class="L">
@@ -68,7 +72,7 @@ section {
 		<input type=hidden name=member_id id=member_id value='${notice.member_id}'>
 	</c:if>
 	<c:if test="${mode == 'new'}">
-		<input type=hidden name=member_id id=member_id value="${sessionScope['memberID']}">
+		<input type=hidden name=member_id id=member_id value="${sessionScope['member_id']}">
 	</c:if>
 	</td>
 </tr>
@@ -108,23 +112,23 @@ section {
 </tr>
 </c:if>	
 <tr style="height:32px">
-	<td class="R">상세</td><td style='text-align:left;'>작성시각:${notice.created} / 수정시각:${notice.updated}</td>
+	<td class="R">상세</td><td style='text-align:left;'>작성시각:${notice.created}<br>수정시각:${notice.updated}</td>
 </tr>
 <tr style='height:32px;'>
 	<td colspan=2 align=center>
 <c:if test="${mode != 'view'}">
 	<input type="button" class='btn-lg btn-primary' value='등록 ▷' id="btnDone">&nbsp;
 </c:if>
-<c:if test="${sessionScope['memberID']==notice.member_id}">
+<c:if test="${sessionScope['member_id']==notice.member_id}">
 	<input type="button" class='btn-lg btn-primary' value='수정 ▷' id="btnUpdate">&nbsp;
 </c:if>
-<c:if test="${sessionScope['memberID']==notice.member_id}">
+<c:if test="${sessionScope['member_id']==notice.member_id}">
 	<input type="button" class='btn-lg btn-secondary' value='삭제 ▷' id="btnDelete">
 </c:if>
+<a href='/notice/list'>목록보기</a>
 </td>
 </tr>
 </table>
-<a href='/notice/list'>목록보기</a>
 </section>
 <script src="/js/write.js"></script>
 <jsp:include page="../footer.jsp" />

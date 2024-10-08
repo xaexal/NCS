@@ -1,44 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../base.jsp" />
-<style>/* 
+<style>
 input[type=button] {
 	width:50%; height: 50px; background: #166cea; color: #fff; font-size: 24px; border: none; border-radius: 25px;
 	cursor: pointer;
 }
-table,input,select,textarea {
+/* table,input,select,textarea {
 	font-size:24px;
 }
-input[type=button] {
+ */input[type=button] {
 	width:100%; height: 50px; background: #166cea; color: #fff; font-size: 20px; border: none; border-radius: 25px;
 	cursor: pointer;
-} */
+}
 .navbar-brand {
 	color:white;
 }
- /* Center image should be larger */
-        .carousel-item img {
-            transition: transform 0.5s ease;
-        }
-
-        /* Default image size */
-        .carousel-inner img {
-            width: 500px;
-            height: auto;
-        }
-
-        /* Center image size */
-        .carousel-item.active img {
-            width: 500px;
-            height: auto;
-            transform: scale(1.2);
-        }
-
-        .carousel-inner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+section {
+	display:flex; justify-content:center; align-items:center;height:100vh;
+	vertical-align:top;
+}
+.auto td {
+	border:1px solid black;
+}
+.L {
+	text-align:left;
+}
+.auto tr:hover {
+	background-color:aqua;
+	cursor:pointer;
+}
+        
 </style>
 <!--<link rel="stylesheet" href="member.css">-->
 <header>
@@ -63,13 +55,14 @@ input[type=button] {
 	</tr>
 	</table>
 </nav>
-
+<main>
+<section>
 <h2>공지사항 목록</h2>
-<table class='border spx auto'>
+<table class='border spx auto' style='margin:0;vertical-align:top;background-color:#eaecee;'>
 <c:if test="${sessionScope['level'] <= 5}">
-<tr><td colspan=4 style='text-align:right;border:none;'><a href='/notice/write'>공지 작성</a></td></tr>
+<tr><td colspan=5 style='text-align:right;border:none;'><a href='/notice/write'>공지 작성</a></td></tr>
 </c:if>
-<tr>	
+<tr style='background-color:black;color:white;'>	
 	<th style='text-align:center;'>No.</th><th style='width:240px'>작성시각</th>
 	<th style='width:500px;'>제목</th><th style='width:200px'>작성자</th>
 	<th style='width:100px;'>조회수</th>
@@ -101,6 +94,8 @@ input[type=button] {
 </tr>
 </c:forEach>
 </table>
+</section>
+</main>
 <script>
 $(document)
 .ready(()=>{})

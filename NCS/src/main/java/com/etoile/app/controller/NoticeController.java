@@ -28,7 +28,7 @@ public class NoticeController {
 	@Autowired _Member _mem;
 	
 	@GetMapping("/list")
-	public String getList(HttpServletRequest req, HttpSession sess,Model m) {
+	public String getList(HttpServletRequest req,Model m) {
 		try {
 			System.out.println("/notice/list");
 
@@ -60,17 +60,16 @@ public class NoticeController {
 		return "redirect:/";
 	}
 	@GetMapping("/write")
-	public String doWrite(HttpServletRequest req, Model m) {
+	public String doWrite(HttpServletRequest req, HttpSession s, Model m) {
 		System.out.println("writeNotice");
 		try {
-			HttpSession s=req.getSession();
-//			if(Integer.parseInt((String)s.getAttribute("level"))!=0) {
-//				return "redirect:/member/signin";
-//			}
-//			int member_id=Integer.parseInt(String.valueOf(s.getAttribute("memberID")));
-//			String member_name="";//_mem.getName(member_id);
-//			System.out.println("member_name="+member_name);
-//			m.addAttribute("name",member_name);
+			if(s.getAttribute("level")==null || (Integer)s.getAttribute("level")!=0) {
+				return "redirect:/member/signin";
+			}
+			int member_id=Integer.parseInt(String.valueOf(s.getAttribute("member_id")));
+			String member_name="";//_mem.getName(member_id);
+			System.out.println("member_name="+member_name);
+			m.addAttribute("name",member_name);
 			m.addAttribute("mode","new");
 			m.addAttribute("NoticeTitle","공지사항 작성");
 			return "notice/write";
@@ -81,8 +80,7 @@ public class NoticeController {
 	}
 	@PostMapping("/save")
 	@ResponseBody
-	public String doSave(HttpServletRequest req) {
-		System.out.println("save1");
+	public String doSave(HttpServletRequest req,HttpSession s) {
 		JSONObject result = new JSONObject();
 		result.put("errcode",Errata.error);
 		result.put("data",null);
@@ -95,7 +93,6 @@ public class NoticeController {
 		            System.out.println(paramName+" ["+paramValue+"]");
 		        }
 			}
-			HttpSession s=req.getSession();
 			if(s.getAttribute("member_id")==null) {
 				result.put("errcode", Errata.signin);
 				result.put("data","/signin");
@@ -122,15 +119,13 @@ public class NoticeController {
 			System.out.println(e.getMessage());
 			result.put("message", e.getMessage());
 		}
-		System.out.println("save2");
 		return result.toJSONString();
 	}
 	
 	@GetMapping("/view")
-	public String doView(HttpServletRequest req, Model m) {
+	public String doView(HttpServletRequest req, HttpSession s, Model m) {
 		try {
-//			HttpSession s=req.getSession();
-//			if(s.getAttribute("memberID")==null) {
+//			if(s.getAttribute("member_id")==null) {
 //				return "redirect:/member/signin";
 //			}
 			String id = req.getParameter("id");
@@ -149,10 +144,9 @@ public class NoticeController {
 		return "redirect:/";
 	}
 	@GetMapping("/update")
-	public String doUpdate(HttpServletRequest req, Model m) {
+	public String doUpdate(HttpServletRequest req, HttpSession s, Model m) {
 		try {
-			HttpSession s=req.getSession();
-			if(s.getAttribute("memberID")==null) {
+			if(s.getAttribute("member_id")==null) {
 				return "redirect:/member/signin";
 			}
 			String id = req.getParameter("id");
@@ -170,7 +164,7 @@ public class NoticeController {
 	}
 	@PostMapping("/delete")
 	@ResponseBody
-	public String doDelete(HttpServletRequest req, Model m) {
+	public String doDelete(HttpServletRequest req, HttpSession s, Model m) {
 		Map<String, String[]> parameterMap =req.getParameterMap();
 		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
 	        String paramName = entry.getKey();
@@ -183,8 +177,7 @@ public class NoticeController {
 		result.put("errcode",Errata.error);
 		result.put("data",null);
 		try {
-			HttpSession s=req.getSession();
-			if(s.getAttribute("memberID")==null){
+			if(s.getAttribute("member_id")==null){
 				result.put("errcode", Errata.signin);
 				result.put("data","/signin");
 				throw new Exception( Message.signIn);
