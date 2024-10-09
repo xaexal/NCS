@@ -55,6 +55,7 @@ section {
 	</tr>
 	</table>
 </nav>
+<main>
 <section>
 <h2>공지사항 목록</h2>
 <table class='border spx auto' style='margin:0;vertical-align:top;background-color:#eaecee;'>
@@ -94,6 +95,7 @@ section {
 </c:forEach>
 </table>
 </section>
+</main>
 <script>
 $(document)
 .ready(()=>{})
