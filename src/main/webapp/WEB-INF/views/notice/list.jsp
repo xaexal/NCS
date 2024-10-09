@@ -60,7 +60,7 @@ section {
 <table class='border spx auto' style='margin:0;vertical-align:top;background-color:#eaecee;'>
 <c:if test="${sessionScope['level'] <= 5}">
 <tr><td colspan=5 style='text-align:right;border:none;'><a href='/notice/write'>공지 작성</a></td></tr>
-</c:if>    
+</c:if>
 <tr style='background-color:black;color:white;'>	
 	<th style='text-align:center;'>No.</th><th style='width:240px'>작성시각</th>
 	<th style='width:500px;'>제목</th><th style='width:200px'>작성자</th>
