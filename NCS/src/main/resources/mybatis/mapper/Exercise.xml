@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoile.app.DAO._Exercise">
+<select id="list" resultType="com.etoile.app.DTO.Exercise">
+	select a.eid,b.did,b.name,b.comment,b.dtype_id,b.created,b.updated
+	  from ncs_exercise a, ncs_drill b 
+	 where a.course_id=#{cid} and a.drill_id=b.did
+	 order by a.created
+</select>
+<select id="get" resultType="com.etoile.app.DTO.Exercise">
+	select * from ncs_exercise where eid=#{eid}
+</select>
+<select id="lastCreated" resultType="String">
+	select max(created) from ncs_exercise where course_id=#{cid}
+</select>
+<insert id="insert">
+	insert into ncs_exercise set course_id=#{cid},drill_id=#{did}
+</insert>
+<update id="update">
+	update ncs_exercise set course_id=#{cid},drill_id=#{did} where eid=#{eid}
+</update>
+<update id="delete">
+	delete from ncs_exercise where eid=#{eid}
+</update>
+</mapper>
