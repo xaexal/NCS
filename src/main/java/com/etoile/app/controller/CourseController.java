@@ -35,12 +35,6 @@ public class CourseController {
 		
 		String requestURI = req.getRequestURI();
 		if(requestURI.endsWith("listAll")){
-			
-			
-			
-			
-			
-			
         	alCourse = _crs.listAll();
 		} else if(requestURI.endsWith("applicable")) {
 			alCourse = _crs.applicable(member_id);
