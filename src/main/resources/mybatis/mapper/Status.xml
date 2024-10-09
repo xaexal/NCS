@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoile.app.DAO._Status">
+<select id="list" resultType="com.etoile.app.DTO.Status">
+	select * from ncs_status
+	 where eid=#{eid}
+<!-- 	 where drill_id=#{drill_id} and -->
+<!-- 	 	   student_id in (select sid from ncs_student where course_id=#{cid}) -->
+<!-- update ncs_status a set a.eid=(select c.eid from ncs_student b, ncs_exercise c where a.student_id=b.sid and b.course_id=c.course_id and a.drill_id=c.drill_id); -->
+</select>
+<select id="list4Student" resultType="com.etoile.app.DTO.Status">
+	select * from ncs_status
+	 where student_id=#{student_id}
+</select>
+<select id="get" resultType="java.lang.String">
+	select status from ncs_status
+	 where student_id=#{sid} and eid=#{eid}
+</select>
+<select id="count" resultType="_int">
+	select count(*) from ncs_status 
+	 where student_id=#{sid} and eid=#{eid}
+</select>
+<insert id="insert">
+	insert into ncs_status set eid=#{eid},student_id=#{sid},status=#{status}
+</insert>
+<update id="update">
+	update ncs_status set status=#{status},updated=current_timestamp
+	 where student_id=#{sid} and eid=#{eid}
+</update> 
+<select id="lastUpdated" resultType="String">
+	select max(updated) from ncs_status
+	 where student_id=#{sid} 
+</select>
+<select id="recent" resultType="String">
+	select max(updated) from ncs_status 
+</select>
+</mapper>
