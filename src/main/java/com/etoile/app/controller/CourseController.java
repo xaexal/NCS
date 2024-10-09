@@ -35,10 +35,6 @@ public class CourseController {
 		
 		String requestURI = req.getRequestURI();
 		if(requestURI.endsWith("listAll")){
-//			LocalDate today = LocalDate.now();
-//	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//	        String formattedDate = today.format(formatter);
-//	        System.out.println(formattedDate);
         	alCourse = _crs.listAll();
 		} else if(requestURI.endsWith("applicable")) {
 			alCourse = _crs.applicable(member_id);
