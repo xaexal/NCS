@@ -45,9 +45,9 @@ public class NoticeController {
 			nPost+=arFirst.size();
 			pagesize-=nPost;
 			ArrayList<Notice> arNotice = ndao.selectByLevel(20,start,pagesize);
-			System.out.println("arZero size="+arZero.size());
-			System.out.println("arFirst size="+arFirst.size());
-			System.out.println("arNotice size="+arNotice.size());
+//			System.out.println("arZero size="+arZero.size());
+//			System.out.println("arFirst size="+arFirst.size());
+//			System.out.println("arNotice size="+arNotice.size());
 			m.addAttribute("zero",arZero);
 			m.addAttribute("first",arFirst);
 			m.addAttribute("arNotice",arNotice);
