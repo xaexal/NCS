@@ -39,18 +39,33 @@ section {
 <nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
 	<table style='width:100%'>
 	<tr>
-		<td style='width:50%;text-align:left;'>
+		<td style='text-align:left;'>
+<c:if test="${sessionScope.level == '0'}">	
+			<a class='navbar-brand' style='color:white;' href='/drillViewT'>과제진행</a>
+			<a class="navbar-brand" style='color:white;' href='/courseT'>과정관리</a>
+			<a class="navbar-brand" style='color:white;' href='/drillT'>과제관리</a>
+			<a class="navbar-brand" style='color:white;' href='/showRank'>결과보기</a>
+</c:if>			
 			<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
 			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;
+<c:if test="${sessionScope.level == '0'}">			
+			<select id=selCourse style='font-size:20px;width:64%;'>
+			<c:forEach var="course" items="${courses}">
+				<option value='${course.cid},${course.seat_cnt},${course.col_cnt}' style='font-size:20px;'>
+					${course.title} [${course.period1}~${course.period2}]</option>
+			</c:forEach>
+			</select>
+</c:if>			
 		</td>
 		<td style='text-align:right;'>
 <c:if test="${sessionScope.name == null}">		
             <a class="navbar-brand" href='/login' style='color:white'>로그인</a>
+            <a class="navbar-brand" href='/signup' style='color:white'>회원가입</a>
 </c:if>
 <c:if test="${sessionScope.name != null}">
             <a class="navbar-brand" href='/personal' style='color:white'>${sessionScope.name}</a>
+            <a class="navbar-brand" style='color:white;' href='/logout'>로그아웃</a>
 </c:if>           
-            <a class="navbar-brand" href='/signup' style='color:white'>회원가입</a>
 		</td>
 	</tr>
 	</table>

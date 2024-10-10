@@ -11,6 +11,8 @@
 	<tr>
 		<td style='width:50%;text-align:left;'>
 			<a class="navbar-brand" href="/courseS" style='color:white'>과정관리</a>&nbsp;&nbsp;
+			<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
+			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;			
 		</td>
 		<td style='text-align:right;'>
 			<a class="navbar-brand" href='/personal' style='color:white'>${sessionScope.name}</a>&nbsp;&nbsp;
