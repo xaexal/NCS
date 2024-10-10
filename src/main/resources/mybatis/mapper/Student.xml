@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoile.app.DAO._Student">
+<select id="list" resultType="com.etoile.app.DTO.Student">
+	select a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.status,a.member_id,
+		   b.school,b.address
+	  from ncs_student a left outer join ncs_member b on a.member_id=b.mid
+	 where a.course_id=#{cid}
+	 order by b.name
+</select>
+<select id="get" resultType="com.etoile.app.DTO.Student">
+	select a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.status,a.member_id,
+		   b.school,b.address
+	  from ncs_student a left outer join ncs_member b on a.member_id=b.mid
+	 where a.sid=#{sid}
+</select>
+<insert id="insert">
+	insert into ncs_student set member_id=#{mid},course_id=#{cid},status='신청'
+</insert>
+<update id="update">
+	update ncs_student set member_id=#{mid},course_id=#{cid},
+			updated=current_timestamp
+	 where sid=#{sid}
+</update>
+<update id="updateByAdmin">
+	update ncs_student set seq=#{seq},status=#{status},
+		   updated=current_timestamp
+	 where sid=#{sid}
+</update>
+<delete id="delete">
+	delete from ncs_student where member_id=#{mid} and course_id=#{cid}
+</delete>
+<select id="getSID" resultType="_int">
+	select sid from ncs_student 
+	 where member_id=#{mid} and course_id=#{cid}
+</select>
+</mapper>

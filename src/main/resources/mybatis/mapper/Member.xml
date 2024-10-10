@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoile.app.DAO._Member">
+<select id="checkUser" resultType="com.etoile.app.DTO.Member">
+	select mid,mobile,name,passcode,gender,birthday,school,level,login_tm,logout_tm,email,
+		   absence, ipaddr, address, active, created, updated
+	  from ncs_member where mobile=#{mobile} and passcode=#{passcode}
+</select>
+<select id="checkStudent" resultType="_int">
+	select count(*) from ncs_student where member_id=#{member_id} and status='수강중'
+</select>
+<update id="saveLoginTime">
+	update ncs_member set login_tm=current_timestamp where mobile=#{mobile}
+</update>
+<update id="changePasscode">
+	update ncs_member set passcode=#{passcode1} where mobile=#{mobile} and passcode=#{passcode}
+</update>
+<update id="setTempPasscode">
+	update ncs_member set passcode=#{passcode_new},temp='1',updated=current_timestamp where mobile=#{mobile}
+</update>
+<select id="get" resultType="com.etoile.app.DTO.Member">
+	select * from ncs_member where mobile=#{mobile}
+</select>
+<insert id="insert">
+	insert into ncs_member set mobile=#{mobile},passcode=#{passcode}
+</insert>
+<update id="updateBySelf">
+	update ncs_member set mobile=#{mobile},name=#{name},
+			gender=#{gender}, birthday=#{birthday},
+			email=#{email}, address=#{address},
+			updated=current_timestamp
+	 where mid=#{mid} and passcode=#{passcode}
+</update>
+<update id="updateByAdmin">
+	update ncs_member set mobile=#{mobile},name=#{name},
+			gender=#{gender}, birthday=#{birthday}, school=#{school},
+			email=#{email}, address=#{address}, 
+			updated=current_timestamp
+	 where mid=#{mid} 
+</update>
+<delete id="delete">
+	delete from ncs_member where mid=#{mid}
+</delete>
+</mapper>
