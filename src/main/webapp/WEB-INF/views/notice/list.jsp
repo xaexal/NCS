@@ -36,7 +36,7 @@ section {
 <h1>코딩 부트캠프</h1>	
 </header>
 <nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
-	<table style='width:100%'>
+	<table style='width:100%;'>
 	<tr>
 		<td style='text-align:left;'>
 <c:if test="${sessionScope.level == '0'}">	
@@ -69,47 +69,42 @@ section {
 	</tr>
 	</table>
 </nav>
-<main>
-<section>
-<h2>공지사항 목록</h2>
-<table class='border spx auto' style='margin:0;vertical-align:top;background-color:#eaecee;'>
-<c:if test="${sessionScope['level'] <= 5}">
-<tr><td colspan=5 style='text-align:right;border:none;'><a href='/notice/write'>공지 작성</a></td></tr>
-</c:if>
+<div class="container" style="padding-top:50px;">
+<h1>공지사항</h1>
+<table class='table table-bordered table-hover' style='cursor:pointer'>
 <tr style='background-color:black;color:white;'>	
-	<th style='text-align:center;'>No.</th><th style='width:240px'>작성시각</th>
-	<th style='width:500px;'>제목</th><th style='width:200px'>작성자</th>
-	<th style='width:100px;'>조회수</th>
+	<th style='width:50px;'>No.</th><th  style='width:100px;'>작성시각</th>
+	<th style='width:300px;'>제목</th><th style='width:60px;'>작성자</th>
+	<th style='width:50px;'>조회수</th>
 </tr>
 <c:forEach var="notice" items="${zero}">
 <tr id="${notice.id}">
-	<td style='text-align:right;'>-</td><td>${notice.updated}</td><td>${notice.title}</td>
+	<td >-</td><td>${notice.updated}</td><td>${notice.title}</td>
 	<td>${notice.name}</td>
-	<td style='text-align:right;'>${notice.hit}</td>
+	<td  >${notice.hit}</td>
 </tr>
-<tr style='height:200px;background-color:yellow;'>
-	<td colspan=5 style='text-align:left;vertical-align:top'><pre>${notice.content}</pre></td>
+<tr >
+	<td colspan=5  ><pre>${notice.content}</pre></td>
 </tr>
 </c:forEach>
 <c:forEach var="notice" items="${first}">
-<tr id="${notice.id}" style='color:red;'>
-	<td style='text-align:right;'>-</td><td>${notice.updated}</td><td>${notice.title}</td>
+<tr id="${notice.id}" >
+	<td >-</td><td>${notice.updated}</td><td>${notice.title}</td>
 	<td>${notice.name}</td>
-	<td style='text-align:right;'>${notice.hit}</td>
+	<td >${notice.hit}</td>
 </tr>
 </c:forEach>
 <c:set var="start" value="${start}" />
 <c:forEach var="notice" items="${arNotice}">
 <tr id="${notice.id}">
 	<c:set var="start" value="${start+1}" />
-	<td style='text-align:right;'>${start}</td><td>${notice.updated}</td><td>${notice.title}</td>
+	<td >${start}</td><td>${notice.updated}</td><td>${notice.title}</td>
 	<td>${notice.name}</td>
-	<td style='text-align:right;'>${notice.hit}</td>
+	<td >${notice.hit}</td>
 </tr>
 </c:forEach>
 </table>
-</section>
-</main>
+</div>
 <script>
 $(document)
 .ready(()=>{})

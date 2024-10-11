@@ -16,4 +16,4 @@
 <script src="/js/common.js"></script>
 <title>${title}</title>
 </head>
-<body style='background-color:#C8E8F5;font-size:14px;text-align:center;' onselectstart='return false;'>
+<body style='font-size:14px;text-align:center;' onselectstart='return false;maring:0;'>
