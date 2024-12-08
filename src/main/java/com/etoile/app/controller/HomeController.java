@@ -31,6 +31,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String home(HttpSession s, Model m) {
+		System.out.println("/");
 		try {
 		} catch(Exception e) {
 			
