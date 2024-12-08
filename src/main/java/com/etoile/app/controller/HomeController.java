@@ -28,7 +28,7 @@ public class HomeController {
 	@Autowired _Course _crs;
 	@Autowired _Drilltype _dt;
 	@Autowired private JavaMailSender mailSender;
-	
+
 	@GetMapping("/")
 	public String home(HttpSession s, Model m) {
 		try {
