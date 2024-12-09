@@ -20,7 +20,7 @@ public class Freeboard {
 			System.out.println("/list");
 			return "freeboard/list";
 		} catch(Exception e) {
-			
+
 		}
 		return "freeboard/list";
 	}
