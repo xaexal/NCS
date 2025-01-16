@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.etoile.app.DAO._Drill">
+<select id="list" resultType="com.etoile.app.DTO.Drill">
+	select * from ncs_drill
+	 where did not in (select drill_id from ncs_exercise
+	 					where course_id=#{cid}) order by created
+</select>
+<select id="get" resultType="com.etoile.app.DTO.Drill">
+	select * from ncs_drill where did =#{did}
+</select>
+<insert id="insert">
+	insert into ncs_drill 
+	set name=#{name},comment=#{comment},dtype_id=#{dtype_id}
+</insert>
+<update id="update">
+	update ncs_drill
+	   set name=#{name},comment=#{comment},dtype_id=#{dtype_id},
+	   	   updated=current_timestamp
+	 where did=#{did}
+</update>
+<delete id="delete">
+	delete from ncs_drill where did=#{did}
+</delete>
+</mapper>
