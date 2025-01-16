@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="base.jsp" />
-<style>/* 
+<style>/*
 input[type=button] {
 	width:50%; height: 50px; background: #166cea; color: #fff; font-size: 24px; border: none; border-radius: 25px;
 	cursor: pointer;
@@ -42,7 +42,7 @@ input[type=button] {
 </style>
 <!--<link rel="stylesheet" href="member.css">-->
 <header>
-<h1>코딩 부트캠프</h1>	
+<h1>프로그래밍 연습</h1>
 <nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
 	<table style='width:100%'>
 	<tr>
@@ -51,12 +51,12 @@ input[type=button] {
 			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;
 		</td>
 		<td style='text-align:right;'>
-<c:if test="${sessionScope.name == null}">		
+<c:if test="${sessionScope.name == null}">
             <a class="navbar-brand" href='/login' style='color:white'>로그인</a>
 </c:if>
 <c:if test="${sessionScope.name != null}">
             <a class="navbar-brand" href='/personal' style='color:white'>${sessionScope.name}</a>
-</c:if>           
+</c:if>
             <a class="navbar-brand" href='/signup' style='color:white'>회원가입</a>
 		</td>
 	</tr>

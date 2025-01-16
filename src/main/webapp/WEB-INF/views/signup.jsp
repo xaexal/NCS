@@ -3,7 +3,7 @@
 <link rel='stylesheet' type='text/css' href='css/member.css' />
 <jsp:include page="base.jsp" />
 <section class='login-form'>
-	<h1 style='font-size:54px;color:aqua;'><a href="/" style='text-decoration:none;'>코딩 부트캠프</a></h1>
+	<h1 style='font-size:54px;color:aqua;'><a href="/" style='text-decoration:none;'>프로그래밍 연습</a></h1>
 	<h1>등록</h1>
 	<form action="" id=frmsignup method="post">
         <div class='int-area'>

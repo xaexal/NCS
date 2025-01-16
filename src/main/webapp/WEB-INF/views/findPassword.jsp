@@ -2,7 +2,7 @@
 <jsp:include page="base.jsp" />
 <link rel="stylesheet" href="css/member.css">
 <section class='login-form'>
-	<h1 style='font-size:54px;color:aqua;'><a href="/" style='text-decoration:none;'>코딩 부트캠프</a></h1>
+	<h1 style='font-size:54px;color:aqua;'><a href="/" style='text-decoration:none;'>프로그래밍 연습</a></h1>
 	<h1>비밀번호 찾기</h1>
 	<label id=lblMsg style="color:red;">${msg}</label>
 	<form id=frmFind >
