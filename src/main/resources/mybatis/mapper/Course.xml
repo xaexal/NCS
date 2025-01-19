@@ -12,7 +12,7 @@
 	select *
 	  from ncs_course
 	 where cid not in (select course_id from ncs_student where member_id=#{mid})
-	   and period1 >= curdate()
+	   and period2 >= curdate()
 </select>
 <select id="applied" resultType="com.etoile.app.DTO.Course">
 	select * from ncs_course
@@ -27,10 +27,10 @@
 <select id="completed" resultType="com.etoile.app.DTO.Course">
 	select * from ncs_course
 	 where cid in (select course_id from ncs_student
-	 				where member_id=#{mid} and status='수료') 
+	 				where member_id=#{mid} and status='수료')
 </select>
 <insert id="insert">
-	insert into ncs_course 
+	insert into ncs_course
 	   set title=#{title},period1=#{period1},period2=#{period2},seat_cnt=#{seat_cnt},
 	   	   col_cnt=#{col_cnt},alive=#{alive},orgname=#{orgname}
 </insert>
@@ -45,5 +45,5 @@
 </delete>
 <select id="get" resultType="com.etoile.app.DTO.Course">
 	select * from ncs_course where cid=#{cid}
-</select>	
+</select>
 </mapper>

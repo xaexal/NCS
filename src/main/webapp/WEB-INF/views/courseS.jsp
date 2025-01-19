@@ -8,14 +8,14 @@
 } */
 </style>
 <header>
-<h2>${sessionScope.title}</h2>	
+<h2>${sessionScope.title}</h2>
 </header>
 <nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
 	<table style='width:100%'>
 	<tr>
 		<td style='width:50%;text-align:left;'>
-			<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
-			<a class="navbar-brand" href="/board:list" style='color:white'>자유게시판</a>&nbsp;&nbsp;
+<!-- 			<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
+			<a class="navbar-brand" href="/board:list" style='color:white'>자유게시판</a>&nbsp;&nbsp; -->
             <a class="navbar-brand" href="/drillViewS" style='color:white'>과제수행</a>
 		</td>
 		<td style='text-align:right;'>

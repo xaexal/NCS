@@ -9,12 +9,19 @@
 <nav class='navbar navbar-expand-lg navbar_dark bg-primary'>
 	<table style='width:100%;color:white;'>
 	<tr>
-		<td style='width:50%;text-align:left;'>
+		<td style='width:30%;text-align:left;'>
 			<a class="navbar-brand" href="/courseS" style='color:white'>과정관리</a>&nbsp;&nbsp;
-			<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
-			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;			
+<!-- 			<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp; -->
+<!-- 			<a class="navbar-brand" href="/freeboard" style='color:white'>자유게시판</a>&nbsp;&nbsp;			 -->
 		</td>
-		<td style='text-align:right;'>
+		<td style="width:40%">
+<select id="selCourse" style="font-size:24px;">
+<c:forEach items="${Courses}"  var="crs">
+	<option value="${crs.cid}">${crs.title}</option>
+</c:forEach>
+</select>
+		</td>
+		<td style='width:30%;text-align:right;'>
 			<a class="navbar-brand" href='/personal' style='color:white'>${sessionScope.name}</a>&nbsp;&nbsp;
 			<a class="navbar-brand" href='/logout' style='color:white'>로그아웃</a>
 		</td>
@@ -26,11 +33,6 @@
 <input type=hidden id=lastCreated>
 <input type=hidden id=lastUpdated>
 		<label id="lblDays"></label>
-<select id="selCourse" style="font-size:24px;">
-<c:forEach items="${Courses}"  var="crs">
-	<option value="${crs.cid}">${crs.title}</option>
-</c:forEach>
-</select>
 <div class='container'>
 	<div class=row>
 		<div class=col>

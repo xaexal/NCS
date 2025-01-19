@@ -22,6 +22,7 @@ $(document)
 		success:function(data){
 			if(data=='1') {
 				alert('변경 성공')
+				document.location="/courseS";
 			} else {
 				alert('변경 실패');
 			}

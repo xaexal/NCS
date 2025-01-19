@@ -5,7 +5,6 @@
 <section class='login-form'>
 	<h1 style='font-size:54px;color:aqua;'><a href="/" style='text-decoration:none;'>프로그래밍 연습</a></h1>
 	<h1>등록</h1>
-	<form action="" id=frmsignup method="post">
         <div class='int-area'>
 			<input type="text" name="mobile" id="mobile" autocomplete=off required>
 			<label for=mobile id=lblMobile>모바일번호(010빼고)</label>
@@ -26,7 +25,6 @@
 			<a href="/findPassword">비밀번호 찾기</a>&nbsp;&nbsp;
 			<a href="/login">로그인</a>
 		</div>
-	</form>
 </section>
 <div style='display:none;' id=dvClass>
 <table>
@@ -120,9 +118,11 @@ $(document)
 			}
 		},
 		success:function(data){
-			if(data=='0'){
-			} else if(data=='1'){
+			console.log(data)
+			if(data=='1'){
+				alert('가입성공. 로그인하십시오');
 			} else {
+				alert('이미 가입하셨습니다. 로그인하십시오');
 			}
 		}
 		})
