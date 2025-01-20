@@ -7,7 +7,7 @@ $(document)
 .on('click','#courseList option',function(){
 	$('#btnClearMember,#btnClearCourse').trigger('click');
 	$('#selStudentEnrolled,#selStudentApplied').empty();
-	
+
 	let cid=$(this).val();
 	console.log(`cid [${cid}]`)
 	$.post('/course/get',{cid:cid},function(data){
@@ -109,21 +109,21 @@ $(document)
 		switch($(this).prop('type')){
 		case 'checkbox','radio':
 			$('#'+id).prop('checked',false); break;
-		case 'button': break;			
+		case 'button': break;
 		default:
 			if(id!=''&&$(this).prop('type')!='button') $('#'+id).val('');
-		}	
+		}
 	})
 	return false;
 })
 .on('click','#selStudentEnrolled option,#selStudentApplied option',function(){
 	let pstr=($(this).val()).split(','); //[member_id,student_id]
 	console.log(pstr)
-		
+
 	$('#member_id').val(pstr[0]);
 	$('#sid').val(pstr[1]);
 	$.post('/student/get',{sid:$('#sid').val()},(student)=>{
-		
+
 		console.log(student)
 		$('#name').val(student['name'])
 		$('#mobile').val(student['mobile'])
@@ -137,7 +137,7 @@ $(document)
 	},'json')
 	return false;
 })
-.on('click','#btnPersonal',function(){	
+.on('click','#btnPersonal',function(){
 	$.post('/student/list',{member_id:$('#member_id').val()},function(data){
 		$('#btnClearMember').trigger('click')
 		rec=data['student'][0]
@@ -145,7 +145,7 @@ $(document)
 			let id=$(this).prop('id');
 			if($(this).prop('type')=='checkbox'){
 				if(rec[id]=='1')	$('#'+id).prop('checked',true);
-				else $('#'+id).prop('checked',false);	
+				else $('#'+id).prop('checked',false);
 			} else if($(this).prop('type')=='radio'){
 				let name=$(this).prop('name')
 				$('input[name='+name+'][val="'+rec[name]+'"]').prop('checked',true);
@@ -157,7 +157,7 @@ $(document)
 	return false;
 })
 .on('dblclick','#selStudentEnrolled option',function(){
-	console.log('sid ['+$('#sid').val()+']')
+	console.log('dblclick selStudentEnrolled sid ['+$('#sid').val()+']')
 	let thisone=$(this);
 	$.post('/student/delete',{sid:$('#sid').val()},function(data){
 		if(data['result']!='0'){
@@ -183,11 +183,11 @@ $(document)
 	return false;
 })
 .on('click','#btnUpdateMember',function(){
-	if($('#sid').val()=='' || $('#member_id').val()=='') { 
+	if($('#sid').val()=='' || $('#member_id').val()=='') {
 		alert('학생을 선택하십시오');
 		return false;
 	}
-	
+
 	oParam={'sid':$('#sid').val(),'member_id':$('#member_id').val()};
 	oParam['name']=$('#name').val();
 	oParam['mobile']=$('#mobile').val();
@@ -196,7 +196,7 @@ $(document)
 	oParam['school']=$('#school').val();
 	oParam['seq']=$('#seq').val();
 	oParam['address']=$('#address').val();
-	oParam['status']=$('#selStatus').val();	
+	oParam['status']=$('#selStatus').val();
 	$.ajax({url:'/member/updateByAdmin',type:'post',dataType:'text',
 		data:oParam,
 		beforeSend:function(){
@@ -235,6 +235,6 @@ function courseList(){
 		$.each(data,function(ndx,course){
 			$('#courseList').append(`<option value=${course.cid}>${course.title}</option>`);
 		});
-				
+
 	},'json');
 }

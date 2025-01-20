@@ -25,7 +25,7 @@
 	<div class=row style='height:20px;'>&nbsp;</div>
 	<div class='row'>
 		<div class='col-6'>
-			<select id=courseList style='width:500px' size=12></select>
+			<select id=courseList style='width:500px' size=12 title=courseList></select>
 		</div>
 		<div class='col-6'>
 			<form id="frmCourse" method='post'>
@@ -38,7 +38,7 @@
 			</div>
 			<div class=row>
 				<div class='col-2 left-col'>과정명</div>
-				<div class='col-4 right-col'>			
+				<div class='col-4 right-col'>
 					<textarea id=title name=title rows=3 cols=24 required></textarea>
 				</div>
 			</div>
@@ -70,9 +70,9 @@
 			</div>
 			<div class=row>
 				<div class='col-6 left-col right-col' style='text-align:center'>
-				<input type=button id=btnAddCourse class='btn-sm btn-primary' value=Save>&nbsp;&nbsp;
-				<input type=button id=btnDelCourse class='btn-sm btn-secondary' value=Delete> &nbsp;&nbsp;
-				<input type=button id=btnClearCourse class='btn-sm btn-warning' value=Clear>
+				<input type=button title=btnAddCourse id=btnAddCourse class='btn-sm btn-primary' value=Save>&nbsp;&nbsp;
+				<input type=button title=btnDelCourse id=btnDelCourse class='btn-sm btn-secondary' value=Delete> &nbsp;&nbsp;
+				<input type=button title=btnClearCourse id=btnClearCourse class='btn-sm btn-warning' value=Clear>
 				</div>
 			</div>
 			</form>
@@ -84,16 +84,16 @@
 	<div class=row>
 		<div class='col-3'>
 			<label>현재과정 재학생</label>
-			<select id=selStudentEnrolled style='width:240px;' size=30></select>
+			<select id=selStudentEnrolled style='width:240px;' size=30 title=selStudentEnrolled></select>
 `		</div>
 		<div class="col-3">
 			<label>현재과정 신청학생</label>
-			<select id="selStudentApplied" style='width:240px;' size=30></select>
+			<select id="selStudentApplied" style='width:240px;' size=30 title=selStudentApplied></select>
 		</div>
 		<div class='col-6'>
 			<form id=frmStudent>
 			<div class="row">
-				<div class="col-6"><input type=button value='인적사항보기' id=btnPersonal></div>
+				<div class="col-6"><input type=button value='인적사항보기' id=btnPersonal title=btnPersonal></div>
 			</div>
 			<div class=row>
 				<div class='col-2 first-col left-col'>이름</div>
@@ -117,7 +117,7 @@
 			<div class='col-4 right-col'><textarea id=address rows="3" cols="22"></textarea></div></div>
 			<div class=row><div class='col-2 left-col'>&nbsp;</div>
 			<div class='col-4 right-col'>
-				<select id=selStatus>
+				<select id=selStatus title=selStatus>
 					<option value='신청'>신청</option>
 					<option value='수강중'>수강중</option>
 					<option value='중도포기'>중도포기</option>
@@ -126,9 +126,9 @@
 					<option value='기타'>기타</option>
 				</select></div>
 			<div class=row><div class='col-6 left-col right-col' style='text-align:center'>
-					<input type="button" id=btnUpdateMember class='btn-sm btn-primary' value='Save'>
+					<input type="button" id=btnUpdateMember title=btnUpdateMember class='btn-sm btn-primary' value='Save'>
 						<!--<button id=btnDelStudent class='btn-sm btn-secondary'>Delete</button>-->
-					<input type="button" id=btnClearMember class='btn-sm btn-warning' value='Clear'>
+					<input type="button" id=btnClearMember title=btnClearMember class='btn-sm btn-warning' value='Clear'>
 			</div></div>
 			</form>
 		</div>

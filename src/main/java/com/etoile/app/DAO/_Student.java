@@ -15,7 +15,7 @@ public interface _Student {
 	ArrayList<Student> complete(@Param("cid") int cid);
 	Student get(@Param("sid") int sid);
 	int insert(@Param("mid") int member_id, @Param("cid") int course_id);
-	int delete(@Param("mid") int member_id, @Param("cid") int course_id);
+	int delete(@Param("sid") int sid);
 	int update(@Param("mid") int member_id, @Param("cid") int course_id,@Param("sid") int sid);
 	int updateByAdmin(@Param("seq") int seq, @Param("status") String status, @Param("sid") int sid);
 	int getSID(@Param("mid") int mid, @Param("cid") int course_id);

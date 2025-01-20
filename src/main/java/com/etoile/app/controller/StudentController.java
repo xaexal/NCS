@@ -19,14 +19,14 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/student")
 public class StudentController {
 	@Autowired _Student _std;
-	
+
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req, HttpSession s) {
 		try {
 			int cid = Integer.parseInt(req.getParameter("cid"));
 			ArrayList<Student> arStudent = _std.list(cid);
 			System.out.println("arStudent size="+arStudent.size());
-			
+
 			JSONArray ja = new JSONArray();
 			arStudent.forEach(x->{{
 				JSONObject jo = new JSONObject();
@@ -59,6 +59,7 @@ public class StudentController {
 			jo.put("mobile", x.getMobile());
 			jo.put("birthday", x.getBirthday());
 			jo.put("school", x.getSchool());
+			jo.put("address", x.getAddress());
 			jo.put("seq",x.getSeq());
 			jo.put("status", x.getStatus());
 			jo.put("member_id", x.getMember_id());
@@ -68,16 +69,16 @@ public class StudentController {
 			return "";
 		}
 	}
-	@PostMapping("/add")	// apply2Course() 
+	@PostMapping("/add")	// apply2Course()
 	public String doAdd(HttpServletRequest req) {
 		int result=-1;
 		try {
 			String sid = req.getParameter("sid");
 			if(sid==null || sid.equals("")) {
-				result = _std.insert(Integer.parseInt(req.getParameter("mid")), 
+				result = _std.insert(Integer.parseInt(req.getParameter("mid")),
 									 Integer.parseInt(req.getParameter("cid")));
 			} else {
-				result = _std.update(Integer.parseInt(req.getParameter("mid")), 
+				result = _std.update(Integer.parseInt(req.getParameter("mid")),
 									 Integer.parseInt(req.getParameter("cid")),
 									 Integer.parseInt(sid));
 			}
@@ -90,9 +91,8 @@ public class StudentController {
 	public String doDelete(HttpServletRequest req) {
 		int result = -1;
 		try {
-			int mid = Integer.parseInt(req.getParameter("mid"));
-			int cid = Integer.parseInt(req.getParameter("cid"));
-			result = _std.delete(mid, cid);
+			int sid = Integer.parseInt(req.getParameter("sid"));
+			result = _std.delete(sid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

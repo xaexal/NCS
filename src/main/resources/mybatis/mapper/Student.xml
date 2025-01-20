@@ -28,10 +28,10 @@
 	 where sid=#{sid}
 </update>
 <delete id="delete">
-	delete from ncs_student where member_id=#{mid} and course_id=#{cid}
+	delete from ncs_student where sid=#{sid}
 </delete>
 <select id="getSID" resultType="_int">
-	select sid from ncs_student 
+	select sid from ncs_student
 	 where member_id=#{mid} and course_id=#{cid}
 </select>
 </mapper>
