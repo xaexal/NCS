@@ -1,8 +1,7 @@
-
-const cNone = '0';
-const cError = '-1';
+//const cNone = '0';
+/*const cError = '-1';
 const cSignin = '-2';
-const cSignup = '-3';
+const cSignup = '-3';*/
 
 function dayCount(cid,labelID){
 	$.post('/common/countHoliday',{cid:cid},function(data){
@@ -36,7 +35,7 @@ function dayCount(cid,labelID){
 			if(countable) cnt++;
 			if(strDate(start)==strDate(new Date())) past=cnt;
 			start=new Date(start.getFullYear(),start.getMonth(),start.getDate()+1)
-		}						
+		}
 		console.log('holdays=',cnt)
 		labelID.text(past+'/'+cnt)
 	},'json')
@@ -51,5 +50,5 @@ function strDate(someday){
 	let n=someday.getDate();
 	if(n<10) pstr+='0';
 	pstr+=n;
-	return pstr;	
+	return pstr;
 }

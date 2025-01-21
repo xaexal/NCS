@@ -10,7 +10,7 @@ $(document)
 		let ar = $(this).val().split(',');
 		let start = ar[3].replace('-','');
 		let end = ar[4].replace('-','');
-		
+
 		if(today >=start && today<=end) {
 			$(this).prop('selected',true);
 			return false;
@@ -23,7 +23,7 @@ $(document)
 	if($(this).find('option').length<1) {
 		alert('등록된 과정이 아직 없습니다.');
 		document.location=url_coursePage;
-		return false;	
+		return false;
 	}
 	let ar=($(this).val()).split(',');
 //	console.log(ar)
@@ -41,7 +41,7 @@ $(document)
 	$('#tblSeat').append(outstr);
 
 //	dayCount($('#cid').val(),$('#lblDays'));
-		
+
 	// 해당과정의 재학생명단 가져오기
 	$.ajax({url:'/student/list',data:{cid:$('#cid').val()},type:'post',dataType:'json',
 		beforeSend:function(){
@@ -77,8 +77,8 @@ $(document)
 		return false;
 	}
 	//$('#txtDrill').val(title);
-	
-	
+
+
 //	$('table[id^=tbls]').each(function(){
 //		$(this).find('tr:eq(1) td:eq(0)').removeClass().addClass('working');
 //	});
@@ -95,13 +95,13 @@ $(document)
 //	if(bDebug) console.log($('#selExercise').val());
 	if($('#selExercise').val()==null) {
 		alert('과제를 선택해야 상태를 변경할 수 있습니다.');
-		return false;	
+		return false;
 	}
 	thisSeat=$(this);
 	let oParam={sid:thisSeat.prop('id'),eid:$('#selExercise').val()};
-//	console.log(oParam);
+	console.log(oParam);
 	$.post('/status/update',oParam,function(data){
-//		console.log(data)
+		console.log(data)
 		if(data=='') {
 			alert('로그인확인바람');
 			return false;
@@ -132,7 +132,7 @@ $(document)
 })
 
 /*
-작업중 <-> 완료 
+작업중 <-> 완료
 확인요청 -> 완료
 */
 

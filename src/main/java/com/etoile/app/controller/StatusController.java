@@ -19,13 +19,13 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/status")
 public class StatusController {
 	@Autowired _Status _ds;
-	
+
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req) {
 		try {
 			int eid = Integer.parseInt(req.getParameter("eid"));
-			System.out.println("eid ["+eid+"]");
-			
+//			System.out.println("eid ["+eid+"]");
+
 			ArrayList<Status> arStatus = _ds.list(eid);
 //			System.out.println("arStatus size ["+arStatus.size()+"]");
 			JSONArray ja = new JSONArray();
@@ -40,14 +40,14 @@ public class StatusController {
 			System.out.println(e.getMessage());
 			return "";
 		}
-		
+
 	}
 	@PostMapping("/list4student")
 	public String doList4student(HttpServletRequest req) {
 		try {
 			int sid = Integer.parseInt(req.getParameter("student_id"));
 //			System.out.println("sid ["+sid+"]");
-			
+
 			ArrayList<Status> arStatus = _ds.list4Student(sid);
 //			System.out.println("arStatus size ["+arStatus.size()+"]");
 			JSONArray ja = new JSONArray();
@@ -67,7 +67,7 @@ public class StatusController {
 			System.out.println(e.getMessage());
 			return "";
 		}
-		
+
 	}
 //	@PostMapping("/get")
 //	public String get(HttpServletRequest req) {
@@ -94,7 +94,7 @@ public class StatusController {
 		try {
 			String mobile = (String)s.getAttribute("mobile");
 			if(mobile==null || mobile.equals("")) return "";
-			
+
 			int level=-1;
 			Object oLevel = s.getAttribute("level");
 			if(oLevel instanceof Integer) level = (Integer) oLevel;
@@ -111,7 +111,7 @@ public class StatusController {
 			} else {
 				status = _ds.get(eid, sid);
 			}
-			System.out.println("status ["+status+"]");
+//			System.out.println("status ["+status+"]");
 			if(status.equals("완료")) {
 				status = "작업중";
 			} else if(status.equals("확인중")) {
@@ -122,7 +122,7 @@ public class StatusController {
 				}
 			} else {
 				status="확인중";
-			} 
+			}
 			result = _ds.update(eid, sid, status);
 //			System.out.println("result ["+result+"] status ["+status+"]");
 			if(result==1) return status;
@@ -140,7 +140,7 @@ public class StatusController {
 			updated = _ds.lastUpdated(sid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			
+
 		}
 //		System.out.println("updated ["+updated+"]");
 		return updated;
