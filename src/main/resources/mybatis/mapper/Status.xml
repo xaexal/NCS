@@ -17,7 +17,7 @@
 	 where student_id=#{sid} and eid=#{eid}
 </select>
 <select id="count" resultType="_int">
-	select count(*) from ncs_status 
+	select count(*) from ncs_status
 	 where student_id=#{sid} and eid=#{eid}
 </select>
 <insert id="insert">
@@ -26,12 +26,15 @@
 <update id="update">
 	update ncs_status set status=#{status},updated=current_timestamp
 	 where student_id=#{sid} and eid=#{eid}
-</update> 
+</update>
 <select id="lastUpdated" resultType="String">
 	select max(updated) from ncs_status
-	 where student_id=#{sid} 
+	 where student_id=#{sid}
 </select>
 <select id="recent" resultType="String">
-	select max(updated) from ncs_status 
+	select max(updated) from ncs_status
 </select>
+<delete id="delete">
+	delete from ncs_status where student_id=#{sid}
+</delete>
 </mapper>

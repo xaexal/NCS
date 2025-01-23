@@ -160,13 +160,14 @@ $(document)
 	console.log('dblclick selStudentEnrolled sid ['+$('#sid').val()+']')
 	let thisone=$(this);
 	$.post('/student/delete',{sid:$('#sid').val()},function(data){
-		if(data['result']!='0'){
-			alert(data['msg']); return false;
+		console.log(data);
+		if(data!='1'){
+			alert('신청학생 목록으로 옮길 수 없습니다'); return false;
 		}
 		console.log(thisone.html())
 		$('#selStudentApplied').append(thisone.parent().html());
 		thisone.remove();
-	},'json')
+	},'text')
 	return false;
 })
 .on('dblclick','#selStudentApplied option',function(){
@@ -179,7 +180,7 @@ $(document)
 		console.log(thisone.html())
 		$('#selStudentEnrolled').append(thisone.parent().html());
 		thisone.remove();
-	},'json')
+	},'text')
 	return false;
 })
 .on('click','#btnUpdateMember',function(){

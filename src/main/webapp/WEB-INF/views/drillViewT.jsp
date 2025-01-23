@@ -9,10 +9,11 @@
 	<table style='width:100%;color:white;'>
 	<tr>
 		<td style='text-align:left;'>
+		<a class='navbar-brand' style='color:white;' href='/drillViewT'>과제진행</a>
 		<a class="navbar-brand" style='color:white' href='/courseT'>과정관리</a>
 		<a class="navbar-brand" style='color:white' href='/drillT'>과제관리</a>
-<!-- 		<a class="navbar-brand" style='color:white' href='/showRank'>결과보기</a>
-		<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
+ 		<a class="navbar-brand" style='color:white' href='/showRank'>결과보기</a>
+<!--		<a class="navbar-brand" href="/notice/list" style='color:white'>공지사항</a>&nbsp;&nbsp;
 		<a class="navbar-brand" style='color:white' href="/list">자유게시판</a>&nbsp;&nbsp; -->
 			<select id=selCourse style='font-size:20px;width:64%;'>
 			<c:forEach items="${Courses}" var="course">

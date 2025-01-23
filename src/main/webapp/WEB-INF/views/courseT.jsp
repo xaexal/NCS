@@ -127,7 +127,7 @@
 				</select></div>
 			<div class=row><div class='col-6 left-col right-col' style='text-align:center'>
 					<input type="button" id=btnUpdateMember title=btnUpdateMember class='btn-sm btn-primary' value='Save'>
-						<!--<button id=btnDelStudent class='btn-sm btn-secondary'>Delete</button>-->
+					<button id=btnDelStudent class='btn-sm btn-secondary'>Delete</button>
 					<input type="button" id=btnClearMember title=btnClearMember class='btn-sm btn-warning' value='Clear'>
 			</div></div>
 			</form>

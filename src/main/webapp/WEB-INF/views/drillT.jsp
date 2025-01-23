@@ -81,10 +81,10 @@
 </section>
 <style>
 #tblDrillType td:nth-child(1) { text-align:right; }
-#tblDrillType td:nth-child(2) { text-align:left; }	
+#tblDrillType td:nth-child(2) { text-align:left; }
 </style>
 <div id="dvDrillType" style="display:none;">
-<h1>과제분류관리</h1>	
+<h1>과제분류관리</h1>
 <table>
 <tr>
 	<td>
@@ -97,11 +97,11 @@
 		<tr height="40px"><td>분류명</td><td><input type=text id=typename size=20></td></tr height="40px">
 		<tr  height="40px"><td colspan=2>&nbsp;</td></tr>
 		<tr height="40px"><td colspan="2" style="text-align:center;">
-			<button id=btnAddDT>등록</button>&nbsp;&nbsp;<button id=btnDelDT>삭제</button></td></tr>	
+			<button id=btnAddDT>등록</button>&nbsp;&nbsp;<button id=btnDelDT>삭제</button></td></tr>
 		</table>
 	</td>
-</tr>	
-</table>	
+</tr>
+</table>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/drillT.js"></script>

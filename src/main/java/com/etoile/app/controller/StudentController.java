@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.etoile.app.DAO._Status;
 import com.etoile.app.DAO._Student;
 import com.etoile.app.DTO.Student;
 
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/student")
 public class StudentController {
 	@Autowired _Student _std;
+	@Autowired _Status _status;
 
 	@PostMapping("/list")
 	public String doList(HttpServletRequest req, HttpSession s) {
@@ -92,7 +94,10 @@ public class StudentController {
 		int result = -1;
 		try {
 			int sid = Integer.parseInt(req.getParameter("sid"));
+			int n =_status.delete(sid);
+			System.out.println("n="+n);
 			result = _std.delete(sid);
+			System.out.println("result="+result);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

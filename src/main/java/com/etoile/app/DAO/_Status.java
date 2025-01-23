@@ -16,4 +16,5 @@ public interface _Status {
 	int count(@Param("eid") int eid,@Param("sid") int sid);
 	int insert(@Param("eid") int eid, @Param("sid") int sid,@Param("status") String status);
 	int update(@Param("eid") int eid, @Param("sid") int sid,@Param("status") String status);
+	int delete(@Param("sid") int sid);
 }
