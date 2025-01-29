@@ -148,7 +148,7 @@ public class HomeController {
 	public String doTeacherView(HttpServletRequest req,HttpSession s,Model model) {
 		try {
 			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
 
 			ArrayList<Course> alCourse = _crs.listAll();
 			System.out.println("alCourse size="+alCourse.size());
@@ -165,7 +165,7 @@ public class HomeController {
 	public String doStudentView(HttpServletRequest req,HttpSession s,Model model) {
 		try {
 			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
 
 			ArrayList<Course> alCourse = _crs.enrolled((Integer)s.getAttribute("member_id"));
 			System.out.println("alCourse size="+alCourse.size());
@@ -183,7 +183,7 @@ public class HomeController {
 	public String doDrillT(HttpServletRequest req,HttpSession s,Model model) {
 		try {
 			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
 
 			ArrayList<Drilltype> arDrilltype = _dt.list();
 			System.out.println("arDrilltype size="+arDrilltype.size());
@@ -201,7 +201,7 @@ public class HomeController {
 	public String doCourseS(HttpServletRequest req,HttpSession s,Model model) {
 		try {
 			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
 			return "courseS";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -212,7 +212,7 @@ public class HomeController {
 	public String doCourseT(HttpServletRequest req,HttpSession s,Model model) {
 		try {
 			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
 			return "courseT";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -224,7 +224,7 @@ public class HomeController {
 		try {
 			String mobile = (String)s.getAttribute("mobile");
 			System.out.println("mobile ["+mobile+"]");
-			if(mobile==null || mobile.equals("")) throw new Exception("You shoud log in.");
+			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
 
 			Member m=_mem.get(mobile);
 			model.addAttribute("member",m);
