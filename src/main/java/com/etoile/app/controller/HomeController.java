@@ -246,16 +246,17 @@ public class HomeController {
 			String email = req.getParameter("email");
 
 			String newPass = this.tempPasscode(8);
-			if(_mem.setTempPasscode(mobile, newPass) != 1 ) return "redirect:/findPassword";
+			System.out.println("newPass ["+newPass+"]");
 
 	        SimpleMailMessage message = new SimpleMailMessage();
 	        message.setTo(email);
 	        message.setSubject("프로그래밍 연습 로그인용 임시비밀번호");
 	        message.setText(newPass);
 	        message.setFrom("cavenagh@naver.com");  // 보내는 이메일 주소 (필요에 따라 생략 가능)
-
 	        mailSender.send(message);
-
+			int result = _mem.setTempPasscode(mobile, newPass);
+			System.out.println("result="+result);
+			if( result!= 1 ) return "redirect:/findPassword";
 			return "0";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

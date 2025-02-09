@@ -15,6 +15,6 @@ $(document)
 			alert('임시비밀번호 생성 실패'); return false;
 		}
 		document.location="/login";
-	},'json')
+	},'text')
 	return false;
 })
