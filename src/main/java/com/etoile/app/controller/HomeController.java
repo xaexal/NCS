@@ -36,8 +36,8 @@ public class HomeController {
 		} catch(Exception e) {
 
 		}
-//		return "home";
-		return "redirect:/login";
+		return "home";
+//		return "redirect:/login";
 	}
 	@GetMapping("/login")
 	public String login(HttpServletRequest req,HttpSession s,  Model m) {
