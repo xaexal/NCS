@@ -5,7 +5,7 @@
 <section class='login-form'>
 	<h1 style='font-size:54px;color:aqua;'>${title}</h1>
 	<h1>등록</h1>
-	<form action="/member/passwordChange" id=frmsignup method="post">
+	<form action="/passwordChange" id=frmsignup method="post">
         <div class='int-area'>
 			<input type="text" name="mobile" id="mobile" autocomplete=off required>
 			<label for=mobile id=lblMobile>모바일번호(010빼고)</label>

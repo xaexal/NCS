@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpSession;
 public class MemberController {
 	@Autowired _Member _mem;
 	@Autowired _Student _std;
-	
+
 	@PostMapping("/insert")
 	public String doInsert(HttpServletRequest req,Model model) {
 		int result=0;
@@ -57,13 +57,13 @@ public class MemberController {
 			String email = req.getParameter("email");
 			String address = req.getParameter("address");
 			String member_id = req.getParameter("member_id");
-		
+
 			int mid = Integer.parseInt(member_id);
 			System.out.println("mid ["+mid+"]");
 			result = _mem.updateBySelf(mobile, name, passcode, gender, birthday, email, address, mid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			
+
 		}
 		return ""+result;
 	}
@@ -81,15 +81,16 @@ public class MemberController {
 			String member_id = req.getParameter("member_id");
 			String status = req.getParameter("status");
 			String seq = req.getParameter("seq");
-			
+
 			int mid = Integer.parseInt(member_id);
 			result = _mem.updateByAdmin(mobile, name, gender, birthday, school, email, address, mid);
 			result = _std.updateByAdmin(Integer.parseInt(seq),req.getParameter("status"),
 					Integer.parseInt(req.getParameter("sid")));
-			
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return ""+result;
 	}
+
 }
