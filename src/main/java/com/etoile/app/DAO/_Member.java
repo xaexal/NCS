@@ -15,12 +15,13 @@ public interface _Member {
 	Member get(@Param("mobile") String mobile);
 	int insert(@Param("mobile") String mobile, @Param("passcode") String passcode);
 	int updateBySelf(@Param("mobile") String mobile, @Param("name") String name, @Param("passcode") String passcode,
-			@Param("gender") String gender, @Param("birthday") String birthday, 
+			@Param("gender") String gender, @Param("birthday") String birthday,
 			@Param("email") String email, @Param("address") String address,
 			@Param("mid") int mid);
-	int updateByAdmin(@Param("mobile") String mobile, @Param("name") String name, 
+	int updateByAdmin(@Param("mobile") String mobile, @Param("name") String name,
 			@Param("gender") String gender, @Param("birthday") String birthday, @Param("school") String school,
 			@Param("email") String email, @Param("address") String address,
 			@Param("mid") int mid);
 	int delete(@Param("mid") int mid);
+	int logout(@Param("mobile") String mobile);
 }

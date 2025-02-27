@@ -34,11 +34,14 @@
 <update id="updateByAdmin">
 	update ncs_member set mobile=#{mobile},name=#{name},
 			gender=#{gender}, birthday=#{birthday}, school=#{school},
-			email=#{email}, address=#{address}, 
+			email=#{email}, address=#{address},
 			updated=current_timestamp
-	 where mid=#{mid} 
+	 where mid=#{mid}
 </update>
 <delete id="delete">
 	delete from ncs_member where mid=#{mid}
 </delete>
+<update id="logout">
+	update ncs_member set logout_tm=current_timestamp where mobile=#{mobile}
+</update>
 </mapper>
