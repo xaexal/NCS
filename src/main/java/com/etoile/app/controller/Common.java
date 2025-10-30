@@ -1,10 +1,8 @@
 package com.etoile.app.controller;
 
-import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,6 +37,6 @@ public class Common {
 //		} catch(Exception e) {
 //			result.put("message", e.getMessage());
 //		}
-		return result.toJSONString();		
+		return result.toJSONString();
 	}
 }
