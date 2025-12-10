@@ -9,7 +9,7 @@ import jakarta.annotation.PreDestroy;
 public class SshTunnelManager {
 	private final SshTunnel sshTunnel = new SshTunnel();
 
-//    @PostConstruct
+    @PostConstruct
     public void init() throws Exception {
         sshTunnel.connectWithTunnel(
                 "193.123.234.59",    // SSH 서버 주소

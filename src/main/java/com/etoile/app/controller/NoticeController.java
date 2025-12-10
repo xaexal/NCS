@@ -9,10 +9,12 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.etoile.app.DAO._Member;
 import com.etoile.app.DAO._Notice;
@@ -21,7 +23,8 @@ import com.etoile.app.DTO.Notice;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:5173",allowCredentials="true")
+@RestController
 @RequestMapping("/notice")
 public class NoticeController {
 	@Autowired _Notice ndao;

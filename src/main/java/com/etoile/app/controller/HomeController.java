@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +24,7 @@ import com.etoile.app.DTO.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+@CrossOrigin(origins = "http://localhost:5173",allowCredentials="true")
 @RestController
 public class HomeController {
 	@Autowired _Member _mem;
@@ -51,20 +54,15 @@ public class HomeController {
 			else if(oLevel instanceof String) level = Integer.parseInt((String) oLevel);
 
 			if(level==0) {
-				return "drillViewT";
+				return "redirect:/drillViewT";
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return "drillViewS";
+		return "redirect:/drillViewS";
 	}
-	@GetMapping("/signup")
-	public String doSignup(HttpServletRequest req, Model m) {
-		m.addAttribute("title","프로그래밍 연습");
-		return "signup";
-	}
-	@PostMapping("/memberInsert")
-	public String memberInsert(HttpServletRequest req, Model m) {
+	@PostMapping("/signup")
+	public String signup(HttpServletRequest req, Model m) {
 		int result=0;
 		try {
 			String mobile = req.getParameter("mobile");
@@ -78,6 +76,7 @@ public class HomeController {
 	}
 	@PostMapping("/checkuser")
 	public String checkUser(HttpServletRequest req,HttpSession s,Model m) {
+		System.out.println("/checkUser");
 		try {
 			String mobile = req.getParameter("mobile");
 			String passcode = req.getParameter("passcode");
@@ -85,7 +84,7 @@ public class HomeController {
 			Member member = _mem.checkUser(mobile, passcode);
 			if(member==null) {
 				m.addAttribute("msg","모바일번호/비밀번호가 잘못 입력됐거나 회원가입한 적이 없습니다");
-				return "login";
+				return "/login";
 			}
 			s.setAttribute("title","프로그래밍 연습");
 			s.setAttribute("member_id", member.getMid());
@@ -101,28 +100,28 @@ public class HomeController {
 			String name = member.getName();
 			System.out.println("member_name ["+name+"]");
 			if(name==null || name.equals("")) {
-				return "personal";
+				return "/personal";
 			}
 			System.out.println("level ["+member.getLevel()+"]");
 			if(member.getLevel()==0) { // 관리자 레벨
-				return "drillViewT";
+				return "/drillViewT";
 			}
 			System.out.println("member_id ["+member.getMid()+"]");
 			System.out.println("student count ["+_mem.checkStudent(member.getMid())+"]");
 			if( _mem.checkStudent(member.getMid())>0 ) {
-				return "drillViewS";
+				return "/drillViewS";
 			}
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
-			return "login";
+			return "/login";
 		}
 		m.addAttribute("title","프로그래밍 연습");
-		return "courseS";
+		return "/courseS";
 	}
 	@GetMapping("/passcode")
 	public String doPasscode(HttpSession s, Model m) {
 		m.addAttribute("member_id",s.getAttribute("member_id"));
-		return "ncs/passcode";
+		return "redirect:/ncs/passcode";
 	}
 //	@GetMapping("/change_passcode")
 //	public String changePasscode(HttpServletRequest req, HttpSession s, Model m) {
@@ -157,7 +156,7 @@ public class HomeController {
 			System.out.println(e.getMessage());
 
 		}
-		return "login";
+		return "redirect:/login";
 	}
 	@GetMapping("/drillViewS")
 	public String doStudentView(HttpServletRequest req,HttpSession s,Model model) {
@@ -175,7 +174,7 @@ public class HomeController {
 			System.out.println(e.getMessage());
 
 		}
-		return "login";
+		return "redirect:/login";
 	}
 	@GetMapping("/drillT")
 	public String doDrillT(HttpServletRequest req,HttpSession s,Model model) {
@@ -192,7 +191,7 @@ public class HomeController {
 			return "drillT";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "login";
+			return "redirect:/login";
 		}
 	}
 	@GetMapping("/courseS")
@@ -203,7 +202,7 @@ public class HomeController {
 			return "courseS";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "login";
+			return "redirect:/login";
 		}
 	}
 	@GetMapping("/courseT")
@@ -214,7 +213,7 @@ public class HomeController {
 			return "courseT";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "login";
+			return "redirect:/login";
 		}
 	}
 	@GetMapping("/personal")
@@ -229,7 +228,7 @@ public class HomeController {
 			return "personal";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "login";
+			return "redirect:/login";
 		}
 	}
 	@GetMapping("/findPassword")
@@ -254,7 +253,7 @@ public class HomeController {
 	        mailSender.send(message);
 			int result = _mem.setTempPasscode(mobile, newPass);
 			System.out.println("result="+result);
-			if( result!= 1 ) return "findPassword";
+			if( result!= 1 ) return "redirect:/findPassword";
 			return "0";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -286,12 +285,12 @@ public class HomeController {
 			String passcode1 = req.getParameter("passcode1");
 
 			if(_mem.changePasscode(mobile, passcode, passcode1)==1) {
-				return "login";
+				return "redirect:/login";
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 
 		}
-		return "changePassword";
+		return "redirect:/changePassword";
 	}
 }
