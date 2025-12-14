@@ -41,25 +41,16 @@ public class HomeController {
 //		return "home";
 		return "login";
 	}
-	@GetMapping("/login")
+	@GetMapping("/checkLogin")
 	public String login(HttpServletRequest req,HttpSession s,  Model m) {
-		m.addAttribute("title","프로그래밍 연습");
 		try {
-			String mobile=(String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) return "login";
-
-			int level=-1;
-			Object oLevel = s.getAttribute("level");
-			if(oLevel instanceof Integer) level = (Integer) oLevel;
-			else if(oLevel instanceof String) level = Integer.parseInt((String) oLevel);
-
-			if(level==0) {
-				return "redirect:/drillViewT";
-			}
+			if(s.getAttribute("member_id")==null) return "0";
+			if(s.getAttribute("level")=="0") return "1";
+			else return "2";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return "0";
 		}
-		return "redirect:/drillViewS";
 	}
 	@PostMapping("/signup")
 	public String signup(HttpServletRequest req, Model m) {
@@ -74,8 +65,8 @@ public class HomeController {
 		}
 		return "signup";
 	}
-	@PostMapping("/checkuser")
-	public String checkUser(HttpServletRequest req,HttpSession s,Model m) {
+	@PostMapping("/login")
+	public Member checkUser(HttpServletRequest req,HttpSession s,Model m) {
 		System.out.println("/checkUser");
 		try {
 			String mobile = req.getParameter("mobile");
@@ -84,9 +75,10 @@ public class HomeController {
 			Member member = _mem.checkUser(mobile, passcode);
 			if(member==null) {
 				m.addAttribute("msg","모바일번호/비밀번호가 잘못 입력됐거나 회원가입한 적이 없습니다");
-				return "/login";
+//				return "/login";
+				return null;
 			}
-			s.setAttribute("title","프로그래밍 연습");
+			System.out.println(member.getName());
 			s.setAttribute("member_id", member.getMid());
 			s.setAttribute("mobile", req.getParameter("mobile"));
 			s.setAttribute("name", member.getName());
@@ -97,26 +89,29 @@ public class HomeController {
 			if(n<1) {
 
 			}
-			String name = member.getName();
-			System.out.println("member_name ["+name+"]");
-			if(name==null || name.equals("")) {
-				return "/personal";
-			}
-			System.out.println("level ["+member.getLevel()+"]");
-			if(member.getLevel()==0) { // 관리자 레벨
-				return "/drillViewT";
-			}
-			System.out.println("member_id ["+member.getMid()+"]");
-			System.out.println("student count ["+_mem.checkStudent(member.getMid())+"]");
-			if( _mem.checkStudent(member.getMid())>0 ) {
-				return "/drillViewS";
-			}
+//			if(member.getName()==null) member.setName("");
+			return member;
+//			String name = member.getName();
+//			System.out.println("member_name ["+name+"]");
+//			if(name==null || name.equals("")) {
+//				return "/personal";
+//			}
+//			System.out.println("level ["+member.getLevel()+"]");
+//			if(member.getLevel()==0) { // 관리자 레벨
+//				return "/drillViewT";
+//			}
+//			System.out.println("member_id ["+member.getMid()+"]");
+//			System.out.println("student count ["+_mem.checkStudent(member.getMid())+"]");
+//			if( _mem.checkStudent(member.getMid())>0 ) {
+//				return "/drillViewS";
+//			}
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
-			return "/login";
+//			return "/login";
+			return null;
 		}
-		m.addAttribute("title","프로그래밍 연습");
-		return "/courseS";
+//		m.addAttribute("title","프로그래밍 연습");
+//		return "/courseS";
 	}
 	@GetMapping("/passcode")
 	public String doPasscode(HttpSession s, Model m) {
@@ -217,18 +212,21 @@ public class HomeController {
 		}
 	}
 	@GetMapping("/personal")
-	public String doPersonal(HttpServletRequest req,HttpSession s,Model model) {
+	public Member doPersonal(HttpServletRequest req,HttpSession s,Model model) {
 		try {
+			System.out.println("/personal");
 			String mobile = (String)s.getAttribute("mobile");
 			System.out.println("mobile ["+mobile+"]");
 			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
 
 			Member m=_mem.get(mobile);
-			model.addAttribute("member",m);
-			return "personal";
+			return m;
+//			model.addAttribute("member",m);
+//			return "personal";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "redirect:/login";
+//			return "redirect:/login";
+			return null;
 		}
 	}
 	@GetMapping("/findPassword")

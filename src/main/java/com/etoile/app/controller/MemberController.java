@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,31 +37,25 @@ public class MemberController {
 		return ""+result;
 	}
 	@PostMapping("/updateBySelf")
-	public String doUpdateBySelf(HttpServletRequest req, HttpSession s) {
+	public String doUpdateBySelf(@RequestBody Map<String, Object> param, HttpSession s) {
 		System.out.println("updateBySelf");
-		Map<String, String[]> parameterMap =req.getParameterMap();
-		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-	        String paramName = entry.getKey();
-	        String[] paramValues = entry.getValue();
-	        // 요청 매개변수 값에 대해 원하는 작업을 수행합니다.
-	        for (String paramValue : paramValues) {
-	            System.out.println(paramName+" ["+ paramValue+"]");
-	        }
-	    }
-		System.out.println("/updateBySelf");
+		param.forEach((k,v) -> System.out.println(k + " : " + v));
 		int result=0;
 		try {
-			String mobile = req.getParameter("mobile");
-			String name = req.getParameter("name");
-			String passcode = req.getParameter("passcode");
-			String gender = req.getParameter("gender");
-			String birthday = req.getParameter("birthday");
-//			String school = req.getParameter("school");
-			String email = req.getParameter("email");
-			String address = req.getParameter("address");
-			String member_id = req.getParameter("member_id");
-		
-			int mid = Integer.parseInt(member_id);
+			String mobile = (String)param.get("mobile");
+			String name = (String)param.get("name");
+			String passcode = (String)param.get("passcode");
+			String gender = (String)param.get("gender");
+			String birthday = (String)param.get("birthday");
+//			String school = param.get("school");
+			String email = (String)param.get("email");
+			String address = (String)param.get("address");
+			
+			Integer mid = (Integer) s.getAttribute("member_id");
+			System.out.println("mid ["+mid+"]");
+	        if (mid == null) {
+	            throw new RuntimeException("로그인 세션이 없습니다.");
+	        }
 			System.out.println("mid ["+mid+"]");
 			result = _mem.updateBySelf(mobile, name, passcode, gender, birthday, email, address, mid);
 		} catch (Exception e) {

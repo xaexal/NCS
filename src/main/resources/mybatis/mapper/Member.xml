@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etoile.app.DAO._Member">
 <select id="checkUser" resultType="com.etoile.app.DTO.Member">
-	select mid,mobile,name,login_tm,logout_tm
+	select mid,mobile,name,gender,birthday,level,email,address
 	  from ncs_member where mobile=#{mobile} and passcode=#{passcode}
 </select>
 <select id="checkStudent" resultType="_int">
