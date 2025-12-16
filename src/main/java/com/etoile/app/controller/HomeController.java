@@ -43,14 +43,17 @@ public class HomeController {
 	}
 	@GetMapping("/checkLogin")
 	public String login(HttpServletRequest req,HttpSession s,  Model m) {
+		String n = null;
 		try {
-			if(s.getAttribute("member_id")==null) return "0";
-			if(s.getAttribute("level")=="0") return "1";
-			else return "2";
+			if(s.getAttribute("member_id")==null) n = "0";	// not loggin yet
+			else if(s.getAttribute("level")=="0") n = "1";	// administrator or instructor
+			else n = "2";	// student or member
+			System.out.println("checkLogin "+n);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "0";
+			n = "0";
 		}
+		return n;
 	}
 	@PostMapping("/signup")
 	public String signup(HttpServletRequest req, Model m) {
@@ -133,8 +136,15 @@ public class HomeController {
 //
 //	}
 	@GetMapping("/logout")
-	public void doLogout(HttpServletRequest req,HttpSession s,Model m) {
-		s.invalidate();
+	public String doLogout(HttpServletRequest req,HttpSession s,Model m) {
+		try {
+			System.out.println("logout");
+			s.invalidate();
+			return "ok";
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return "fail";
+		}
 	}
 	@GetMapping("/drillViewT")
 	public String doTeacherView(HttpServletRequest req,HttpSession s,Model model) {
