@@ -1,12 +1,14 @@
 package com.etoile.app.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +22,15 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/drill")
 public class DrillController {
 	@Autowired _Drill _drl;
-	
+
 	@PostMapping("/list")
-	public String doList(HttpServletRequest req) {
-		try {
-			int cid = Integer.parseInt(req.getParameter("cid"));
-			
+	public String doList(@RequestBody Map<String, Object> param) {
+	    try {
+	        int cid = Integer.parseInt(param.get("cid").toString());
+
 			ArrayList<Drill> alDrill = _drl.list(cid);
 			System.out.println("Drill size="+alDrill.size());
-			
+
 			JSONArray ja = new JSONArray();
 			alDrill.forEach(x->{
 	    		JSONObject jo = new JSONObject();

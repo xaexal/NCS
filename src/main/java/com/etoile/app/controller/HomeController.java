@@ -42,7 +42,7 @@ public class HomeController {
 		return "login";
 	}
 	@GetMapping("/checkLogin")
-	public String login(HttpServletRequest req,HttpSession s,  Model m) {
+	public String login(HttpServletRequest req,HttpSession s) {
 		String n = null;
 		try {
 			if(s.getAttribute("member_id")==null) n = "0";	// not loggin yet

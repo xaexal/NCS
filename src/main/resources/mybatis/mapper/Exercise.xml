@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etoile.app.DAO._Exercise">
 <select id="list" resultType="com.etoile.app.DTO.Exercise">
 	select a.eid,b.did,b.name,b.comment,b.dtype_id,b.created,b.updated
-	  from ncs_exercise a, ncs_drill b 
+	  from ncs_exercise a, ncs_drill b
 	 where a.course_id=#{cid} and a.drill_id=b.did
-	 order by a.created
+	 order by b.name
 </select>
 <select id="get" resultType="com.etoile.app.DTO.Exercise">
 	select * from ncs_exercise where eid=#{eid}

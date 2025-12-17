@@ -1,12 +1,14 @@
 package com.etoile.app.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,13 +22,13 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/exercise")
 public class ExerciseController {
 	@Autowired _Exercise _exr;
-	
+
 	@PostMapping("/list")
-	public String doList(HttpServletRequest req) {
-		try {
-			int cid = Integer.parseInt(req.getParameter("cid"));
+	public String doList(@RequestBody Map<String, Object> param) {
+	    try {
+	        int cid = Integer.parseInt(param.get("cid").toString());
 			ArrayList<Exercise> arExercise = _exr.list(cid);
-//			System.out.println("arExercise size="+arExercise.size());
+			System.out.println("arExercise size="+arExercise.size());
 			JSONArray ja = new JSONArray();
 			arExercise.forEach(x->{
 				JSONObject jo = new JSONObject();
@@ -51,10 +53,10 @@ public class ExerciseController {
 			int n=0;
 			String eid=req.getParameter("eid");
 			if(eid==null || eid.equals("")) {
-				n = _exr.insert(Integer.parseInt(req.getParameter("cid")), 
+				n = _exr.insert(Integer.parseInt(req.getParameter("cid")),
 							Integer.parseInt(req.getParameter("did")));
 			} else {
-				n = _exr.update(Integer.parseInt(req.getParameter("cid")), 
+				n = _exr.update(Integer.parseInt(req.getParameter("cid")),
 							Integer.parseInt(req.getParameter("did")),
 							Integer.parseInt(eid));
 			}
@@ -74,7 +76,7 @@ public class ExerciseController {
 			System.out.println(e.getMessage());
 			return "";
 		}
-		
+
 	}
 	@PostMapping("/lastCreated")
 	public String lastCreated(HttpServletRequest req) {
