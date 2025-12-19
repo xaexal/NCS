@@ -7,6 +7,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +25,10 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ExerciseController {
 	@Autowired _Exercise _exr;
 
-	@PostMapping("/list")
-	public String doList(@RequestBody Map<String, Object> param) {
+	@GetMapping("/list/{course}")
+	public String doList(@PathVariable("course") int course) {
 	    try {
-	        int cid = Integer.parseInt(param.get("cid").toString());
-			ArrayList<Exercise> arExercise = _exr.list(cid);
+			ArrayList<Exercise> arExercise = _exr.list(course);
 			System.out.println("arExercise size="+arExercise.size());
 			JSONArray ja = new JSONArray();
 			arExercise.forEach(x->{

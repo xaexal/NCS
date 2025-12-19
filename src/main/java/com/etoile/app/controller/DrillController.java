@@ -7,6 +7,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +26,12 @@ import jakarta.servlet.http.HttpServletRequest;
 public class DrillController {
 	@Autowired _Drill _drl;
 
-	@PostMapping("/list")
-	public String doList(@RequestBody Map<String, Object> param) {
+	@GetMapping("/list/{course}")
+	public String doList(@PathVariable("course") int course) {
 	    try {
-	        int cid = Integer.parseInt(param.get("cid").toString());
+	        System.out.println("course ["+course+"]");
 
-			ArrayList<Drill> alDrill = _drl.list(cid);
+			ArrayList<Drill> alDrill = _drl.list(course);
 			System.out.println("Drill size="+alDrill.size());
 
 			JSONArray ja = new JSONArray();
@@ -66,26 +69,31 @@ public class DrillController {
 			return "";
 		}
 	}
-	@PostMapping("/delete")
-	public String delete(HttpServletRequest req) {
+	@DeleteMapping("/delete")
+	public String delete(@RequestBody Map<String,String> req) {
+		req.forEach((k, v) -> System.out.println(k + " = " + v));
 		try {
-			int did = Integer.parseInt(req.getParameter("did"));
+			int did = Integer.parseInt(req.get("did"));
+			System.out.println("did ["+did+"]");
 			int n = _drl.delete(did);
+			System.out.println("n ["+n+"]");
 			return ""+n;
 		} catch(Exception e) {
+			System.out.println(e.getMessage());
 			return "";
 		}
 	}
 	@PostMapping("/add")
-	public String add(HttpServletRequest req) {
-		String did = req.getParameter("did");
+	public String add(@RequestBody Map<String,String> req) {
+		req.forEach((k, v) -> System.out.println(k + " = " + v));
+		String did = req.get("did");
 		int n=0;
 		if(did==null || did.equals("")) {
-			n = _drl.insert(req.getParameter("name"),req.getParameter("comment"),
-						Integer.parseInt(req.getParameter("type_id")));
+			n = _drl.insert(req.get("name"),req.get("comment"),
+						Integer.parseInt(req.get("type_id")));
 		} else {
-			n = _drl.update(req.getParameter("name"),req.getParameter("comment"),
-						Integer.parseInt(req.getParameter("type_id")),
+			n = _drl.update(req.get("name"),req.get("comment"),
+						Integer.parseInt(req.get("type_id")),
 						Integer.parseInt(did));
 		}
 		return ""+n;
