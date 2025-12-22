@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.etoile.app.DAO._Member;
 import com.etoile.app.DAO._Student;
+import com.etoile.app.DTO.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,14 +24,15 @@ import jakarta.servlet.http.HttpSession;
 public class MemberController {
 	@Autowired _Member _mem;
 	@Autowired _Student _std;
-	
+
 	@PostMapping("/insert")
 	public String doInsert(HttpServletRequest req,Model model) {
 		int result=0;
 		try {
-			String mobile = req.getParameter("mobile");
-			String passcode = req.getParameter("passcode");
-			result = _mem.insert(mobile, passcode);
+			Member member = new Member();
+			member.setMobile(req.getParameter("mobile"));
+			member.setPasscode(req.getParameter("passcode"));
+			result = _mem.insert(member);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -50,7 +52,7 @@ public class MemberController {
 //			String school = param.get("school");
 			String email = (String)param.get("email");
 			String address = (String)param.get("address");
-			
+
 			Integer mid = (Integer) s.getAttribute("member_id");
 			System.out.println("mid ["+mid+"]");
 	        if (mid == null) {
@@ -60,7 +62,7 @@ public class MemberController {
 			result = _mem.updateBySelf(mobile, name, passcode, gender, birthday, email, address, mid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			
+
 		}
 		return ""+result;
 	}
@@ -78,12 +80,12 @@ public class MemberController {
 			String member_id = req.getParameter("member_id");
 			String status = req.getParameter("status");
 			String seq = req.getParameter("seq");
-			
+
 			int mid = Integer.parseInt(member_id);
 			result = _mem.updateByAdmin(mobile, name, gender, birthday, school, email, address, mid);
 			result = _std.updateByAdmin(Integer.parseInt(seq),req.getParameter("status"),
 					Integer.parseInt(req.getParameter("sid")));
-			
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

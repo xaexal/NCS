@@ -6,6 +6,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,13 +22,13 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/drilltype")
 public class DrillTypeController {
 	@Autowired _Drilltype _dt;
-	
-	@PostMapping("/list")
+
+	@GetMapping("/list")
 	public String doList() {
 		try {
 			ArrayList<Drilltype> arDT = _dt.list();
 			System.out.println("arDT size="+arDT.size());
-			
+
 			JSONArray ja = new JSONArray();
 			arDT.forEach(x->{
 	    		JSONObject jo = new JSONObject();
@@ -42,7 +44,7 @@ public class DrillTypeController {
 			return "";
 		}
 	}
-	@PostMapping("/get")
+	@GetMapping("/get")
 	public String doGet(HttpServletRequest req) {
 		try {
 			int dtid = Integer.parseInt(req.getParameter("dtid"));
@@ -58,7 +60,7 @@ public class DrillTypeController {
 			return "";
 		}
 	}
-	@PostMapping("/add")
+	@PostMapping("/")
 	public String doAdd(HttpServletRequest req) {
 		int result=-1;
 		try {
@@ -73,7 +75,7 @@ public class DrillTypeController {
 		}
 		return ""+result;
 	}
-	@PostMapping("/delete")
+	@DeleteMapping("/delete")
 	public String doDelete(HttpServletRequest req) {
 		int result=-1;
 		try {

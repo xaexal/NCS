@@ -14,7 +14,8 @@ public interface _Member {
 	int setTempPasscode(@Param("mobile") String x, @Param("passcode_new") String y);
 	Member get(@Param("mobile") String mobile);
 	Member getPersonal(@Param("id") int id);
-	int insert(@Param("mobile") String mobile, @Param("passcode") String passcode);
+//	int insert(@Param("mobile") String mobile, @Param("passcode") String passcode);
+	int insert(Member member);
 	int updateBySelf(@Param("mobile") String mobile, @Param("name") String name, @Param("passcode") String passcode,
 			@Param("gender") String gender, @Param("birthday") String birthday,
 			@Param("email") String email, @Param("address") String address,

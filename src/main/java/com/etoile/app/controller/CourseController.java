@@ -1,6 +1,4 @@
 package com.etoile.app.controller;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -8,6 +6,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +19,15 @@ import com.etoile.app.DAO._Student;
 import com.etoile.app.DTO.Course;
 import com.etoile.app.DTO.Student;
 
-import jakarta.servlet.http.HttpServletRequest;
 
-@CrossOrigin(origins = "http://localhost:5173",allowCredentials="true")
+@CrossOrigin(origins="http://localhost:5173",allowCredentials="true")
 @RestController
 @RequestMapping("/course")
 public class CourseController {
 	@Autowired _Course _crs;
 	@Autowired _Student _std;
 
-	@PostMapping("/list")
+	@GetMapping("/list")
 	public String getList() {
 		ArrayList<Course> alCourse = _crs.listAll();
 		System.out.println("alCourse size="+alCourse.size());
@@ -60,7 +60,7 @@ public class CourseController {
 		if(mid != null && !mid.equals("")) member_id=Integer.parseInt(mid);
 		System.out.println("mid ["+member_id+"]");
 
-		String requestURI = req.getRequestURI();
+		String requestURI = null; //req.getRequestURI();
 		if(requestURI.endsWith("listAll")){
 //			LocalDate today = LocalDate.now();
 //	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -97,66 +97,60 @@ public class CourseController {
         return ja.toJSONString();
 	}
 	@PostMapping("/add")
-	public String doAdd(HttpServletRequest req) {
-		Map<String, String[]> parameterMap =req.getParameterMap();
-		for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-	        String paramName = entry.getKey();
-	        String[] paramValues = entry.getValue();
-	        // 요청 매개변수 값에 대해 원하는 작업을 수행합니다.
-	        for (String paramValue : paramValues) {
-	            System.out.println(paramName+" ["+ paramValue+"]");
-	        }
-	    }
-		String cid = req.getParameter("cid");
+	public String doAdd(@RequestBody Map<String,String> req) {
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
+		String cid = req.get("cid");
 		int result=0;
 		if(cid == null || cid.equals("")) {
-			result=_crs.insert(req.getParameter("title"), req.getParameter("period1"),
-					req.getParameter("period2"), Integer.parseInt(req.getParameter("seat_cnt")),
-					Integer.parseInt(req.getParameter("col_cnt")), req.getParameter("alive"),
-					req.getParameter("orgname"));
+			result=_crs.insert(req.get("title"), req.get("period1"),
+					req.get("period2"), Integer.parseInt(req.get("seat_cnt")),
+					Integer.parseInt(req.get("col_cnt")), req.get("alive"),
+					req.get("orgname"));
 		} else {
-			result=_crs.update(req.getParameter("title"), req.getParameter("period1"),
-					req.getParameter("period2"), Integer.parseInt(req.getParameter("seat_cnt")),
-					Integer.parseInt(req.getParameter("col_cnt")), req.getParameter("alive"),
-					req.getParameter("orgname"),Integer.parseInt(cid));
+			result=_crs.update(req.get("title"), req.get("period1"),
+					req.get("period2"), Integer.parseInt(req.get("seat_cnt")),
+					Integer.parseInt(req.get("col_cnt")), req.get("alive"),
+					req.get("orgname"),Integer.parseInt(cid));
 		}
 		return ""+result;
 	}
-	@PostMapping("/delete")
-	public String doDelete(HttpServletRequest req) {
+	@DeleteMapping("/delete/{cid}")
+	public String doDelete(@PathVariable("cid") int cid) {
 		int result=0;
 		try {
-			String cid = req.getParameter("cid");
-			if(cid==null || cid.equals("")) throw new Exception("course id is not given");
-
-			ArrayList<Student> arStudent = _std.list(Integer.parseInt(cid));
+			ArrayList<Student> arStudent = _std.list(cid,null);
 			if(arStudent.size()>0) throw new Exception("This course has one or more students.");
 
-			result=_crs.delete(Integer.parseInt(cid));
+			int n=_crs.delete(cid);
+			return "ok";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return e.getMessage();
 		}
-		return ""+result;
 	}
-	@PostMapping("/get")
-	public String get(HttpServletRequest req) {
-		String cid = req.getParameter("cid");
-		if(cid==null || cid.equals("")) return "";
+	@GetMapping("/get/{cid}")
+	public String get(@PathVariable("cid") int cid) {
 
-		Course x = _crs.get(Integer.parseInt(cid));
-		JSONObject jo = new JSONObject();
-		jo.put("cid", x.getCid());
-		jo.put("title", x.getTitle());
-		jo.put("orgname", x.getOrgname());
-		jo.put("period1", x.getPeriod1());
-		jo.put("period2", x.getPeriod2());
-		jo.put("days", x.getDays());
-		jo.put("endtime", x.getEndtime());
-		jo.put("alive", x.getAlive());
-		jo.put("seat_cnt", x.getSeat_cnt());
-		jo.put("col_cnt", x.getCol_cnt());
-		jo.put("created", x.getCreated());
-		jo.put("updated", x.getUpdated());
-		return jo.toJSONString();
+		try {
+			Course x = _crs.get(cid);
+
+			JSONObject jo = new JSONObject();
+			jo.put("cid", x.getCid());
+			jo.put("title", x.getTitle());
+			jo.put("orgname", x.getOrgname());
+			jo.put("period1", x.getPeriod1());
+			jo.put("period2", x.getPeriod2());
+			jo.put("days", x.getDays());
+			jo.put("endtime", x.getEndtime());
+			jo.put("alive", x.getAlive());
+			jo.put("seat_cnt", x.getSeat_cnt());
+			jo.put("col_cnt", x.getCol_cnt());
+			jo.put("created", x.getCreated());
+			jo.put("updated", x.getUpdated());
+			return jo.toJSONString();
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "";
 	}
 }

@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ import com.etoile.app.DTO.Exercise;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@CrossOrigin(origins = "http://localhost:5173",allowCredentials="true")
+@CrossOrigin(origins="http://localhost:5173",allowCredentials="true")
 @RestController
 @RequestMapping("/exercise")
 public class ExerciseController {
@@ -48,31 +49,32 @@ public class ExerciseController {
 			return "";
 		}
 	}
-	@PostMapping("/add")
-	public String doAdd(HttpServletRequest req) {
+	@PostMapping("/")
+	public String doAdd(@RequestBody Map<String,String> req) {
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
 		try {
 			int n=0;
-			String eid=req.getParameter("eid");
+			String eid=req.get("eid");
 			if(eid==null || eid.equals("")) {
-				n = _exr.insert(Integer.parseInt(req.getParameter("cid")),
-							Integer.parseInt(req.getParameter("did")));
+				n = _exr.insert(Integer.parseInt(req.get("cid")),
+							Integer.parseInt(req.get("did")));
 			} else {
-				n = _exr.update(Integer.parseInt(req.getParameter("cid")),
-							Integer.parseInt(req.getParameter("did")),
+				n = _exr.update(Integer.parseInt(req.get("cid")),
+							Integer.parseInt(req.get("did")),
 							Integer.parseInt(eid));
 			}
-			return ""+n;
+			return "ok";
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return "";
 		}
 	}
-	@PostMapping("/delete")
-	public String doDelete(HttpServletRequest req) {
+	@DeleteMapping("/{eid}")
+	public String doDelete(@PathVariable("eid") int eid) {
 		try {
-			int cid = Integer.parseInt(req.getParameter("cid"));
-			int n = _exr.delete(cid);
-			return ""+n;
+			System.out.println("eid ["+eid+"]");
+			int n = _exr.delete(eid);
+			return "ok";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return "";

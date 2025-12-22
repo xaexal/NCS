@@ -20,7 +20,7 @@ import com.etoile.app.DTO.Drill;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@CrossOrigin(origins = "http://localhost:5173",allowCredentials="true")
+@CrossOrigin(origins="http://localhost:5173",allowCredentials="true")
 @RestController
 @RequestMapping("/drill")
 public class DrillController {
@@ -51,10 +51,10 @@ public class DrillController {
 			return "";
 		}
 	}
-	@PostMapping("/get")
-	public String get(HttpServletRequest req) {
+	@GetMapping("/get/{drill_id}")
+	public String get(@PathVariable("drill_id") int did) {
 		try {
-			int did = Integer.parseInt(req.getParameter("did"));
+			System.out.println("drill_id ["+did+"]");
 			Drill x = _drl.get(did);
 			JSONObject jo = new JSONObject();
     		jo.put("did", x.getDid());
@@ -69,33 +69,36 @@ public class DrillController {
 			return "";
 		}
 	}
-	@DeleteMapping("/delete")
-	public String delete(@RequestBody Map<String,String> req) {
-		req.forEach((k, v) -> System.out.println(k + " = " + v));
+	@DeleteMapping("/delete/{drill_id}")
+	public String delete(@PathVariable("drill_id") int did) {
 		try {
-			int did = Integer.parseInt(req.get("did"));
 			System.out.println("did ["+did+"]");
 			int n = _drl.delete(did);
 			System.out.println("n ["+n+"]");
 			return ""+n;
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
-			return "";
+			return e.getMessage();
 		}
 	}
 	@PostMapping("/add")
 	public String add(@RequestBody Map<String,String> req) {
-		req.forEach((k, v) -> System.out.println(k + " = " + v));
-		String did = req.get("did");
-		int n=0;
-		if(did==null || did.equals("")) {
-			n = _drl.insert(req.get("name"),req.get("comment"),
-						Integer.parseInt(req.get("type_id")));
-		} else {
-			n = _drl.update(req.get("name"),req.get("comment"),
-						Integer.parseInt(req.get("type_id")),
-						Integer.parseInt(did));
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
+		try {
+			String did = req.get("did");
+			int n=0;
+			if(did==null || did.equals("")) {
+				n = _drl.insert(req.get("name"),req.get("comment"),
+							Integer.parseInt(req.get("dtype_id")));
+			} else {
+				n = _drl.update(req.get("name"),req.get("comment"),
+							Integer.parseInt(req.get("dtype_id")),
+							Integer.parseInt(did));
+			}
+			if(n>0) return "ok";
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
-		return ""+n;
+		return "fail";
 	}
 }

@@ -2,10 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etoile.app.DAO._Student">
 <select id="list" resultType="com.etoile.app.DTO.Student">
-	select a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.status,a.member_id,
+	select a.course_id,a.sid,b.name,b.gender,b.mobile,b.birthday,a.seq,a.status,a.member_id,
 		   b.school,b.address
 	  from ncs_student a left outer join ncs_member b on a.member_id=b.mid
 	 where a.course_id=#{cid}
+  <if test="status == '수강중'">
+        and a.status = #{status}
+  </if>
+  <if test="status != '수강중'">
+  		and a.status != '수강중'
+  </if>
 	 order by b.name
 </select>
 <select id="get" resultType="com.etoile.app.DTO.Student">

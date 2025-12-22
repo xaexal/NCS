@@ -9,7 +9,7 @@ import com.etoile.app.DTO.Student;
 
 @Mapper
 public interface _Student {
-	ArrayList<Student> list(@Param("cid") int cid);
+	ArrayList<Student> list(@Param("cid") int cid,@Param("status") String status);
 	ArrayList<Student> applied(@Param("cid") int cid);
 	ArrayList<Student> studying(@Param("cid") int cid);
 	ArrayList<Student> complete(@Param("cid") int cid);

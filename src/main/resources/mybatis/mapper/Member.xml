@@ -20,7 +20,7 @@
 <select id="get" resultType="com.etoile.app.DTO.Member">
 	select * from ncs_member where mobile=#{mobile}
 </select>
-<insert id="insert">
+<insert id="insert" useGeneratedKeys="true" keyProperty="mid" keyColumn="mid">
 	insert into ncs_member set mobile=#{mobile},passcode=#{passcode}
 </insert>
 <update id="updateBySelf">

@@ -24,7 +24,7 @@ import com.etoile.app.DTO.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@CrossOrigin(origins = "http://localhost:5173",allowCredentials="true")
+@CrossOrigin(origins="http://localhost:5173",allowCredentials="true")
 @RestController
 public class HomeController {
 	@Autowired _Member _mem;
