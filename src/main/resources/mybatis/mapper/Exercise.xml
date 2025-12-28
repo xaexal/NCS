@@ -23,4 +23,7 @@
 <update id="delete">
 	delete from ncs_exercise where eid=#{eid}
 </update>
+<select id="count" resultType="int">
+	select count(*) from ncs_exercise where drill_id in (select did from ncs_drill where dtype_id=#{dt})
+</select>
 </mapper>

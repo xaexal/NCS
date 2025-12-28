@@ -5,7 +5,9 @@ import lombok.Data;
 @Data
 public class Status {
 	int dsid;
-	int drill_id;
+	int dtype_id;
+	String name;
+	String comment;
 	String status;
 	int student_id;
 	int eid;

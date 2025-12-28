@@ -15,5 +15,6 @@ public interface _Exercise {
 	int insert(@Param("cid") int cid, @Param("did") int did);
 	int update(@Param("cid") int cid, @Param("did") int did,@Param("eid") int eid);
 	int delete(@Param("eid") int eid);
+	int count(@Param("dt") int dt);
 
 }

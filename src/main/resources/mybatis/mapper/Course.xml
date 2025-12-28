@@ -7,6 +7,12 @@
 	  from ncs_course
 	 order by period2 desc
 </select>
+<select id="student" resultType="com.etoile.app.DTO.Course">
+	select * from ncs_course
+	 where cid in (select course_id from ncs_student
+	 				where member_id=#{mid})
+	 order by period1 desc
+</select>
 <!-- 등록하지 않는 강의목록만 -->
 <select id="applicable" resultType="com.etoile.app.DTO.Course">
 	select *

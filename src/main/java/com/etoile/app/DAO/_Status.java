@@ -11,10 +11,11 @@ import com.etoile.app.DTO.Status;
 public interface _Status {
 	ArrayList<Status> list(@Param("eid") int eid) ;
 	ArrayList<Status> list4Student(@Param("student_id") int sid);
+	ArrayList<Status> status4student(@Param("cid") int cid, @Param("sid") int sid);
 	String lastUpdated(@Param("sid") int sid);
 	String get(@Param("eid") int eid,@Param("sid") int sid);
 	int count(@Param("eid") int eid,@Param("sid") int sid);
 	int insert(@Param("eid") int eid, @Param("sid") int sid,@Param("status") String status);
-	int update(@Param("eid") int eid, @Param("sid") int sid,@Param("status") String status);
+	int update(@Param("dsid") int dsid,@Param("status") String status);
 	int delete(@Param("sid") int sid);
 }

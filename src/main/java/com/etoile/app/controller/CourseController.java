@@ -1,10 +1,13 @@
 package com.etoile.app.controller;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,8 @@ import com.etoile.app.DAO._Course;
 import com.etoile.app.DAO._Student;
 import com.etoile.app.DTO.Course;
 import com.etoile.app.DTO.Student;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @CrossOrigin(origins="http://localhost:5173",allowCredentials="true")
@@ -50,7 +55,52 @@ public class CourseController {
 		});
 		return ja.toJSONString();
 	}
+	@GetMapping("/student")
+	public Object getCourse4Student(HttpSession s) {
+	    try {
+	        Integer memberId = (Integer) s.getAttribute("member_id");
+	        if (memberId == null) return "login";
 
+	        ArrayList<Course> alCourse = _crs.student(memberId);
+	        return alCourse; // ★ JSON 자동 변환
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error";
+	    }
+	}
+//	@GetMapping("/student")
+//	public Object getCourse4Student(HttpSession s) {
+//		try {
+//			String member_id=(String) s.getAttribute("member_id");
+//			System.out.println("member_id ["+member_id+"]");
+//			if(member_id==null || member_id.equals("")) return "login";
+//
+//			ArrayList<Course> alCourse = _crs.student(Integer.parseInt(member_id));
+//			System.out.println("alCourse size="+alCourse.size());
+//			return alCourse;
+//			JSONArray ja = new JSONArray();
+//			alCourse.forEach(x->{
+//				JSONObject jo = new JSONObject();
+//				jo.put("cid", x.getCid());
+//				jo.put("title", x.getTitle());
+//				jo.put("orgname", x.getOrgname());
+//				jo.put("period1", x.getPeriod1());
+//				jo.put("period2", x.getPeriod2());
+//				jo.put("days", x.getDays());
+//				jo.put("endtime", x.getEndtime());
+//				jo.put("alive", x.getAlive());
+//				jo.put("seat_cnt", x.getSeat_cnt());
+//				jo.put("col_cnt", x.getCol_cnt());
+//				jo.put("created", x.getCreated());
+//				jo.put("updated", x.getUpdated());
+//				ja.add(jo);
+//			});
+//			return ja.toJSONString();
+//		} catch(Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//		return "";
+//	}
 	@PostMapping({"/applicable","/applied","/enrolled",
 				  "/completed","/listAll"})
 	public String doList(@RequestBody Map<String, Object> req) {

@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etoile.app.DAO._Drill;
 import com.etoile.app.DTO.Drill;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 @CrossOrigin(origins="http://localhost:5173",allowCredentials="true")
 @RestController
 @RequestMapping("/drill")

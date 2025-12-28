@@ -2,15 +2,15 @@ package com.etoile.app.controller;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +21,6 @@ import com.etoile.app.DTO.Course;
 import com.etoile.app.DTO.Drilltype;
 import com.etoile.app.DTO.Member;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @CrossOrigin(origins="http://localhost:5173",allowCredentials="true")
@@ -33,7 +32,7 @@ public class HomeController {
 	@Autowired private JavaMailSender mailSender;
 
 	@GetMapping("/")
-	public String home(HttpSession s, Model m) {
+	public String home(HttpSession s) {
 		try {
 		} catch(Exception e) {
 
@@ -42,11 +41,13 @@ public class HomeController {
 		return "login";
 	}
 	@GetMapping("/checkLogin")
-	public String login(HttpServletRequest req,HttpSession s) {
+	public String login(HttpSession s) {
 		String n = null;
 		try {
+			System.out.println("member_id ["+s.getAttribute("member_id")+"]");
+			System.out.println("level ["+s.getAttribute("level")+"]");
 			if(s.getAttribute("member_id")==null) n = "0";	// not loggin yet
-			else if(s.getAttribute("level")=="0") n = "1";	// administrator or instructor
+			else if((Integer)s.getAttribute("level")==0) n = "1";	// administrator or instructor
 			else n = "2";	// student or member
 			System.out.println("checkLogin "+n);
 		} catch (Exception e) {
@@ -56,12 +57,14 @@ public class HomeController {
 		return n;
 	}
 	@PostMapping("/signup")
-	public String signup(HttpServletRequest req, Model m) {
+	public String signup(@RequestBody Map<String,String> req) {
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
 		int result=0;
 		try {
-			String mobile = req.getParameter("mobile");
-			String passcode = req.getParameter("passcode");
-			result = _mem.insert(mobile, passcode);
+			Member member = new Member();
+			member.setMobile(req.get("mobile"));
+			member.setPasscode(req.get("passcode"));
+			result = _mem.insert(member);
 			if(result==1) return "login";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -69,21 +72,22 @@ public class HomeController {
 		return "signup";
 	}
 	@PostMapping("/login")
-	public Member checkUser(HttpServletRequest req,HttpSession s,Model m) {
+	public Member checkUser(@RequestBody Map<String,String> req,HttpSession s) {
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
 		System.out.println("/checkUser");
 		try {
-			String mobile = req.getParameter("mobile");
-			String passcode = req.getParameter("passcode");
+			String mobile = req.get("mobile");
+			String passcode = req.get("passcode");
 			System.out.println("["+mobile+","+passcode+"]");
 			Member member = _mem.checkUser(mobile, passcode);
 			if(member==null) {
-				m.addAttribute("msg","모바일번호/비밀번호가 잘못 입력됐거나 회원가입한 적이 없습니다");
+//				m.addAttribute("msg","모바일번호/비밀번호가 잘못 입력됐거나 회원가입한 적이 없습니다");
 //				return "/login";
 				return null;
 			}
 			System.out.println(member.getName());
 			s.setAttribute("member_id", member.getMid());
-			s.setAttribute("mobile", req.getParameter("mobile"));
+			s.setAttribute("mobile", req.get("mobile"));
 			s.setAttribute("name", member.getName());
 			s.setAttribute("level", member.getLevel());
 
@@ -117,112 +121,38 @@ public class HomeController {
 //		return "/courseS";
 	}
 	@GetMapping("/passcode")
-	public String doPasscode(HttpSession s, Model m) {
-		m.addAttribute("member_id",s.getAttribute("member_id"));
+	public String doPasscode(HttpSession s) {
+//		m.addAttribute("member_id",s.getAttribute("member_id"));
 		return "redirect:/ncs/passcode";
 	}
 //	@GetMapping("/change_passcode")
-//	public String changePasscode(HttpServletRequest req, HttpSession s, Model m) {
+//	public String changePasscode(@RequestBody Map<String,String> req, HttpSession s) {
 //		Member member = _mem.checkUser((String)s.getAttribute("mobile"), (String)s.getAttribute("passcode"));
 //		if(member==null) {
-//			m.addAttribute("member_id",req.getParameter("member_id"));
+//			m.addAttribute("member_id",req.get("member_id"));
 //			m.addAttribute("msg","비밀번호가 일치하지 않습니다.");
 //			return "ncs/passcode";
 //		} else {
-//			int n = _mem.changePasscode(req.getParameter("member_id"),req.getParameter("passcode"),
-//					req.getParameter("passcode_new"));
+//			int n = _mem.changePasscode(req.get("member_id"),req.get("passcode"),
+//					req.get("passcode_new"));
 //			return "redirect:/ncs";
 //		}
 //
 //	}
 	@GetMapping("/logout")
-	public String doLogout(HttpServletRequest req,HttpSession s,Model m) {
+	public String doLogout(HttpSession s) {
 		try {
-			System.out.println("logout");
 			s.invalidate();
+			System.out.println("logout");
 			return "ok";
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			return "fail";
 		}
 	}
-	@GetMapping("/drillViewT")
-	public String doTeacherView(HttpServletRequest req,HttpSession s,Model model) {
-		try {
-			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
-
-			ArrayList<Course> alCourse = _crs.listAll();
-			System.out.println("alCourse size="+alCourse.size());
-
-			model.addAttribute("Courses",alCourse);
-			model.addAttribute("title","프로그래밍 연습");			return "drillViewT";
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-
-		}
-		return "redirect:/login";
-	}
-	@GetMapping("/drillViewS")
-	public String doStudentView(HttpServletRequest req,HttpSession s,Model model) {
-		try {
-			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
-
-			ArrayList<Course> alCourse = _crs.enrolled((Integer)s.getAttribute("member_id"));
-			System.out.println("alCourse size="+alCourse.size());
-
-			model.addAttribute("Courses",alCourse);
-			model.addAttribute("title","프로그래밍 연습");
-			return "drillViewS";
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-
-		}
-		return "redirect:/login";
-	}
-	@GetMapping("/drillT")
-	public String doDrillT(HttpServletRequest req,HttpSession s,Model model) {
-		try {
-			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
-
-			ArrayList<Drilltype> arDrilltype = _dt.list();
-			System.out.println("arDrilltype size="+arDrilltype.size());
-			model.addAttribute("arDrillType",arDrilltype);
-			ArrayList<Course> arCourse = _crs.listAll();
-			System.out.println("arCOurse size="+arCourse.size());
-			model.addAttribute("courses",arCourse);
-			return "drillT";
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "redirect:/login";
-		}
-	}
-	@GetMapping("/courseS")
-	public String doCourseS(HttpServletRequest req,HttpSession s,Model model) {
-		try {
-			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
-			return "courseS";
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "redirect:/login";
-		}
-	}
-	@GetMapping("/courseT")
-	public String doCourseT(HttpServletRequest req,HttpSession s,Model model) {
-		try {
-			String mobile = (String)s.getAttribute("mobile");
-			if(mobile==null || mobile.equals("")) throw new Exception("You should log in.");
-			return "courseT";
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "redirect:/login";
-		}
-	}
 	@GetMapping("/personal")
-	public Member doPersonal(HttpServletRequest req,HttpSession s,Model model) {
+	public Member doPersonal(@RequestBody Map<String,String> req,HttpSession s) {
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
 		try {
 			System.out.println("/personal");
 			String mobile = (String)s.getAttribute("mobile");
@@ -240,15 +170,16 @@ public class HomeController {
 		}
 	}
 	@GetMapping("/findPassword")
-	public String findPassword(HttpServletRequest req,Model model) {
+	public String findPassword(@RequestBody Map<String,String> req) {
 		return "findPassword";
 	}
 	@PostMapping("/sendPasscode")
 	@ResponseBody
-	public String sendPasscode(HttpServletRequest req, Model model) {
+	public String sendPasscode(@RequestBody Map<String,String> req) {
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
 		try {
-			String mobile = req.getParameter("mobile");
-			String email = req.getParameter("email");
+			String mobile = req.get("mobile");
+			String email = req.get("email");
 
 			String newPass = this.tempPasscode(8);
 			System.out.println("newPass ["+newPass+"]");
@@ -286,11 +217,12 @@ public class HomeController {
 		return "changePassword";
 	}
 	@PostMapping("/passwordChange")
-	public String passwordChange(HttpServletRequest req) {
+	public String passwordChange(@RequestBody Map<String,String> req) {
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
 		try {
-			String mobile = req.getParameter("mobile");
-			String passcode = req.getParameter("passcode");
-			String passcode1 = req.getParameter("passcode1");
+			String mobile = req.get("mobile");
+			String passcode = req.get("passcode");
+			String passcode1 = req.get("passcode1");
 
 			if(_mem.changePasscode(mobile, passcode, passcode1)==1) {
 				return "redirect:/login";

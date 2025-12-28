@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etoile.app.DAO._Exercise;
 import com.etoile.app.DTO.Exercise;
 
-import jakarta.servlet.http.HttpServletRequest;
 
 @CrossOrigin(origins="http://localhost:5173",allowCredentials="true")
 @RestController
@@ -82,10 +81,11 @@ public class ExerciseController {
 
 	}
 	@PostMapping("/lastCreated")
-	public String lastCreated(HttpServletRequest req) {
+	public String lastCreated(@RequestBody Map<String,String> req) {
+		req.forEach((k, v) -> System.out.println(k + " [" + v+"]"));
 		String lastTime="";
 		try {
-			int cid = Integer.parseInt(req.getParameter("cid"));
+			int cid = Integer.parseInt(req.get("cid"));
 			lastTime = _exr.lastCreated(cid);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

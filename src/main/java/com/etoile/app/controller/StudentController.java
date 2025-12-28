@@ -88,30 +88,24 @@ public class StudentController {
 		System.out.println("--------------------------------------");
 		int result=0;
 		try {
-			Member member = new Member();
-			String member_id = req.get("member_id");
-			if(member_id==null || member_id.equals("")) {
-				String mobile = req.get("mobile");
-				if(mobile==null || mobile.equals("")) throw new Exception("모바일번호는 필수사항");
-				member.setMobile(mobile);
-				member.setName(req.get("name"));
-				member.setGender(req.get("gender"));
-				member.setBirthday(req.get("birthday"));
-				member.setAddress(req.get("address"));
-				member.setSchool(req.get("school"));
-				_mem.insert(member);
-			} else {
-				member.setMid(Integer.parseInt(member_id));
-			}
 			String sid = req.get("sid");
 			if(sid==null || sid.equals("")) {
 				result = _std.insert(Integer.parseInt(req.get("member_id")),
-									 Integer.parseInt(req.get("course_id")));
+									 Integer.parseInt(req.get("course_id")),
+									 Integer.parseInt(req.get("seq")));
 			} else {
 				result = _std.update(Integer.parseInt(req.get("member_id")),
 									 Integer.parseInt(req.get("course_id")),
+									 req.get("status"),
+									 Integer.parseInt(req.get("seq")),
 									 Integer.parseInt(sid));
 			}
+			System.out.println("result ["+result+"]");
+			int n = _mem.updateByAdmin(req.get("mobile"), req.get("name"),
+					req.get("gender"), req.get("birthday"), req.get("school"),
+					"",req.get("address"), Integer.parseInt(req.get("member_id")));
+			System.out.println("n ["+n+"]");
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -130,14 +124,5 @@ public class StudentController {
 		}
 		return ""+result;
 	}
-	@GetMapping("/getSID/{mid}/{cid}")
-	public String getSID(@PathVariable("mid") int mid, @PathVariable("cid") int cid, HttpSession s) {
-		int sid = -1;
-		try {
-			sid = _std.getSID(mid, cid);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return ""+sid;
-	}
+
 }

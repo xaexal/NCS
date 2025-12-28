@@ -24,8 +24,7 @@
 	insert into ncs_status set eid=#{eid},student_id=#{sid},status=#{status}
 </insert>
 <update id="update">
-	update ncs_status set status=#{status},updated=current_timestamp
-	 where student_id=#{sid} and eid=#{eid}
+	update ncs_status set status=#{status} where dsid=#{dsid}
 </update>
 <select id="lastUpdated" resultType="String">
 	select max(updated) from ncs_status
@@ -37,4 +36,11 @@
 <delete id="delete">
 	delete from ncs_status where student_id=#{sid}
 </delete>
+<select id="status4student" resultType="com.etoile.app.DTO.Status">
+	SELECT s.dsid,e.eid,d.dtype_id,d.name,d.comment,s.status,s.created,s.updated
+	  FROM ncs_exercise e left outer JOIN ncs_drill d ON e.drill_id = d.did
+						  left outer JOIN ncs_status s ON e.eid = s.eid
+	 WHERE s.student_id = #{sid} AND e.course_id = #{cid}
+	 order by e.created desc
+</select>
 </mapper>

@@ -21,10 +21,11 @@
 	 where a.sid=#{sid}
 </select>
 <insert id="insert">
-	insert into ncs_student set member_id=#{mid},course_id=#{cid},status='신청'
+	insert into ncs_student set member_id=#{mid},course_id=#{cid},status='신청',
+	seq=#{seq}
 </insert>
 <update id="update">
-	update ncs_student set member_id=#{mid},course_id=#{cid},
+	update ncs_student set member_id=#{mid},course_id=#{cid},status=#{status},seq=#{seq},
 			updated=current_timestamp
 	 where sid=#{sid}
 </update>
@@ -36,7 +37,7 @@
 <delete id="delete">
 	delete from ncs_student where sid=#{sid}
 </delete>
-<select id="getSID" resultType="_int">
+<select id="getSID" resultType="int">
 	select sid from ncs_student
 	 where member_id=#{mid} and course_id=#{cid}
 </select>
