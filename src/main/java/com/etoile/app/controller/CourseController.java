@@ -1,13 +1,10 @@
 package com.etoile.app.controller;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -165,7 +162,7 @@ public class CourseController {
 		return ""+result;
 	}
 	@DeleteMapping("/delete/{cid}")
-	public String doDelete(@PathVariable("cid") int cid) {
+	public String doDelete(@PathVariable int cid) {
 		int result=0;
 		try {
 			ArrayList<Student> arStudent = _std.list(cid,null);
